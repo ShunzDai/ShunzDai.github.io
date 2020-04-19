@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-		<title>Shunz Dai's Personal Blog</title>
+		<title>自述文件</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -24,58 +24,67 @@
 										<li><a href="https://twitter.com/ShunzDai" target="_blank" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
 										<li><a href="https://weibo.com/6065921224" target="_blank" class="icon brands fa-weibo"><span class="label">Weibo</span></a></li>
 									</ul>
-								</header>
+                                </header>
+                            
 
-							<!-- Banner -->
-								<section id="banner">
-									<div class="content">
-										<header>
-											<h1>家用微分几何教程</h1>
-											<p>从入门到转行</p>
-										</header>
-										<p>众所周知，微分几何是一门开设在幼儿园的课程。</p>
-										<ul class="actions">
-											<li><a href="Differential Geometry.html" class="button big">Learn More</a></li>
-										</ul>
-									</div>
-									<span class="image object">
-										<img src="images/topology01.gif" alt="" />
-									</span>
-								</section>
-
-							<!-- Section -->
+                            <!-- Content -->
 								<section>
-									<header class="major">
-										<h2>历史文章</h2>
+									<header class="main">
+										<h1>自述文件</h1>
 									</header>
-									<div class="posts">
-										<article>
-											<a href="#" class="image"><img src="images/vsc.jpg" alt="" /></a>
-											<h3>配置Visual Studio Code作为Latex编辑器</h3>
-											<p>Visual Studio Code是微软开发的一款代码编辑器，通过配置Visual Studio Code的Latex插件以及用户代码片段，我们可以用它来编辑Latex文档。</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/CERN.png" alt="" /></a>
-											<h3>Linux的Root&Geant4配置指南</h3>
-											<p>Root与Geant4是欧洲核子研究中心(CERN)的工作人员开发的数据处理软件。</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
+
+									<hr class="major" />
+
+									<h2>MathJax</h2>
+                                    <p>本博客使用MathJax编译数学公式，MathJax项目的网址为<a href="https://www.mathjax.org/" target="_blank" >https://www.mathjax.org/</a>。要使用MathJax3，只需要在页面中加入如下代码</p>
+                                    <pre><code>&lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6"&gt;&lt;/script&gt;
+&lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"&gt;&lt;/script&gt;</code></pre>
+                                    <p>MathJax的语法与LaTex类似。例如，输入</p>
+                                    <pre><code>
+\int^{+\infty}_{0} x^{n-1} e^{-ax} dx=\frac{\Gamma \left(n\right)}{a^n}
+                                    </code></pre>
+                                    <p>就会输出$$\int^{+\infty}_{0} x^{n-1} e^{-ax} dx=\frac{\Gamma \left(n\right)}{a^n}。$$</p>
+                                    <h3>实时编译</h3>
+                                    <!-- Break -->
+									<div class="col-12">
+										<textarea id="MathInput" onkeyup="Preview.Update()" name="MathInput"  placeholder="在此处输入MathJax代码，下方就会输出实时编译结果。" rows="6"></textarea>
 									</div>
-								</section>
+                                    <!-- Break -->
+                                    <p>施工中</p>
+
+									<hr class="major" />
+                                    
+                                    <h2>Livere</h2>
+                                    
+                                    <p>本博客使用来必力(Livere)作为评论系统，项目的网址为<a href="http://livere.com/" target="_blank" >http://livere.com/</a>。安装方法见来必力提供的教程<a href="https://101.livere.co.kr/livere9com/pdf/guide/LiveRe_City_Chn.pdf" target="_blank" >LiveRe_City_Chn.pdf。</a></p>
+
+                                    
+								</section>        
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                
 						</div>
 					</div>
 					
-
-					
-
 				<!-- Sidebar -->
 					<div id="sidebar">
 						<div class="inner">
@@ -83,7 +92,7 @@
 							<!-- Search -->
 								<section id="search" class="alt">
 									<form method="post" action="#">
-										<input type="text" name="query" id="query" placeholder="搜索(暂不能用)" />
+										<input type="text" name="query" id="query" placeholder="Search" />
 									</form>
 								</section>
 
@@ -108,7 +117,7 @@
 												<li><a href="Linux.html">Linux</a></li>
 											</ul>
 										</li>
-										<li><a href="me.html">自述文件</a></li>
+										<li><a href="Readme.html">自述文件</a></li>
 										<li><a href="Board.html">留言板</a></li>
 									</ul>
 								</nav>
