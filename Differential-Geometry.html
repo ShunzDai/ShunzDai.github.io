@@ -8,6 +8,7 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
 	<body class="is-preload">
+
 		<!-- Wrapper -->
 			<div id="wrapper">
 
@@ -16,48 +17,137 @@
 						<div class="inner">
 
 							<!-- Header -->
-							<header id="header">
-								<a href="index.html" class="logo"><strong>Shunz Dai's Blog</strong></a>
-								<ul class="icons">
-									<li><a href="https://github.com/ShunzDai" target="_blank" class="icon brands fa-github"><span class="label">Github</span></a></li>
-									<li><a href="https://twitter.com/ShunzDai" target="_blank" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-									<li><a href="https://weibo.com/6065921224" target="_blank" class="icon brands fa-weibo"><span class="label">Weibo</span></a></li>
-								</ul>
-							</header>
+								<header id="header">
+									<a href="index.html" class="logo"><strong>Shunz Dai's Personal Blog</strong></a>
+									<ul class="icons">
+										<li><a href="https://github.com/ShunzDai" target="_blank" class="icon brands fa-github"><span class="label">Github</span></a></li>
+										<li><a href="https://twitter.com/ShunzDai" target="_blank" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+										<li><a href="https://weibo.com/6065921224" target="_blank" class="icon brands fa-weibo"><span class="label">Weibo</span></a></li>
+									</ul>
+								</header>
 
-							<!-- Content -->
+
 								<section>
 									<header class="main">
-										<h1 style="font-family:SimSun">家用微分几何教程</h1>
+										<h1>家用微分几何教程</h1>
 									</header>
+									<span class="image main"><img src="images/topology01.gif" alt="" /></span>
+
+									<p>输入这段话的时间是2020年4月19日下午6点，我在前一天下午开始搭建这个Blog，现在基本完成了整个框架。一开始，这个页面只是用来测试排版格式的“实验品”，标题也是随便取的，模仿的是侯伯元、侯伯宇兄弟写的那本《物理学家用微分几何》。但在我构建好Blog的基本结构后，我开始思考第一篇博文的内容，思来想去，我打算就写一写微分几何。<br />微分几何是我大学四年以来尤其喜爱的数学工具。相比于线性代数，微分几何为代数问题赋予了几何的看法，这使得我们能够从不同方向去看同一事物，像盲人摸象一般拼凑出研究对象的各种性质；相比于微积分（当然，我指的是高等数学中的微积分，而不是数学分析中的微积分），微分几何更注重“<strong>基本结构</strong>”，它没有繁多的运算技巧，不必将问题拘谨在冗长的计算中。<br />我时常向朋友举例说明微积分与微分几何的研究对象的差异，这一差异正如这两个问题间的差异：第一个问题是“<strong>305497855加406804039等于多少</strong>”，第二个问题是“<strong>1+2为什么等于2+1</strong>”。对于第一个问题，稍稍用点心便能计算出结果。而对于第二个问题，我的朋友往往不能理解，他们通常会笑着问我“这是什么问题，那你说为什么1+2等于2+1？”这时候我就会回答“因为加法满足交换律”。你们看，这里出现的"交换律"就是我刚才说的“基本结构”。我们在小学数学课上就已经学过“交换律”“结合律”“分配律”之类的东西，当我们在大学听到“1+2为什么等于2+1”这种问题时，按理说我们能够立即给出答案才对，但事实是我们往往答不出来，其原因就是我们从小到大受过的数学训练的目的就不是为了记住这些基本结构，而是为了将数学作为一种“<strong>工具</strong>”进行应用。<br />这些论断不意味着我们在学微分几何时不需要任何实际应用，只是说，我们在学习微分几何时，更应该将注意力放在基本结构上。我们将从这些基本结构出发，一步步搭建出整座微分几何的大厦。</p>
+									<hr class="major" />
+
+									<h2>第一章 微分流形</h2>
 									
-									<span class="image main"><img src="images/pic11.jpg" alt="" /></span>
-									<p style="font-family:SimSun"style="font-family:Times">
-										当\(a \ne 0\)时，方程\(ax^2 + bx + c = 0\)的根为
-										$$x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}.$$
-									</p>
+									
 
 
-									<p>Donec eget ex magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur id ipsum sit amet, fergiat. Pellentesque in mi eu massa lacinia malesuada et a elit. Donec urna ex, lacinia in purus ac, pretium pulvinar mauris. Curabitur sapien risus, commodo eget turpis at, elementum convallis elit. Pellentesque enim turpis, hendrerit.</p>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus rutrum facilisis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam tristique libero eu nibh porttitor fermentum. Nullam venenatis erat id vehicula viverra. Nunc ultrices eros ut ultricies condimentum. Mauris risus lacus, blandit sit amet venenatis non, bibendum vitae dolor. Nunc lorem mauris, fringilla in aliquam at, euismod in lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In non lorem sit amet elit placerat maximus. Pellentesque aliquam maximus risus, vel sed vehicula.</p>
-									<p>Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur id ipsum sit amet, fersapien risus, commodo eget turpis at, elementum convallis elit. Pellentesque enim turpis, hendrerit tristique lorem ipsum dolor.</p>
+
+
 
 									<hr class="major" />
+                                    
+                                    <h2>Comments</h2>
+                                    
+                                    <!-- 来必力City版安装代码 -->
+								<div id="lv-container" data-id="city" data-uid="MTAyMC80OTc0MC8yNjIzMQ==">
+									<script type="text/javascript">
+										(function(d, s) {
+											var j, e = d.getElementsByTagName(s)[0];
+											if (typeof LivereTower === 'function') { return; }
+											j = d.createElement(s);
+								 			j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+								 			j.async = true;
+								 			e.parentNode.insertBefore(j, e);
+							 			})(document, 'script');
+							 		</script>
+							 		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+						 		</div>
+						 		<!-- City版安装代码已完成 -->
 
-									<h2>引力场方程</h2>
-									<p>
-										Einstein引力场方程是一个二阶张量方程，在\(c=1\)的自然单位制下，其形式为
-     									$$ R_{\mu\nu}-\frac{1}{2}R g_{\mu\nu}+\Lambda g_{\mu\nu}=8\pi GT_{\mu\nu}，$$
-										其中\(R_{\mu\nu}\)为Ricci张量，\(R\)为Ricci标量，\(g_{\mu\nu}\)为时空度规，\(\Lambda\)为宇宙学常数，\(T_{\mu\nu}\)为应力-能量张量(Stress-energy tensor)，\(G\)为万有引力常数。以下内容在不另外说明的情况下，使用的均是\(c=1\)的自然单位制。
-
-									</p>
-									<p>
-										若用\(g^{\mu\nu}\)对的两个协变指标缩并，可以得到一个标量方程$$-R+4\Lambda=8\pi GT$$其中$T$是$T_{\mu\nu}$的迹.将代入消去Ricci标量，可以得到引力场方程的一个等效形式$$R_{\mu\nu}-\Lambda g_{\mu\nu}=8\pi G(T_{\mu\nu}-\frac{1}{2}Tg_{\mu\nu})$$对于真空，能量-应力张量及其迹均为零.于是显而易见的，此时引力场方程为$$R_{\mu\nu}=\Lambda g_{\mu\nu}.$$
-									</p>
-
-									<hr class="major" />
-
+                                    
 								</section>
+
+
+						</div>
+					</div>
+					
+
+					
+
+				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+
+							<!-- Search -->
+								<section id="search" class="alt">
+									<form method="post" action="#">
+										<input type="text" name="query" id="query" placeholder="Search" />
+									</form>
+								</section>
+
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+										<li><a href="index.html">主页</a></li>
+										<li>
+											<span class="opener">理论物理</span>
+											<ul>
+												<li><a href="GR.html" >广义相对论</a></li>
+												<li><a href="QFT.html" >量子场论</a></li>
+											</ul>
+										</li>
+										<li>
+											<span class="opener">程序</span>
+											<ul>
+												<li><a href="LaTex.html">LaTex</a></li>
+												<li><a href="Linux.html">Linux</a></li>
+											</ul>
+										</li>
+										<li><a href="Readme.html">自述文件</a></li>
+										<li><a href="Board.html">留言板</a></li>
+									</ul>
+								</nav>
+
+							
+
+							<!-- Section -->
+								<section>
+									<header class="major">
+										<h2>联系我</h2>
+									</header>
+									<p>这里可以打字，我不晓得打些啥，按理说注释之即可，但我也不想将其注释掉，于是就随便输入了这些字，我也不晓得我在说什么。</p>
+									<ul class="contact">
+										<li class="icon solid fa-envelope"><a href="mailto:196883@outlook.com">196883@outlook.com</a></li>
+										<!--<li class="icon solid fa-home">1234 Somewhere Road #8254<br />
+										Nashville, TN 00000-0000</li>-->
+									</ul>
+								</section>
+
+							<!-- Section -->
+							<section>
+								<header class="major">
+									<h2>打赏</h2>
+								</header>
+								<p>要恰饭的嘛。</p>
+								<div class="mini-posts">
+									<article>
+										支付宝
+										<a class="image"><img src="images/Alipay.jpg" alt="" /></a>
+									</article>
+									<!--<article>
+										微信
+										<a class="image"><img src="images/Wechat.jpg" alt="" /></a>
+									</article>-->
+								</div>
+							</section>
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+								</footer>
 
 						</div>
 					</div>
@@ -72,6 +162,7 @@
 			<script src="assets/js/main.js"></script>
 			<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 			<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 	</body>
 </html>
+
+
