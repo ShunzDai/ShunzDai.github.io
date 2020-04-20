@@ -72,11 +72,23 @@
 										</ol>
 									</div>
 									在局部上，联络是由一组1微分形式给出的。我们先看自然标架场\(\{\partial_\mu\}\)的联络，命$$D(\partial_\mu)=\omega^\rho_\mu \otimes\partial_\rho=\Gamma^\rho_{\mu\nu}dx^\nu\otimes \partial_\rho，$$
-									
-									其中\(\omega^\rho_\mu={\Gamma^\rho}_{\mu\nu}dx^\nu\)。以\(\omega^\rho_\mu\)作为矩阵\(\omega\)第\(\rho\)行第\(\mu\)列的元素，这样构造的矩阵\(\omega\)称为局部的联络方阵。
-
+									其中\(\omega^\rho_\mu={\Gamma^\rho}_{\mu\nu}dx^\nu\)。以\(\omega^\rho_\mu\)作为矩阵\(\omega\)第\(\rho\)行第\(\mu\)列的元素，这样构造的矩阵\(\omega\)称为局部的联络方阵。可见，任意两个联络间的差异完全体现在联络方阵上。我们来看联络的变换规律。在标架变换下，由联络的定义立即得到
+									$$
+									\begin {split}
+									D({\partial'}_\nu) &= D\left(\frac{\partial{x^\mu}}{\partial{x'}^\nu}{\partial}_\mu\right) \\
+													   &= d\left(\frac{\partial{x^\mu}}{\partial{x'}^\nu}\right)\otimes{\partial}_\mu+\frac{\partial{x^\mu}}{\partial{x'}^\nu}D\left({\partial}_\mu\right)\\
+													   &= \left[d\left(\frac{\partial{x^\rho}}{\partial{x'}^\nu}\right)+\frac{\partial{x^\mu}}{\partial{x'}^\nu}\omega^\rho_\mu\right]\otimes{\partial}_\rho\\
+													   &= \left[d\left(\frac{\partial{x^\rho}}{\partial{x'}^\nu}\right)\frac{\partial{{x'}^\sigma}}{\partial{x^\rho}}+\frac{\partial{x^\mu}}{\partial{x'}^\nu}\omega^\rho_\mu\frac{\partial{{x'}^\sigma}}{\partial{x^\rho}}\right]\otimes{\partial'}_\sigma\\
+													   &={\omega'}^\sigma_\nu\otimes{\partial'}_\sigma，
+									\end {split}
+									$$
+									其中
+									$${\omega'}^\sigma_\nu=d\left(\frac{\partial{x^\rho}}{\partial{x'}^\nu}\right)\frac{\partial{{x'}^\sigma}}{\partial{x^\rho}}+\frac{\partial{x^\mu}}{\partial{x'}^\nu}\omega^\rho_\mu\frac{\partial{{x'}^\sigma}}{\partial{x^\rho}}，$$
+									进一步展开上式便有
+									$${{\Gamma'}^\sigma}_{\nu\lambda}=\frac{\partial^2{x^\rho}}{\partial{x'}^\lambda\partial{x'}^\nu}\frac{\partial{{x'}^\sigma}}{\partial{x^\rho}}+\frac{\partial{x^\mu}}{\partial{x'}^\nu}{\Gamma^\rho}_{\mu\alpha}\frac{\partial{x}^\alpha}{\partial{x'}^\lambda}\frac{\partial{{x'}^\sigma}}{\partial{x^\rho}}，$$
+									这就是联络方阵在局部标架场改变时的变换公式。
 									</p>
-
+									
 
 
 									<hr class="major" />
