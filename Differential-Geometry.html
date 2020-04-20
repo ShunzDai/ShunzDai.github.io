@@ -46,19 +46,36 @@
 
 									<h2>第三章 联络与曲率</h2>
 
+									<p>对于任意标量场\(\phi\in T_{(0,0)}(M)\)，其外微分显然是一个张量场
+										$$d\phi=\frac{\partial\phi}{\partial x^\mu}dx^\mu=\frac{\partial\phi}{\partial {x}^\mu}\frac{\partial{x}^\mu}{\partial {x'}^\nu}d{x'}^\nu=\frac{\partial{\phi'}}{\partial {x'}^\nu}d{x'}^\nu。$$
+										一个自然的问题是：对于切矢量场或余切矢量场，其外微分是否仍然是张量场？我们以余切矢量场为例，计算其外微分在坐标变换下的性质。对于一个余切矢量场\(\omega\in T_{(0,1)}(M)\)，我们有
+										$$\omega=\omega_\mu dx^\mu=\omega_\mu\frac{\partial{x}^\mu}{\partial {x'}^\nu}d{x'}^\nu={\omega'}_\nu d{x'}^\nu，$$
+										而
+										$$d\omega=d{\omega'}_\nu\wedge d{x'}^\nu= d\left(\omega_\mu\frac{\partial{x}^\mu}{\partial {x'}^\nu}\right)\wedge d{x'}^\nu=\frac{\partial{x}^\mu}{\partial {x'}^\nu}d\omega_\mu\wedge d{x'}^\nu+\omega_\mu d\left(\frac{\partial{x}^\mu}{\partial {x'}^\nu}\right)\wedge d{x'}^\nu，$$
+										整理得到
+										$$d\omega=\frac{\partial{\omega'}_\nu}{\partial {x'}^\rho} d{x'}^\rho\wedge d{x'}^\nu=\left(\frac{\partial{\omega}_\mu}{\partial {x}^\sigma}\frac{\partial{x}^\sigma}{\partial {x'}^\rho}\frac{\partial{x}^\mu}{\partial {x'}^\nu}+{\omega}_\mu\frac{\partial^2{x}^\mu}{\partial {x'}^\rho\partial {x'}^\nu}\right)d{x'}^\rho\wedge d{x'}^\nu，$$
+										注意到等式右侧多出了一个二阶偏微分项，但外代数的全反对称特性可以消除掉这一项带来的影响，于是\(d\omega\)仍是张量。但微分形式场说到底只是一种特殊的张量场。对于一般的张量场，我们无法通过张量场自身的全反对称性质消除上述的二阶偏微分项。我们希望推广外微分运算，构造出一种新的微分运算，使得任意张量在这种微分运算下仍是张量。为此，我们引入联络。
+									</p>
 									
 
 									<h3>3.1 联络</h3>
-									<p>blablablablablbalblablablablablablablabla</p>
+									<p>我们直接给出联络的定义。
 									<h4>定义3.1.1</h4>
 									<div class="box">
-										<p>局部的联络方阵是一个1微分形式场\(\omega^\rho_\mu={\Gamma^\rho}_{\mu\nu}dx^\nu\)</p>
+										联络是一个映射
+										$$D:T_{(p,q)}(M)\rightarrow T_{(p,q+1)}(M)，$$
+										它满足下列条件：
+										<ol>
+											<li>对任意的\(A,B\in T_{(p,q)}(M)\)有$$D(A+B)=D(A)+D(B)；$$</li>
+											
+											<li>对任意的\(A\in T_{(p,q)}(M)，\alpha\in T_{(0,0)}(M)\)有$$D(\alpha A)=d\alpha\otimes A+\alpha D(A)。$$</li>
+										</ol>
 									</div>
-
+									在局部上，联络是由一组1微分形式给出的。我们先看自然标架场\(\{\partial_\mu\}\)的联络，命$$D(\partial_\mu)=\omega^\rho_\mu \otimes\partial_\rho=\Gamma^\rho_{\mu\nu}dx^\nu\otimes \partial_\rho，$$
 									
-									
+									其中\(\omega^\rho_\mu={\Gamma^\rho}_{\mu\nu}dx^\nu\)。以\(\omega^\rho_\mu\)作为矩阵\(\omega\)第\(\rho\)行第\(\mu\)列的元素，这样构造的矩阵\(\omega\)称为局部的联络方阵。
 
-
+									</p>
 
 
 
