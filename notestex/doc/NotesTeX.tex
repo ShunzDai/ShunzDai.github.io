@@ -1,0 +1,431 @@
+\documentclass[10pt]{article}
+%\pdfoutput=1 
+\usepackage{../tex/NotesTeX}
+\usepackage{CTEX}
+
+%\usepackage{showframe}
+
+\title{\begin{center}{\Huge \textit{一份不知所云的笔记}}\\{{\itshape （我随便乱写的）}}\end{center}}
+\author{Shunz Dai\footnote{\href{https://ShunzDai.github.io/}{\textit{My Personal Blog}}}}
+
+
+\affiliation{
+Physics and Space Science College,China West Normal University
+}
+
+\emailAdd{196883@outlook.com}
+
+\begin{document}
+
+	\maketitle
+	\flushbottom
+	\newpage
+	\pagestyle{fancynotes}
+	\part{自述}	
+
+	大风吹倒了梧桐树，自有旁人论短长.
+
+	\newpage
+
+	\part{分析力学}\label{Part:Analytical}
+\section{Lagrange力学}\label{sec:Lagrange}
+	\begin{margintable}\vspace{1.4in}\footnotesize
+		\begin{tabularx}{\marginparwidth}{|X}
+		Section~\ref{sec:Lagrange}. Lagrange力学\\
+		Section~\ref{sec:Hamilton}. Hamilton力学\\
+		
+		\end{tabularx}
+	\end{margintable}
+
+	\newpage
+\section{Hamilton力学}\label{sec:Hamilton}
+	Lagrange力学描述的是位形流形上的力学规律，是比Newton力学更深刻的分析工具。然而，Lagrange力学也有不足：Euler-Lagrange方程是一个二阶方程，它在大多数情况下不易求解。如果能想办法让描述力学系统的方程的阶数降下来，则在求解运动规律时就方便多了。Hamilton力学由此而生。Hamilton力学是相空间上的力学规律，其参数为广义坐标$x^\mu$以及广义动量$p_\mu$。Lagrange力学中有Lagrange函数$L(x^\mu;{\dot{x}}^\mu)$，对应的，在Hamilton力学中也有Hamilton函数，我们将其表示为$H(x^\mu;p_\mu)$。由Hamilton函数逐步搭建的力学体系能提供丰富的信息，事实上，由Heisenberg建立的矩阵力学就来源于经典Hamilton力学的量子化。
+\subsection{Hamilton方程}
+	对Lagrange函数$L(x^\mu;{\dot{x}}^\mu)$变分，得到
+	\begin{equation}\label{eq:delta L}
+	\delta L=\frac{\partial L}{\partial x^\mu}\delta x^\mu+\frac{\partial L}{\partial {\dot{x}}^\mu}\delta {\dot{x}}^\mu,
+	\end{equation}
+	Lagrange函数具有能量的量纲，于是Lagrange函数对广义速度的偏导数具有动量的量纲.不妨将这个具有动量量纲的量称为“广义动量”.
+	\begin{definition}
+	广义动量$p_\mu$定义为
+	\begin{equation}
+		p_\mu:=\frac{\partial L}{\partial {\dot{x}}^\mu}.
+	\end{equation}
+	\end{definition}
+	于是(\ref{eq:delta L})可以改写成
+	\begin{equation}\label{eq:delta L'}
+	\delta L=\frac{\partial L}{\partial x^\mu}\delta x^\mu+p_\mu\delta {\dot{x}}^\mu;
+	\end{equation}
+	再根据Euler-Lagrange方程得到
+	\begin{equation*}
+	\frac{\partial L}{\partial x^\mu}=\frac{d}{dt}\frac{\partial L}{\partial {\dot{x}}^\mu}={\dot{p}}_\mu,
+	\end{equation*}
+	所以(\ref{eq:delta L'})变成
+	\begin{equation}\label{eq:delta L''}
+	\delta L={\dot{p}}_\mu\delta x^\mu+p_\mu\delta {\dot{x}}^\mu.
+	\end{equation}
+	为了得到某个以$p_\mu$为变量的变分，我们对(\ref{eq:delta L''})进行Legendre变换得到
+	\begin{equation*}
+	\delta L={\dot{p}}_\mu\delta x^\mu+\delta(p_\mu{\dot{x}}^\mu)-{\dot{x}}^\mu\delta p_\mu,
+	\end{equation*}
+	移项得到
+	\begin{equation}\label{eq:delta H}
+	\delta(p_\mu{\dot{x}}^\mu-L)=-{\dot{p}}_\mu\delta x^\mu+{\dot{x}}^\mu\delta p_\mu.
+	\end{equation}
+	所以,若
+	\begin{definition}
+	定义Hamilton函数为
+	\begin{equation}
+		H:=p_\mu{\dot{x}}^\mu-L,
+	\end{equation}
+	\end{definition}
+	则$H$就是以$x^\mu$和$p_\mu$为变量的函数.于是我们可以建立如下原理
+	\begin{theorem}
+	Hamilton方程组是指如下两个方程
+	\begin{equation}
+		\begin{split}\label{eq:H}
+			\frac{\partial H}{\partial x^\mu}&=-{\dot{p}}_\mu;\\
+			\frac{\partial H}{\partial p_\mu}&={\dot{x}}^\mu.
+		\end{split}
+	\end{equation}
+	\end{theorem}
+	可见，Hamilton力学研究的是1阶方程，但方程的数量比Lagrange力学增加了一倍.
+
+\subsection{Poisson括号}
+	设任意力学量$A$是$x^\mu$与$p_\mu$的函数$A(x^\mu(t);p_\mu(t))$，我们来研究$A$随时间变化的规律.由于
+	\begin{equation}\label{eq:Poisson}
+	\frac{dA}{dt}=\frac{\partial A}{\partial x^\mu}\frac{d x^\mu}{dt}+\frac{\partial A}{\partial p_\mu}\frac{dp_\mu}{dt},
+	\end{equation}
+	考虑到Hamilton方程(\ref{eq:H})，带入(\ref{eq:Poisson})得到
+	\begin{equation}\label{eq:Poisson'}
+	\frac{dA}{dt}=\frac{\partial A}{\partial x^\mu}\frac{\partial H}{\partial p_\mu}-\frac{\partial H}{\partial x^\mu}\frac{\partial A}{\partial p_\mu}.
+	\end{equation}
+	(\ref{eq:Poisson'})存在着一种反对称性，我们可以用一个双线性映射表示之.
+	\begin{definition}
+	以$x^\mu$与$p_\mu$为变量的力学量$X$与$Y$的Poisson括号为
+	\begin{equation}\label{eq:PB}
+		\{X,Y\}:=\frac{\partial X}{\partial x^\mu}\frac{\partial Y}{\partial p_\mu}-\frac{\partial Y}{\partial x^\mu}\frac{\partial X}{\partial p_\mu}，
+	\end{equation}
+	\end{definition}
+	\begin{lemma}
+		Poisson括号满足
+		\begin{enumerate}
+			\item 反对称性：$\{X,Y\}=-\{Y,X\}$;
+			\item Jacobi恒等式：$\{\{X,Y\},Z\}+\{\{Z,X\}Y\}+\{\{Y,Z\},X\}=0$.
+		\end{enumerate}
+	\end{lemma}
+	于是(\ref{eq:Poisson'})可用Poisson括号表示为
+	\begin{equation}
+	\frac{dA}{dt}=\{A,H\}.
+	\end{equation}
+	事实上Poisson括号构成一个\textbf{Lie代数}，我们将在\ref{sec:LieAlgebra}中进一步论述Lie代数的性质.
+	
+	Hamilton方程也可以修改成Poisson括号的形式
+	\begin{equation}
+	\begin{split}
+		\{p_\mu,H\}&={\dot{p}_\mu};\\
+		\{x^\mu,H\}&={\dot{x}}^\mu,
+	\end{split}
+	\end{equation}
+	而$x^\mu$和$p_\mu$的Poisson括号为
+	\begin{equation}
+	\{x^\mu,p_\nu\}=\frac{\partial x^\mu}{\partial x^\rho}\frac{\partial p_\nu}{\partial p_\rho}-\frac{\partial p_\nu}{\partial x^\rho}\frac{\partial x^\mu}{\partial p_\rho}=\delta^\mu_\rho\delta^\rho_\nu=\delta^\mu_\nu,
+	\end{equation}
+	上式利用了广义坐标与广义动量相互独立的属性.回到$A$随时间变化的规律问题上，我们得到如下引理.
+	\begin{lemma}
+	若力学量$A(x^\mu;p_\mu)$与Hamiltonian的Poisson括号为零，即
+	\begin{equation}
+		\{A,H\}=0,
+	\end{equation}
+	则物理量$A$是一个\textbf{守恒荷}.
+	\end{lemma}
+	一个适当的例子能帮助我们理解守恒荷的物理意义.
+	\begin{example}
+	设局部坐标下某自由粒子的Lagrangian为
+	$$L=\frac{1}{2}g_{\mu\nu}\dot{x}^\mu\dot{x}^\nu,$$
+	则广义动量
+	\begin{eqnarray*}
+		p_\rho&&=\frac{\partial L}{\partial {\dot{x}}^\rho}=\frac{1}{2}g_{\mu\nu}\left(\frac{\partial \dot{x}^\mu}{\partial {\dot{x}}^\rho}\dot{x}^\nu+\dot{x}^\mu\frac{\partial \dot{x}^\nu}{\partial {\dot{x}}^\rho}\right)\\
+		&&=\frac{1}{2}g_{\mu\nu}\left(\delta^\mu_\rho\dot{x}^\nu+\dot{x}^\mu\delta^\nu_\rho\right)=g_{\rho\mu}\dot{x}^\mu.
+	\end{eqnarray*}
+	因此$\dot{x}^\mu\equiv g^{\mu\nu}p_\nu$，于是Hamiltonian为
+	\begin{eqnarray*}
+		H=p_\mu{\dot{x}}^\mu-L=g^{\mu\nu}p_\mu p_\nu-\frac{1}{2}g^{\mu\nu}p_\mu p_\nu=\frac{1}{2}g^{\mu\nu}p_\mu p_\nu	
+	\end{eqnarray*}
+	用Poisson括号可得
+	\begin{eqnarray*}
+		\{p_\mu,H\}=0;\\
+		\{H,H\}=0.
+	\end{eqnarray*}	
+	所以此时广义动量和Hamiltonian守恒.
+	\end{example}
+
+	Poisson括号构成了一个函数空间上的Lie代数，事实上，Poisson括号被量子化后就得到了对易括号，对易括号是某个算子空间上的Lie代数.Poisson括号与对易括号之间有如下对应法则
+	\begin{equation}
+	\{A,B\}\rightarrow\frac{1}{i\hbar}[\hat{A},\hat{B}],
+	\end{equation}
+	其中$[\hat{A},\hat{B}]:=\hat{A}\hat{B}-\hat{B}\hat{A}$.
+
+\subsection{Noether定理}
+	\begin{theorem}
+	设$\epsilon$是一个无穷小量.若无穷小坐标变换$x^\mu\rightarrow x'^\mu=x^\mu+\epsilon f^\mu(x)$保持Hamiltonian不变，则$Q\equiv p_\mu f^\mu(x)$是一个守恒荷.
+	\end{theorem}
+	\begin{proof}
+	要证$Q$是守恒荷，即证$\dot{Q}$为零:
+	\begin{equation*}
+		\begin{split}
+			\dot{Q}&\equiv\frac{dQ}{dt}=\{Q,H\}\\
+			&=\frac{\partial Q}{\partial x^\rho}\frac{\partial H}{\partial p_\rho}-\frac{\partial H}{\partial x^\rho}\frac{\partial Q}{\partial p_\rho}\\
+			&=p_\mu \frac{\partial f^\mu}{\partial x^\rho}\frac{\partial H}{\partial p_\rho}-f^\rho\frac{\partial H}{\partial x^\rho}.
+		\end{split}
+	\end{equation*}
+	下面来计算Hamiltonian的变分.由于坐标变换保持Hamiltonian不变，则有$\delta H=0$，于是
+	\begin{equation}\label{pr:delta H}
+		0=\delta H=\frac{\partial H}{\partial x^\mu}\delta x^\mu+\frac{\partial H}{\partial p_\mu}\delta p_\mu,
+	\end{equation}
+	其中$\delta x^\mu$可直接由坐标变换得到：
+	\begin{equation}\label{pr:delta x}
+		\begin{split}
+			x^\mu\rightarrow x'^\mu&=x^\mu+\epsilon f^\mu(x)\\
+			\Rightarrow\delta x^\mu&=\epsilon f^\mu(x);
+		\end{split}
+	\end{equation}
+	$\delta p_\mu$要从广义动量的定义出发得到：
+	\begin{eqnarray*}
+		&&p_\mu=\frac{\partial L}{\partial \dot{x}^\mu}\\
+		\Rightarrow &&p'_\mu=\frac{\partial L}{\partial \dot{x}'^\mu}=\frac{\partial L}{\partial \dot{x}^\nu}\frac{\partial \dot{x}^\nu}{\partial \dot{x}'^\mu}=p_\nu\frac{\partial \dot{x}^\nu}{\partial \dot{x}'^\mu}，
+	\end{eqnarray*}
+	由坐标变换可推得
+	\begin{eqnarray*}
+		&&x'^\mu=x^\mu+\epsilon f^\mu(x)\\
+		\Rightarrow&&\dot{x}'^\mu=\dot{x}^\mu+\epsilon \frac{\partial f^\mu}{\partial x^\rho}\dot{x}^\rho\\
+		\Rightarrow&&\frac{\partial \dot{x}'^\mu}{\partial \dot{x}^\nu}=\delta^\mu_\nu+\epsilon \frac{\partial f^\mu}{\partial x^\rho}\delta^\rho_\nu=\delta^\mu_\nu+\epsilon \frac{\partial f^\mu}{\partial x^\nu}\\
+		\Rightarrow&&\frac{\partial \dot{x}^\nu}{\partial \dot{x}'^\mu}=\delta^\nu_\mu-\epsilon \frac{\partial f^\nu}{\partial x^\mu},
+	\end{eqnarray*}
+	其中最后一步可用反证法证明
+	\begin{eqnarray*}
+		\frac{\partial \dot{x}'^\mu}{\partial \dot{x}^\nu}\frac{\partial \dot{x}^\nu}{\partial \dot{x}'^\rho}=\left(\delta^\mu_\nu+\epsilon \frac{\partial f^\mu}{\partial x^\nu}\right)\left(\delta^\nu_\mu-\epsilon \frac{\partial f^\nu}{\partial x^\mu}\right)=\delta^\mu_\rho+O(\epsilon^2),
+	\end{eqnarray*}
+	省略高阶无穷小只剩单位矩阵，说明左侧两个矩阵确实是互逆的.但我们尚未证明逆矩阵的唯一性，为此，我们假设
+	\begin{eqnarray*}
+		\frac{\partial \dot{x}^\nu}{\partial \dot{x}'^\mu}=\delta^\nu_\mu+\epsilon h^\nu_\mu,
+	\end{eqnarray*}
+	其中$h^\nu_\mu$是以坐标为变量的函数.于是
+	\begin{eqnarray*}
+		\delta^\mu_\rho&&=\frac{\partial \dot{x}'^\mu}{\partial \dot{x}^\nu}\frac{\partial \dot{x}^\nu}{\partial \dot{x}'^\rho}\\
+		&&=\left(\delta^\mu_\nu+\epsilon \frac{\partial f^\mu}{\partial x^\nu}\right)\left(\delta^\nu_\rho+\epsilon h^\nu_\rho\right)\\
+		&&=\delta^\mu_\rho+\epsilon\left(\frac{\partial f^\mu}{\partial x^\rho}+h^\mu_\rho\right)+O(\epsilon^2)\\
+		&&\Rightarrow\epsilon\left(\frac{\partial f^\mu}{\partial x^\rho}+h^\mu_\rho\right)=0,
+	\end{eqnarray*}
+	要使上式对于任意无穷小量$\epsilon$都成立，唯有	
+	\begin{eqnarray*}
+		h^\mu_\rho=-\frac{\partial f^\mu}{\partial x^\rho},
+	\end{eqnarray*}
+	这样就证明了解的唯一性.所以
+	\begin{equation}\label{pr:delta p}
+	\begin{split}
+		p'_\mu&=p_\nu\frac{\partial \dot{x}^\nu}{\partial \dot{x}'^\mu}=p_\nu\left(\delta^\nu_\mu-\epsilon \frac{\partial f^\nu}{\partial x^\mu}\right)\\
+		&=p_\mu-\epsilon p_\nu\frac{\partial f^\nu}{\partial x^\mu}\\
+		\Rightarrow\delta p_\mu&=-\epsilon p_\nu\frac{\partial f^\nu}{\partial x^\mu}
+	\end{split}
+	\end{equation}	
+	将(\ref{pr:delta x})和(\ref{pr:delta p})带入(\ref{pr:delta H})得到
+	\begin{equation}\label{pr:delta H'}
+	\begin{split}
+		0=\delta H&=-\epsilon\left[p_\nu\frac{\partial f^\nu}{\partial x^\mu}\frac{\partial H}{\partial p_\mu}-f^\mu\frac{\partial H}{\partial x^\mu}\right]=-\epsilon\dot{Q}.
+	\end{split}
+	\end{equation}
+	要使(\ref{pr:delta H'})对于任意的无穷小量$\epsilon$都成立，唯有$\dot{Q}=0$，得证.\\
+	\end{proof}
+
+	\begin{theorem}
+	守恒荷$Q$是无穷小坐标变换的生成元.
+	\end{theorem}
+
+	力学量$A(x^\mu;p_\mu)$的变分为
+	\begin{eqnarray*}
+	\delta A=\frac{\partial A}{\partial x^\mu}\delta x^\mu+\frac{\partial A}{\partial p_\mu}\delta p_\mu,
+	\end{eqnarray*}
+	从上面对守恒荷的证明可知，$\delta x^\mu$和$\delta p_\mu$能够借助守恒荷$Q$表述为
+	\begin{exercise}
+		\begin{equation}\label{eq:generator}
+			\begin{split}
+				\delta x^\mu&=\epsilon f^\mu=\epsilon\{x^\mu,Q\};\\
+				\delta p_\mu&=-\epsilon p_\nu\frac{\partial f^\nu}{\partial x^\mu}=\epsilon\{p_\mu,Q\}.
+			\end{split}
+		\end{equation}
+	\end{exercise}
+	
+	(\ref{eq:generator})请读者自行证明.因此$\delta A$可以进一步写成
+	\begin{eqnarray*}
+	\delta A=\epsilon\left(\frac{\partial A}{\partial x^\mu}\{x^\mu,Q\}+\frac{\partial A}{\partial p_\mu}\{p_\mu,Q\}\right).
+	\end{eqnarray*}
+	在经典情形下，生成元构造尚不明显.但在Poisson括号量子化后，可以非常明显的展示出生成元构造.例如
+	\begin{eqnarray*}
+	x^\mu\rightarrow x'^\mu&&=x^\mu+\delta x^\mu\\
+	&&=x^\mu+\epsilon[x^\mu,Q]\\
+	&&=x^\mu-\epsilon Qx^\mu+\epsilon x^\mu Q\\
+	&&=\left(1-\epsilon Q\right)x^\mu\left(1+\epsilon Q\right)\\
+	&&=e^{-\epsilon Q}x^\mu e^{\epsilon Q},
+	\end{eqnarray*}
+	其中第四个等号省略了$O(\epsilon^2)$.
+\newpage
+	\part{微分几何与Lie群Lie代数}\label{Part:DGandLie}
+\section{微分几何}\label{sec:DG}
+	\begin{margintable}\vspace{1.4in}\footnotesize
+		\begin{tabularx}{\marginparwidth}{|X}
+		Section~\ref{sec:DG}. 微分几何\\
+		Section~\ref{sec:structure}. 结构数学\\
+		Section~\ref{sec:LieAlgebra}. Lie代数\\
+		\end{tabularx}
+	\end{margintable}
+\subsection{微分流形}
+
+
+\subsection{张量场与微分形式场}
+
+
+\subsection{联络与曲率}
+	对于任意标量场$\phi\in T_{(0,0)}(M)$，其外微分显然是一个张量场
+	\begin{equation}
+		\begin{split}
+	 		d\phi=\frac{\partial\phi}{\partial x^\mu}dx^\mu=\frac{\partial\phi}{\partial {x}^\mu}\frac{\partial{x}^\mu}{\partial {x'}^\nu}d{x'}^\nu=\frac{\partial{\phi'}}{\partial {x'}^\nu}d{x'}^\nu.
+		\end{split}
+	\end{equation}
+	一个自然的问题是：对于切矢量场或余切矢量场，其外微分是否仍然是张量场？我们以余切矢量场为例，计算其外微分在坐标变换下的性质.
+	
+	对于一个余切矢量场$\omega\in T_{(0,1)}(M)$，借助局部坐标系可将其表述为
+	\begin{equation}\label{eq:domega}
+		\begin{split}
+			\omega=\omega_\mu dx^\mu=\omega_\mu\frac{\partial{x}^\mu}{\partial {x'}^\nu}d{x'}^\nu=\omega'_\nu d{x'}^\nu,
+		\end{split}
+	\end{equation}
+	\ref{eq:domega}的全微分在坐标变换下满足
+	\begin{equation}
+		\begin{split}	
+		d\omega &=d\omega'_\nu{\wedge}d{x'}^\nu\\
+		&= d\left(\omega_\mu\frac{\partial{x}^\mu}{{\partial}{x'}^\nu}\right)\wedge d{x'}^\nu\\
+		&=\frac{\partial{x}^\mu}{{\partial}{x'}^\nu}d\omega_\mu{\wedge}d{x'}^\nu+\omega_{\mu}d\left(\frac{\partial{x}^\mu}{\partial {x'}^\nu}\right){\wedge}d{x'}^\nu\\
+		&=\left(\frac{\partial{\omega}_\mu}{{\partial}{x}^\sigma}\frac{\partial{x}^\sigma}{\partial {x'}^\rho}\frac{\partial{x}^\mu}{{\partial}{x'}^\nu}+{\omega}_\mu\frac{\partial^2{x}^\mu}{\partial {x'}^\rho{\partial}{x'}^\nu}\right)d{x'}^\rho{\wedge}d{x'}^\nu\\
+		&=\frac{\partial\omega'_\nu}{{\partial}{x'}^\rho}d{x'}^\rho{\wedge}d{x'}^\nu.
+		\end{split}
+	\end{equation}
+	注意到过程中产生了一个二阶偏微分项，与张量的变换规律对比可知，这一项破坏了张量的变换规律.但外代数的全反对称特性可以消除掉这一项带来的影响，即
+	\begin{equation}
+		\begin{split}
+			\frac{\partial\omega'_\nu}{{\partial}{x'}^\rho}d{x'}^\rho{\wedge}d{x'}^\nu&=2\partial'_{[\rho}\omega'_{\nu]}{dx'}^{\rho}\otimes{dx'}^\nu\\
+			&=2\left(\partial_{[\sigma}\omega_{\mu]}\frac{\partial{x}^\sigma}{\partial {x'}^\rho}\frac{\partial{x}^\mu}{{\partial}{x'}^\nu}+{\omega}_\mu\frac{\partial^2{x}^\mu}{\partial {x'}^{[\rho}{\partial}{x'}^{\nu]}}\right){dx'}^{\rho}\otimes{dx'}^\nu\\
+		&=2\partial_{[\sigma}\omega_{\mu]}\frac{\partial{x}^\sigma}{\partial {x'}^\rho}\frac{\partial{x}^\mu}{{\partial}{x'}^\nu}{dx'}^{\rho}\otimes{dx'}^\nu,
+		\end{split}
+	\end{equation}
+	所以$d\omega$实际上仍是张量场。但微分形式场说到底只是一种特殊的张量场。对于一般的张量场，我们无法通过张量场自身的全反对称性消除上述二阶偏微分项。并且，我们也没有定义过切矢量场的外微分。这些困难意味着外微分运算不能直接推广到张量空间$T_{(p,q)}(M)$上去，于是，我们希望构造出一种定义在张量空间上的新的微分运算，使得任意张量场在这种微分运算下满足张量的变换规律。为此，我们引入\textbf{联络}。
+
+	\subsubsection{仿射联络}
+	现代微分几何中的联络指的是一般矢量丛上的联络.这一节我们先讨论切丛$T_{(1,0)}(M)$上的联络（称为\textbf{仿射联络}），然后逐步构造出张量丛$T_{(p,q)}(M)$上的联络.下面，我们直接给出仿射联络的定义.
+	\begin{definition}
+		仿射联络是一个映射
+		\begin{equation*}
+			D:T_{(1,0)}(M)\rightarrow T_{(1,1)}(M),
+		\end{equation*}
+		它满足下列条件：
+		\begin{enumerate}
+			\item 对任意的$A,B\in T_{(1,0)}(M)$有 D(A+B)=D(A)+D(B);						
+			\item 对任意的$A\in T_{(1,0)}(M)，\alpha\in T_{(0,0)}(M)$有$D(\alpha A)=d\alpha\otimes A+\alpha D(A)$.
+		\end{enumerate}
+	\end{definition}
+	局部上，联络由一组1微分形式给出.我们先看自然标架场$\{\partial_\mu\}$的联络.命
+	\begin{equation}
+	D(\partial_\mu)=\omega^\rho_\mu \otimes\partial_\rho={\Gamma^\rho}_{\mu\nu}dx^\nu\otimes \partial_\rho,
+	\end{equation} 
+	其中$\omega^\rho_\mu={\Gamma^\rho}_{\mu\nu}dx^\nu$，${\Gamma^\rho}_{\mu\nu}$称为\textbf{联络系数}，它是局部坐标系中的光滑函数.以$\omega^\rho_\mu$作为矩阵$\omega$第$\rho$行第$\mu$列的元素，这样构造的矩阵$\omega$称为\textbf{联络方阵}.可见，任意两个联络间的差异完全体现在联络方阵上.现在，我们来看联络的变换规律.在标架变换下，由联络的定义立即得到			 
+	\begin{equation}
+		\begin{split}
+		D(\partial'_\nu) &= D\left(\frac{\partial{x^\mu}}{\partial{x'}^\nu}{\partial}_\mu\right) \\
+		&= d\left(\frac{\partial{x^\mu}}{\partial{x'}^\nu}\right)\otimes{\partial}_\mu+\frac{\partial{x^\mu}}{\partial{x'}^\nu}D\left({\partial}_\mu\right)\\
+		&= \left[d\left(\frac{\partial{x^\rho}}{\partial{x'}^\nu}\right)+\frac{\partial{x^\mu}}{\partial{x'}^\nu}\omega^\rho_\mu\right]\otimes{\partial}_\rho\\
+		&= \left[d\left(\frac{\partial{x^\rho}}{\partial{x'}^\nu}\right)\frac{\partial{{x'}^\sigma}}{\partial{x^\rho}}+\frac{\partial{x^\mu}}{\partial{x'}^\nu}\omega^\rho_\mu\frac{\partial{{x'}^\sigma}}{\partial{x^\rho}}\right]\otimes\partial'_\sigma\\
+		&={\omega'}^\sigma_\nu\otimes\partial'_\sigma，
+		\end{split}
+	\end{equation}
+	其中
+	\begin{equation}\label{eq:connection}
+	{\omega'}^\sigma_\nu=d\left(\frac{\partial{x^\rho}}{\partial{x'}^\nu}\right)\frac{\partial{{x'}^\sigma}}{\partial{x^\rho}}+\frac{\partial{x^\mu}}{\partial{x'}^\nu}\omega^\rho_\mu\frac{\partial{{x'}^\sigma}}{\partial{x^\rho}},
+	\end{equation}
+	这就是联络方阵在局部标架场改变时的变换公式.我们还可以进一步展开\ref{eq:connection}，得到
+	\begin{equation}
+	{{\Gamma'}^\sigma}_{\nu\lambda}=\frac{\partial^2{x^\rho}}{\partial{x'}^\lambda\partial{x'}^\nu}\frac{\partial{{x'}^\sigma}}{\partial{x^\rho}}+{\Gamma^\rho}_{\mu\alpha}\frac{\partial{x^\mu}}{\partial{x'}^\nu}\frac{\partial{x}^\alpha}{\partial{x'}^\lambda}\frac{\partial{{x'}^\sigma}}{\partial{x^\rho}},
+	\end{equation}
+	这正是通常意义下的联络变换公式.可见联络系数${\Gamma^\rho}_{\mu\nu}$并不是一个张量，但引入它能使$D(\partial_\mu)$遵循张量的变换规律.但稍作思考可以发现，若使用全反对称化的技巧，我们也能利用联络系数构造出一个张量.我们将在下一节给出具体讨论.
+
+	切丛的联络在余切丛上诱导出一个联络（仍记为$D$），易看出它是从$T_{(0,1)}(M)$到$T_{(0,2)}(M)$的映射.
+	\begin{remark}
+		相比于外微分算子，可见余切丛上的诱导联络算子将值域从外形式空间（全反对称的张量空间）扩展到了一般的张量空间.所以我们说联络是外微分算子在一般张量空间上的推广.
+	\end{remark}
+	现在现在我们来考察$\{\partial_\mu\}$的对偶标架$\{dx^\mu\}$的联络.$D(dx^\mu)$由下式确定
+	$$d\left(\partial_\mu,dx^\nu\right)=\left(D(\partial_\mu),dx^\nu\right)+\left(\partial_\mu,D(dx^\nu)\right),$$
+	我们设
+	$$D(dx^\nu)={\omega^*}^\nu_\rho\otimes{dx}^\rho,$$
+	于是
+	$$\left(\partial_\mu,D(dx^\nu)\right)=\left(\partial_\mu,{\omega^*}^\nu_\rho\otimes{dx}^\rho\right)={\omega^*}^\nu_\rho\delta^\rho_\mu={\omega^*}^\nu_\mu.$$
+	考虑到对偶标架满足
+	$$\left(\partial_\mu,dx^\nu\right)=\delta^\nu_\mu,$$ 
+	于是得到								 
+	\begin{equation}
+		\begin{split}
+			{\omega^*}^\nu_\mu&=\left(\partial_\mu,D(dx^\nu)\right)=-\left(D(\partial_\mu),dx^\nu\right)\\
+			&=-\left(\omega^\rho_\mu\otimes\partial_\rho,dx^\nu\right)=-{\omega}^\rho_\mu\delta^\nu_\rho=-{\omega}^\nu_\mu,
+		\end{split}
+	\end{equation}								 
+	即
+	$D(dx^\nu)=-{\omega}^\nu_\rho\otimes{dx}^\rho$.
+	至此，我们就能计算任意$A\in T_{(1,0)}(M)$与$B\in T_{(0,1)}(M)$的联络了.借助局部坐标系，我们有：								 
+	\begin{equation}
+		\begin{split}
+			D(A)&=D(A^\mu\partial_\mu)=dA^\mu\otimes\partial_\mu+A^{\mu}D(\partial_\mu)\\
+			&=(\partial_{\rho}A^\mu+A^{\nu}{\Gamma^\mu}_{\nu\rho})dx^\rho{\otimes}\partial_\mu=\nabla_{\rho}A^{\mu}dx^\rho{\otimes}\partial_\mu;\\
+			D(B)&=D(B_{\mu}{dx}^\mu)=dB_\mu\otimes{dx}^\mu+B_{\mu}D({dx}^\mu)\\
+			&=(\partial_{\rho}B_\mu-B_\nu{\Gamma^\nu}_{\mu\rho})dx^\rho{\otimes}dx^\mu=\nabla_{\rho}B_{\mu}dx^\rho{\otimes}dx^\mu,
+		\end{split}	
+	\end{equation}
+	其中									 
+	\begin{equation}
+		\begin{split}
+			\nabla_{\rho}A^\mu&=\partial_{\rho}A^\mu+A^{\nu}{\Gamma^\mu}_{\nu\rho};\\
+			\nabla_{\rho}B_{\mu}&=\partial_{\rho}B_\mu-B_\nu{\Gamma^\nu}_{\mu\rho}.
+		\end{split}		
+	\end{equation}								
+	这正是通常意义下的\textbf{协变导数}运算.由此可见，协变导数是一种依赖于局部坐标系的分量表述.用类似的方法，我们能得到$T_{(p,q)}(M)$上的诱导联络.
+	\begin{definition}
+		$T_{(p,q)}(M)$
+		设任意$S\in T_{(p,q)}(M)$，借助局部坐标系$\{x^\mu\}$，可将$S$的联络表述为
+		\begin{equation}
+			\begin{split}
+				D(S)&=D({S^{\mu_1\dots\mu_p}}_{\nu_1\dots\nu_q}\partial_{\mu_1}\otimes\dots\otimes\partial_{\mu_p}\otimes{dx}^{\nu_1}\otimes\dots\otimes{dx}^{\nu_q})\\
+				&=d({S^{\mu_1\dots\mu_p}}_{\nu_1\dots\nu_q})\otimes\partial_{\mu_1}\otimes\dots\otimes\partial_{\mu_p}\otimes{dx}^{\nu_1}\otimes\dots\otimes{dx}^{\nu_q}\\
+				&+{S^{\mu_1\dots\mu_p}}_{\nu_1\dots\nu_q}D(\partial_{\mu_1})\otimes\dots\otimes\partial_{\mu_p}\otimes{dx}^{\nu_1}\otimes\dots\otimes{dx}^{\nu_q}\\
+				&+\dots+{S^{\mu_1\dots\mu_p}}_{\nu_1\dots\nu_q}\partial_{\mu_1}\otimes\dots\otimes D({\partial_{\mu_p}})\otimes{dx}^{\nu_1}\otimes\dots\otimes{dx}^{\nu_q}\\
+				&+{S^{\mu_1\dots\mu_p}}_{\nu_1\dots\nu_q}\partial_{\mu_1}\otimes\dots\otimes{\partial_{\mu_p}}\otimes D({dx}^{\nu_1})\otimes\dots\otimes{dx}^{\nu_q}\\
+				&+\dots+{S^{\mu_1\dots\mu_p}}_{\nu_1\dots\nu_q}\partial_{\mu_1}\otimes\dots\otimes{\partial_{\mu_p}}\otimes{dx}^{\nu_1}\otimes\dots\otimes D({dx}^{\nu_q})\\
+				&=(\partial_\rho{S^{\mu_1\dots\mu_p}}_{\nu_1\dots\nu_q}+{S^{\sigma\dots\mu_p}}_{\nu_1\dots\nu_q}{\Gamma^{\mu_1}}_{\sigma\rho}\\
+				&+\dots+{S^{\mu_1\dots\sigma}}_{\nu_1\dots\nu_q}{\Gamma^{\mu_p}}_{\sigma\rho}-{S^{\mu_1\dots\mu_p}}_{\sigma\dots\nu_q}{\Gamma^{\sigma}}_{\nu_1\rho}\\
+				&-\dots-{S^{\mu_1\dots\mu_p}}_{\nu_1\dots\sigma}{\Gamma^{\sigma}}_{\nu_q\rho})dx^\rho\otimes\partial_{\mu_1}\otimes\dots\otimes\partial_{\mu_p}\otimes{dx}^{\nu_1}\otimes\dots\otimes{dx}^{\nu_q}\\
+				&=\nabla_{\rho}{S^{\mu_1\dots\mu_p}}_{\nu_1\dots\nu_q}dx^\rho\otimes\partial_{\mu_1}\otimes\dots\otimes\partial_{\mu_p}\otimes{dx}^{\nu_1}\otimes\dots\otimes{dx}^{\nu_q},
+			\end{split}		
+		\end{equation}
+		其中
+		\begin{equation}
+			\begin{split}
+				\nabla_{\rho}{S^{\mu_1\dots\mu_p}}_{\nu_1\dots\nu_q}&=\partial_\rho{S^{\mu_1\dots\mu_p}}_{\nu_1\dots\nu_q}+{S^{\sigma\dots\mu_p}}_{\nu_1\dots\nu_q}{\Gamma^{\mu_1}}_{\sigma\rho}\\
+				&+\dots+{S^{\mu_1\dots\sigma}}_{\nu_1\dots\nu_q}{\Gamma^{\mu_p}}_{\sigma\rho}-{S^{\mu_1\dots\mu_p}}_{\sigma\dots\nu_q}{\Gamma^{\sigma}}_{\nu_1\rho}\\
+				&-\dots-{S^{\mu_1\dots\mu_p}}_{\nu_1\dots\sigma}{\Gamma^{\sigma}}_{\nu_q\rho}.
+			\end{split}		
+		\end{equation}
+	\end{definition}
+
+\newpage
+
+
+
+
+
+\end{document}
