@@ -21,12 +21,18 @@ Physics and Space Science College,China West Normal University
 	\flushbottom
 	\newpage
 	\pagestyle{fancynotes}
-	\part{自述}	
+	\part{引言}	
 
-	微分几何是我大学四年以来尤其喜爱的数学工具。相比于线性代数，微分几何为代数问题赋予了几何的看法，这使得我们能够从不同方向去看同一事物，像盲人摸象一般拼凑出研究对象的各种性质；相比于微积分（当然，我指的是高等数学中的微积分，而不是数学分析中的微积分），微分几何更注重“基本结构”，它没有繁多的运算技巧，不必将问题拘谨在冗长的计算中。
+	我从2019年9月就开始写这份笔记了，但写到今天也只有寥寥数页。原本的笔记也有这样一个引言部分，主要讲述了我整个大学四年的艰难岁月，但现在看来，那些文字只不过是自己感动自己罢了\footnote{我仍然保留了那些文字，放在本文的附录\ref{sec:Z}中。}。现在，我重写了这份引言，用尽量简短的语言来阐述这份笔记做了些什么工作。
+
+	我首先给出我这篇笔记的定位，那就是，这篇笔记是写给我自己看的，是对我四年以来的工作的总结。
+
+	这份笔记中，我们将通篇使用Einstein求和约定，并始终保持上下指标的差异，这种差异原则上与度量张量升降指标无关，是一种源自事物本身的“对偶”属性。至于“为什么物理量甲是上指标，物理量乙是下指标”这样的问题，我给出这样的解释：一是你首先要约定一个称为“上指标”的东西，然后才能找到与“上”对立的那个“下”；二是为了在引入度量张量后，各个物理量的指标位置关系仍然成立。这个解释很抽象，仿佛是“只可意会不可言传”。事实上也确实是这样，我们应当在学习中不断思考“对偶”的意义，多加计算方能修成正果。
+
+	这份笔记受微分几何的影响颇深，而微分几何是我大学四年以来尤其喜爱的数学工具。相比于线性代数，微分几何为代数问题赋予了几何的看法，这使得我们能够从不同方向去看同一事物，像盲人摸象一般拼凑出研究对象的各种性质；相比于微积分（当然，我指的是高等数学中的微积分，而不是数学分析中的微积分），微分几何更注重“基本结构”，它没有繁多的运算技巧，不必将问题拘谨在冗长的计算中。
 	
-	我时常向朋友举例说明线性代数、微积分的研究对象与微分几何的研究对象的差异，这一差异正如这两个问题间的差异：第一个问题是“305497855加406804039等于多少”，第二个问题是“1加2为什么等于2加1”。对于第一个问题，稍稍用点心便能计算出结果。而对于第二个问题，我的朋友往往不能理解，他们通常会笑着问我“这是什么问题，那你说为什么1+2等于2+1”，这时候我就会回答“因为加法满足交换律”。我们在小学数学课上就已经学过“交换律”“结合律”“分配律”之类的东西，当我们在大学听到“1加2为什么等于2加1”这种问题时，按理说我们能够立即给出答案才对，但事实是我们往往答不出来。其原因就是我们从小到大受过的数学训练的目的就不是为了记住这些基本结构，而是为了将数学作为一种“工具”进行应用。
-
+	我时常向朋友举例说明线性代数、微积分的研究对象与微分几何的研究对象的差异，这一差异正如这两个问题间的差异：第一个问题是“305497855加406804039等于多少”，第二个问题是“1加2为什么等于2加1”。对于第一个问题，我认为稍稍用点心便能计算出结果，是只有难度没有深度的问题；而对于第二个问题，我的朋友往往不能理解，他们通常会笑着问我“这是什么问题，那你说为什么1加2等于2加1”，这时候我就会回答“因为加法满足交换律”。我们在小学数学课上就已经学过“交换律”“结合律”“分配律”之类的东西，当我们在大学听到“1加2为什么等于2加1”这种问题时，按理说我们应当立即给出答案才对，但事实是我们往往答不出来。其原因就是我们从小到大受过的数学训练的目的就不是为了记住这些基本结构，而是为了将数学作为一种“工具”进行应用。所以，第二个问题是既有难度也有深度的问题。如果你现在产生了“1加2等于2加1用到了加法交换律，这有什么难度”这样的困惑，那是因为你没懂我想表达的意思，你应当回炉重造。
+	
 	在繁琐冗长的计算训练中，我们逐步忘却了那些基本结构的作用。当然，这些论断不意味着我们在学微分几何时不需要任何实际计算、应用，只是说，我们在学习微分几何时更应该将注意力放在基本结构上，而简单的计算能够加深理解，我们不必将精力放在如同上述第一个问题的复杂计算上。我们将从微分几何的基本结构出发，一步步搭建出整座大厦。
 
 	\newpage
@@ -43,7 +49,7 @@ Physics and Space Science College,China West Normal University
 
 	\newpage
 \section{Hamilton力学}\label{sec:Hamilton}
-	Lagrange力学描述的是位形流形上的力学规律，是比Newton力学更深刻的分析工具。然而，Lagrange力学也有不足：Euler-Lagrange方程是一个二阶方程，它在大多数情况下不易求解。如果能想办法让描述力学系统的方程的阶数降下来，则在求解运动规律时就方便多了。Hamilton力学由此而生。Hamilton力学是相空间上的力学规律，其参数为广义坐标$x^\mu$以及广义动量$p_\mu$。Lagrange力学中有Lagrange函数$L(x^\mu;{\dot{x}}^\mu)$，对应的，在Hamilton力学中也有Hamilton函数，我们将其表示为$H(x^\mu;p_\mu)$。由Hamilton函数逐步搭建的力学体系能提供丰富的信息，事实上，由Heisenberg建立的矩阵力学就来源于经典Hamilton力学的量子化。
+	Lagrange力学描述的是位形流形上的力学规律，是比Newton力学更深刻的分析工具。然而，Lagrange力学也有不足：Euler-Lagrange方程是一个二阶方程，它在大多数情况下不易求解。如果能想办法让描述力学系统的方程的阶数降下来，则在求解运动规律时就方便多了。Hamilton力学由此而生。Hamilton力学是辛流形上的力学规律，其参数为广义坐标$x^\mu$以及广义动量$p_\mu$。Lagrange力学中有Lagrange函数$L(x^\mu;{\dot{x}}^\mu)$，对应的，Hamilton力学中也有Hamilton函数，我们将其表示为$H(x^\mu;p_\mu)$。由Hamilton函数逐步搭建的力学体系能提供丰富的信息，事实上，由Heisenberg建立的矩阵力学就来源于经典Hamilton力学的量子化。
 \subsection{Hamilton方程}
 	对Lagrange函数$L(x^\mu;{\dot{x}}^\mu)$变分，得到
 	\begin{equation}\label{eq:delta L}
@@ -274,7 +280,7 @@ Physics and Space Science College,China West Normal University
 	\end{eqnarray*}
 	其中第四个等号省略了$O(\epsilon^2)$.
 \newpage
-	\part{微分几何与Lie群Lie代数}\label{Part:DGandLie}
+	\part{广义相对论}\label{Part:GR}
 \section{微分几何}\label{sec:DG}
 	\begin{margintable}\vspace{1.4in}\footnotesize
 		\begin{tabularx}{\marginparwidth}{|X}
@@ -290,13 +296,13 @@ Physics and Space Science College,China West Normal University
 
 
 \subsection{联络与曲率}
-	对于任意标量场$\phi\in T_{(0,0)}(M)$，其外微分显然是一个张量场
+	对于任意标量场$\phi\in T_{(0,0)}(M)$，其外微分是一个张量场
 	\begin{equation}
 		\begin{split}
 	 		d\phi=\frac{\partial\phi}{\partial x^\mu}dx^\mu=\frac{\partial\phi}{\partial {x}^\mu}\frac{\partial{x}^\mu}{\partial {x'}^\nu}d{x'}^\nu=\frac{\partial{\phi'}}{\partial {x'}^\nu}d{x'}^\nu.
 		\end{split}
 	\end{equation}
-	一个自然的问题是：对于切矢量场或余切矢量场，其外微分是否仍然是张量场？我们以余切矢量场为例，计算其外微分在坐标变换下的性质.
+	这是说，一个自然的问题是：对于切矢量场或余切矢量场，其外微分是否仍然是张量场？我们以余切矢量场为例，计算其外微分在坐标变换下的性质.
 	
 	对于一个余切矢量场$\omega\in T_{(0,1)}(M)$，借助局部坐标系可将其表述为
 	\begin{equation}\label{eq:domega}
@@ -363,7 +369,7 @@ Physics and Space Science College,China West Normal University
 
 	切丛的联络在余切丛上诱导出一个联络（仍记为$D$），易看出它是从$T_{(0,1)}(M)$到$T_{(0,2)}(M)$的映射.
 	\begin{remark}
-		相比于外微分算子，可见余切丛上的诱导联络算子将值域从外形式空间（全反对称的张量空间）扩展到了一般的张量空间.所以我们说联络是外微分算子在一般张量空间上的推广.
+		相比于外微分算子，可见余切丛上的诱导联络算子将值域从外形式丛的截面（元素即全反对称的张量场）扩展到了一般的张量丛的截面（元素即一般的张量场）.所以我们说联络是外微分算子在一般张量丛上的推广.
 	\end{remark}
 	现在现在我们来考察$\{\partial_\mu\}$的对偶标架$\{dx^\mu\}$的联络.$D(dx^\mu)$由下式确定
 	$$d\left(\partial_\mu,dx^\nu\right)=\left(D(\partial_\mu),dx^\nu\right)+\left(\partial_\mu,D(dx^\nu)\right),$$
@@ -428,8 +434,17 @@ Physics and Space Science College,China West Normal University
 
 \newpage
 
+\part{量子场论}\label{Part:QFT}
+\section{高等量子力学}\label{sec:QM}
+	\begin{margintable}\vspace{1.4in}\footnotesize
+		\begin{tabularx}{\marginparwidth}{|X}
+		Section~\ref{sec:DG}. 量子化\\
+		Section~\ref{sec:structure}. 路径积分\\
+		Section~\ref{sec:LieAlgebra}. Lie代数\\
+		\end{tabularx}
+	\end{margintable}
 
-
-
+	\section{规范场论}\label{sec:GFT}
+	
 
 \end{document}
