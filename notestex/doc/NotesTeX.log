@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/W32TeX) (preloaded format=pdflatex 2020.2.22)  8 MAY 2020 12:24
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/W32TeX) (preloaded format=pdflatex 2020.2.22)  8 MAY 2020 19:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -2837,8 +2837,136 @@ A character number must be between 0 and 255.
 I changed this one to zero.
 
 <<c1940.cmap>><<c1926.cmap>>
+c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Improper alphabetic constant.
+<to be read again> 
+                   \ref 
+l.26 ...��保留了那些文字，放在附录\ref
+                                                  {sec:Z}中。}。现在，...
+A one-character control sequence belongs after a ` mark.
+So I'm essentially inserting \0 here.
 
-LaTeX Warning: Reference `sec:Z' on page 1 undefined on input line 26.
+c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Missing = inserted for \ifnum.
+<to be read again> 
+                   \protect 
+l.26 ...��保留了那些文字，放在附录\ref
+                                                  {sec:Z}中。}。现在，...
+I was expecting to see `<', `=', or `>'. Didn't.
+
+c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Missing number, treated as zero.
+<to be read again> 
+                   \protect 
+l.26 ...��保留了那些文字，放在附录\ref
+                                                  {sec:Z}中。}。现在，...
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Improper alphabetic constant.
+<to be read again> 
+                   \ref 
+l.26 ...��保留了那些文字，放在附录\ref
+                                                  {sec:Z}中。}。现在，...
+A one-character control sequence belongs after a ` mark.
+So I'm essentially inserting \0 here.
+
+c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Missing = inserted for \ifnum.
+<to be read again> 
+                   \protect 
+l.26 ...��保留了那些文字，放在附录\ref
+                                                  {sec:Z}中。}。现在，...
+I was expecting to see `<', `=', or `>'. Didn't.
+
+c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Missing number, treated as zero.
+<to be read again> 
+                   \protect 
+l.26 ...��保留了那些文字，放在附录\ref
+                                                  {sec:Z}中。}。现在，...
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Improper alphabetic constant.
+<to be read again> 
+                   \ref 
+l.26 ...��保留了那些文字，放在附录\ref
+                                                  {sec:Z}中。}。现在，...
+A one-character control sequence belongs after a ` mark.
+So I'm essentially inserting \0 here.
+
+c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Missing \endcsname inserted.
+<to be read again> 
+                   \relax 
+l.26 ...��保留了那些文字，放在附录\ref
+                                                  {sec:Z}中。}。现在，...
+The control sequence marked <to be read again> should
+not appear between \csname and \endcsname.
+
+
+LaTeX Warning: Reference `\endcsname ' on page 1 undefined on input line 26.
+
+c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Improper alphabetic constant.
+<to be read again> 
+                   \ref 
+l.26 ...��保留了那些文字，放在附录\ref
+                                                  {sec:Z}中。}。现在，...
+A one-character control sequence belongs after a ` mark.
+So I'm essentially inserting \0 here.
+
+c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Missing = inserted for \ifnum.
+<to be read again> 
+                   \protect 
+l.26 ...��保留了那些文字，放在附录\ref
+                                                  {sec:Z}中。}。现在，...
+I was expecting to see `<', `=', or `>'. Didn't.
+
+c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Missing number, treated as zero.
+<to be read again> 
+                   \protect 
+l.26 ...��保留了那些文字，放在附录\ref
+                                                  {sec:Z}中。}。现在，...
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Bad character code (-147).
+<recently read> \@tempcntb 
+                           
+l.26 ...��保留了那些文字，放在附录\ref
+                                                  {sec:Z}中。}。现在，...
+A character number must be between 0 and 255.
+I changed this one to zero.
+
+c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Improper alphabetic constant.
+<to be read again> 
+                   \ref 
+l.26 ...��保留了那些文字，放在附录\ref
+                                                  {sec:Z}中。}。现在，...
+A one-character control sequence belongs after a ` mark.
+So I'm essentially inserting \0 here.
+
+c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Missing = inserted for \ifnum.
+<to be read again> 
+                   \protect 
+l.26 ...��保留了那些文字，放在附录\ref
+                                                  {sec:Z}中。}。现在，...
+I was expecting to see `<', `=', or `>'. Didn't.
+
+c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Missing number, treated as zero.
+<to be read again> 
+                   \protect 
+l.26 ...��保留了那些文字，放在附录\ref
+                                                  {sec:Z}中。}。现在，...
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Bad character code (-56).
+<argument> \@tempcnta 
+                      
+l.26 ...��保留了那些文字，放在附录\ref
+                                                  {sec:Z}中。}。现在，...
+A character number must be between 0 and 255.
+I changed this one to zero.
 
 
 c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Package inputenc Error: Invalid UTF-8 byte 128.
@@ -2847,7 +2975,7 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.26 ...��，放在本文的附录\ref{sec:Z}中�
+l.26 ...��些文字，放在附录\ref{sec:Z}中�
                                                   �}。现在，我重写了...
 The document does not appear to be in UTF-8 encoding.
 Try adding \UseRawInputEncoding as the first line of the file
@@ -2858,7 +2986,7 @@ Alternatively, save the file in UTF-8 using your editor or another tool
 c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Argument of \CJK@XX has an extra }.
 <inserted text> 
                 \par 
-l.26 ...，放在本文的附录\ref{sec:Z}中。}
+l.26 ...些文字，放在附录\ref{sec:Z}中。}
                                                   。现在，我重写了�...
 I've run across a `}' that doesn't seem to match anything.
 For example, `\def\a#1{...}' and `\a}' would produce
@@ -2871,7 +2999,7 @@ Runaway argument?
 c:/Users/Dai/ShunzDai.github.io/notestex/doc/NotesTeX.tex:26: Paragraph ended before \CJK@XX was complete.
 <to be read again> 
                    \par 
-l.26 ...，放在本文的附录\ref{sec:Z}中。}
+l.26 ...些文字，放在附录\ref{sec:Z}中。}
                                                   。现在，我重写了�...
 I suspect you've forgotten a `}', causing me to apply this
 control sequence to too much text. How can we recover?
@@ -6062,10 +6190,10 @@ l.176 	\end
            {equation}
 (That makes 100 errors; please try again.) 
 Here is how much of TeX's memory you used:
- 40954 strings out of 492649
- 776023 string characters out of 6133384
+ 40956 strings out of 492649
+ 776055 string characters out of 6133384
  964940 words of memory out of 5000000
- 43993 multiletter control sequences out of 15000+600000
+ 43995 multiletter control sequences out of 15000+600000
  698586 words of font info for 216 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  65i,15n,95p,10534b,848s stack positions out of 5000i,500n,10000p,200000b,80000s
