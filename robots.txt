@@ -1,0 +1,16 @@
+# hexo robots.txt
+User-agent: *
+Allow: /about/
+Allow: /archive/
+Allow: /category/
+Allow: /tags/
+Allow: /pdf/
+
+Disallow: /vendors/
+Disallow: /js/
+Disallow: /css/
+Disallow: /fonts/
+Disallow: /vendors/
+Disallow: /fancybox/
+
+Sitemap: http://shunzdai.now.sh/baidusitemap.xml
