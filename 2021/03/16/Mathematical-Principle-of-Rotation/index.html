@@ -384,14 +384,14 @@
         -1             &amp;0             &amp;0 \\
         0              &amp;0             &amp;0
     \end{array}\right).
-\end{split}\end{equation}\]</span> 用上述3个生成元可以张成一个线性空间<span class="math inline">\(\mathfrak{so}(3)\)</span>，它是Lie群<span class="math inline">\(SO(3)\)</span>的Lie代数的一个表示，称为基本表示.容易证明<span class="math inline">\(\varepsilon_{a}\)</span>满足结构方程 <span class="math display">\[\begin{equation}\begin{split}
+\end{split}\end{equation}\]</span> 用上述3个生成元可以张成一个线性空间<span class="math inline">\(\mathfrak{so}(3)\)</span>，它是Lie群<span class="math inline">\(SO(3)\)</span>的Lie代数的一个表示，称为<strong>基本表示</strong>.容易证明<span class="math inline">\(\varepsilon_{a}\)</span>满足结构方程 <span class="math display">\[\begin{equation}\begin{split}
     \left[\varepsilon_a,\varepsilon_b\right] = \varepsilon_{abc}\varepsilon_c,
-\end{split}\end{equation}\]</span> 其中<span class="math inline">\(\varepsilon_{abc}\)</span>是<span class="math inline">\(SO(3)\)</span>的结构常数.通过伴随作用<span class="math inline">\(ad:\mathfrak{so}(3)\rightarrow End(\mathfrak{so}(3))\)</span>可以得到伴随表示 <span class="math display">\[\begin{equation}\begin{split}
+\end{split}\end{equation}\]</span> 其中<span class="math inline">\(\varepsilon_{abc}\)</span>是<span class="math inline">\(SO(3)\)</span>的结构常数.通过伴随作用<span class="math inline">\(ad:\mathfrak{so}(3)\rightarrow End(\mathfrak{so}(3))\)</span>可以得到<strong>伴随表示</strong> <span class="math display">\[\begin{equation}\begin{split}
     ad_{\varepsilon_a}\varepsilon_b = \varepsilon_{abc}\varepsilon_c \Rightarrow ad_{\varepsilon_a} = \varepsilon_{abc} = \varepsilon_a\in End(\mathfrak{so}(3)),
 \end{split}\end{equation}\]</span> 这表示<span class="math inline">\(\mathfrak{so}(3)\)</span>的基本表示与伴随表示等同.</p>
 <h2 id="四元数乘法群">四元数乘法群</h2>
 <h3 id="四元数的定义">四元数的定义</h3>
-<p>记<span class="math inline">\(g_0 =I,g_a =-i\sigma_a\)</span>表示四元数的基底（这里只是借用线性代数的名词，虽然以<span class="math inline">\(g_\mu\)</span>为基底确实构成了一个线性空间，但我们并不会使用这一性质），则<span class="math inline">\(\mathbb{H}=\{A=A_\mu g_\mu:A_\mu\in\mathbb{R},\mu=0,1,2,3\}\)</span>，表示全体四元数构成的集合.</p>
+<p>记<span class="math inline">\(g_0 =I,g_a =-i\sigma_a\)</span>表示四元数的基底（这里只是借用线性代数的名词，虽然以<span class="math inline">\(g_\mu\)</span>为基底确实构成了一个线性空间，但我们并不会使用这一性质），记<span class="math inline">\(\mathbb{H}=\{A=A_\mu g_\mu:A_\mu\in\mathbb{R},\mu=0,1,2,3\}\)</span>表示全体四元数构成的集合.</p>
 <h3 id="mathbbh上的群结构"><span class="math inline">\(\mathbb{H}\)</span>上的群结构</h3>
 <p><span class="math inline">\(\mathbb{H}\)</span>上具有一种乘法，具备以下特性：</p>
 <ol type="1">
@@ -404,7 +404,7 @@
 *:\mathbb{H}\rightarrow \mathbb{H};A=A_\mu g_\mu\mapsto A^*=A_0g_0-A_ag_a,
 \end{equation}\]</span> 则<span class="math inline">\(*\)</span>诱导了<span class="math inline">\(\mathbb{H}\)</span>上的<span class="math inline">\(L_2\)</span>范数 <span class="math display">\[\begin{equation}
 (\cdot,\cdot):\mathbb{H}\rightarrow \mathbb{R};(A,A)=||AA^*||^\frac{1}{2}.
-\end{equation}\]</span> 用1中的运算可以验证<span class="math inline">\((\cdot,\cdot)\)</span>确实是范数： <span class="math display">\[\begin{equation}\begin{split}
+\end{equation}\]</span> 用<span class="math inline">\((14)\)</span>中的运算可以验证<span class="math inline">\((\cdot,\cdot)\)</span>确实是范数： <span class="math display">\[\begin{equation}\begin{split}
  AA^*&amp;=(A_0 A_0 + A_aA_a)g_0 + (-A_0 A_c + A_c A_0 + A_a A_b \varepsilon_{abc})g_c\\
  &amp;=A_\mu A_\mu g_0,
 \end{split}\end{equation}\]</span> 于是<span class="math inline">\(||AA^*||^\frac{1}{2}=(A_\mu A_\mu)^\frac{1}{2}\)</span>，这显然满足范数的非负性、齐次性和三角不等式.</p></li>
@@ -412,7 +412,7 @@
 <li><p>单位元，即<span class="math inline">\(A=g_0\)</span>；</p></li>
 <li><p>逆元，由范数诱导<span class="math inline">\(A^{-1}=\frac{A^*}{||AA^*||}\)</span>.</p></li>
 </ol>
-<p>现在将注意力放到<span class="math inline">\((5)\)</span>上，我们引入一个<span class="math inline">\(4\times 4\)</span>的反对称矩阵<span class="math inline">\(F(A)\)</span>，其第<span class="math inline">\(\mu\)</span>行第<span class="math inline">\(\nu\)</span>列的元素为<span class="math inline">\(F_{\mu\nu}(A)\)</span>.命： <span class="math display">\[\begin{equation}\begin{split}
+<p>现在再将注意力放到<span class="math inline">\((14)\)</span>上，我们引入一个<span class="math inline">\(4\times 4\)</span>的反对称矩阵<span class="math inline">\(F(A)\)</span>，其第<span class="math inline">\(\mu\)</span>行第<span class="math inline">\(\nu\)</span>列的元素为<span class="math inline">\(F_{\mu\nu}(A)\)</span>.命： <span class="math display">\[\begin{equation}\begin{split}
 F_{a0}(A) = -F_{0a}(A) = A_a;F_{ab}(A) = \varepsilon_{abc}A_c;{}^*F_{\mu\nu}(A)=\frac{1}{2}\varepsilon_{\mu\nu\rho\sigma}F_{\rho\sigma}(A).
 \end{split}\end{equation}\]</span> 使用这套记号，<span class="math inline">\((xx)\)</span>可以改写为： <span class="math display">\[\begin{equation}\begin{split}
 AB&amp;=(A_0 B_0 - A_aB_a)g_0 + (A_0 B_c + A_c B_0 + A_a B_b \varepsilon_{abc})g_c\\
@@ -420,7 +420,7 @@ AB&amp;=(A_0 B_0 - A_aB_a)g_0 + (A_0 B_c + A_c B_0 + A_a B_b \varepsilon_{abc})g
 &amp;=A_0 B + F_{0a}(A) B_a g_0 + F_{a0}(A) B_0 g_a + F_{ab}(A) B_{b} g_a\\
 &amp;=A_0 B + F_{0a}(A) B_a g_0 + F_{a\nu}(A) B_\nu g_a\\
 &amp;=A_0 B + F_{\mu\nu}(A) B_\nu g_\mu,
-\end{split}\end{equation}\]</span> 其中用到了重复指标可以成对替换，而最后一个等号用到了<span class="math inline">\(F_{aa} B_a g_a = 0\)</span>.工程师朋友可能不熟悉这套语言，但对物理工作者而言，<span class="math inline">\(F_{\mu\nu}\)</span>可再熟悉不过了，它对应了某个主丛的曲率，而<span class="math inline">\({}^*F_{\mu\nu}\)</span>是<span class="math inline">\(F_{\mu\nu}\)</span>的Hodge对偶.</p>
+\end{split}\end{equation}\]</span> <span class="math inline">\(F_{\mu\nu}\)</span>对应了某个主丛的曲率，而<span class="math inline">\({}^*F_{\mu\nu}\)</span>是<span class="math inline">\(F_{\mu\nu}\)</span>的Hodge对偶.</p>
 
         </div>
 
