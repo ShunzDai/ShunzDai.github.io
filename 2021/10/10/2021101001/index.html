@@ -12,7 +12,7 @@
 
 
 
-<title>家用理论物理教程 | Shunz Dai&#39;s Blog</title>
+<title>张量浅说 | Shunz Dai&#39;s Blog</title>
 
 
 
@@ -230,13 +230,13 @@
     
     <article class="post-wrap" style="width: 100%;height: auto;word-wrap: break-word;word-break: break-all;overflow: hidden;"><!-- style 自动换行 -->
         <header class="post-header">
-            <h1 class="post-title">家用理论物理教程</h1>
+            <h1 class="post-title">张量浅说</h1>
             
                 <div class="post-meta">
 
                     
                         <span class="post-time">
-                        Date: <a href="#">五月 25, 2020&emsp;11:45:31&emsp;</a>
+                        Date: <a href="#">十月 10, 2021&emsp;20:54:14&emsp;</a>
                         </span>
                     
 
@@ -248,7 +248,7 @@
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/To-be-continue/">To be continue...</a>&emsp;
+                                <a href="/categories/Mathematics/">Mathematics</a>&emsp;
                             
                         </span>
                     
@@ -259,17 +259,40 @@
         </header>
 
         <div class="post-content">
-            <h2 id="引言">引言</h2>
-<p>这篇博文的内容是我大学以来学习的物理知识。其实我并不喜欢做笔记，我若是认认真真做了笔记，那一定是写给别人看的。而将这份笔记取名为《家用理论物理教程》也是一时兴起，我模仿了侯伯元、侯伯宇兄弟所著《物理学家用微分几何》这一书名。但我希望这份笔记最终能真正成为一份适于“家用”教程。</p>
-<h2 id="家用理论物理教程">家用理论物理教程</h2>
-
-
-	<div class="row">
-    <embed src="https://ctp.vercel.app/CTP.pdf" width="100%" height="550" type="application/pdf">
-	</div>
-
-
-
+            <h2 id="前言">前言</h2>
+<p>“张量是什么？”想必这是一个令许多科学工作者头疼的问题. 笔者初学张量时也曾看过很多相关的教材. 绿皮书《代数学引论》中，张量被描述为一种“多重线性映射”. 先别被这个专业的术语吓跑，相信读者坚持读完本文将会有所收获. 笔者最开始也不理解什么叫“多重线性映射”，一度达到抄书的地步，把《代数学引论》里描写张量的章节抄了数遍，最终都能背下张量的定义了，还是不能理解什么是张量. 后来算得多了，逐渐就悟到了张量的含义，但回过头来再想想《代数学引论》等教材中关于“多重线性映射”的描述，还是觉得这种表述是最好的. 笔者将尝试把张量这个概念讲清楚，先讲一些鬼话，再讲一些人话. 虽然是鬼话，但还是希望诸位能认真推一推鬼话里给出的公式，然后再去看人话. 废话少说，现在便进入正题.</p>
+<h2 id="鬼话">鬼话</h2>
+<p>域<span class="math inline">\(P\)</span>上的线性空间<span class="math inline">\(V\)</span>是所有线性映射<span class="math inline">\(V^*\rightarrow P\)</span>构成的集合. 当<span class="math inline">\(P\)</span>是实数域<span class="math inline">\(\mathbb{R}\)</span>时，这个线性空间的元素就是实值矢量<span class="math inline">\(X=X^\mu e_\mu\)</span>，其中<span class="math inline">\(X^\mu\in \mathbb{R}\)</span>. <span class="math inline">\(X\)</span>可以看成一个映射，输入一个对偶矢量<span class="math inline">\(\omega=\omega_\mu e^\mu\)</span>，输出一个实数：</p>
+<p><span class="math display">\[\begin{equation}\begin{split}
+    X(\omega)=X^\mu \omega_\nu e_\mu(e^\nu)=X^\mu \omega_\nu{\delta_\mu}^\nu=X^\mu \omega_\mu\in\mathbb{R}
+\end{split}\end{equation}\]</span></p>
+<p>如果推广上述定义在域上的线性空间，可以得到一种定义在线性空间上的线性空间.</p>
+<p>线性空间<span class="math inline">\(W\)</span>上的线性空间<span class="math inline">\(V\)</span>是所有线性映射<span class="math inline">\(V^*\rightarrow W\)</span>构成的集合. 当<span class="math inline">\(W\equiv V\)</span>时，这个线性空间的元素就是矢量值矢量<span class="math inline">\(T = T^\mu e_\mu\)</span>，其中<span class="math inline">\(T^\mu \in V\)</span>，<span class="math inline">\(T^\mu = T^{\mu\nu}e_\nu\)</span>. <span class="math inline">\(T\)</span>可以看成一个映射，输入一个对偶矢量<span class="math inline">\(\omega=\omega_\mu e^\mu\)</span>，输出一个矢量：</p>
+<p><span class="math display">\[\begin{equation}\begin{split}
+    T(\omega)=T^\mu  e_\mu(\omega_\nu e^\nu)=T^\mu  \omega_\nu e_\mu( e^\nu)=T^\mu \omega_\nu{\delta_\mu}^\nu=T^\mu \omega_\mu\in V ,其中 T^\mu \in V ， \omega_\mu\in V^*
+\end{split}\end{equation}\]</span></p>
+<p>于是<span class="math inline">\(T(\omega)\)</span>仍然是一个映射，可以继续作用在任意对偶矢量上：</p>
+<p><span class="math display">\[\begin{equation}\begin{split}
+    [T(\omega)](\eta)=[T^{\mu\nu}\omega_\mu e_\nu](\eta_\rho e^\rho)=T^{\mu\nu}\omega_\mu\eta_\rho e_\nu(e^\rho)=T^{\mu\nu}\omega_\mu\eta_\rho{\delta_\nu}^\rho=T^{\mu\nu}\omega_\mu\eta_\nu\in\mathbb{R}
+\end{split}\end{equation}\]</span></p>
+<p>于是<span class="math inline">\(T\)</span>可以直接看成映射<span class="math inline">\(V\times V\rightarrow \mathbb{R}\)</span>，展现了二重线性性. 同理可以构造<span class="math inline">\(W\equiv V^*\)</span>的矢量值线性空间，其元素是所有线性映射<span class="math inline">\(V^*\rightarrow V^*\)</span>构成的集合，输入对偶矢量，得到对偶矢量，于是得到的对偶矢量仍然是一个映射，可以继续作用在任意矢量上，这样就得到了<span class="math inline">\(V\times V^*\rightarrow \mathbb{R}\)</span>. 继续推广，就得到了任意<span class="math inline">\((p,q)\)</span>型张量（张量空间也是线性空间）.一个<span class="math inline">\((p,q)\)</span>型张量可以看成实值线性映射，即输入<span class="math inline">\(p\)</span>个矢量和<span class="math inline">\(q\)</span>个对偶矢量，得到一个实数. 还能看成一个<span class="math inline">\((p-m,q-n)\)</span>型矢量值线性映射，其中<span class="math inline">\(m,n\in\mathbb{Z}^+\)</span>.这表示如果只输入<span class="math inline">\(p-m\)</span>个矢量和<span class="math inline">\(q-n\)</span>个对偶矢量到<span class="math inline">\((p,q)\)</span>型张量里，就得到了一个<span class="math inline">\((m,n)\)</span>型张量.当<span class="math inline">\(m=n=0\)</span>时就退化成通常的实值线性映射. 这就是多重线性性.</p>
+<h2 id="人话">人话</h2>
+<p>我们回顾线性空间的定义. 集合<span class="math inline">\(V\)</span>是一个实线性空间，这表示<span class="math inline">\(V\)</span>中的元素(称为矢量)附带有“加法”和“数乘”两种运算. 标准的定义中，这两种运算满足8条性质，分别是加法交换律、加法结合律、加法零元的存在与唯一性、加法逆元的存在与唯一性；数乘单位元的存在与唯一性、数乘结合律、数域加法在数乘运算中满足的分配律以及矢量加法在数乘运算中满足的分配律. 这里我们用一个简化版本的定义，来自几何大师陈省身的教材.在简化版的定义中，线性空间满足两条性质：对于任意<span class="math inline">\(\alpha, \beta \in V, a \in \mathbb{R}\)</span>有</p>
+<p><span class="math display">\[\begin{equation}\begin{split}
+    (\alpha + \beta)^\mu &amp;= \alpha^\mu + \beta^\mu\\
+    (a\alpha)^\mu &amp;= a\alpha^\mu
+\end{split}\end{equation}\]</span></p>
+<p>其中第一个式子意味着“矢量的和的分量”等于“矢量的分量的和”，第二个式子意味着“数乘以矢量的结果的分量”等于“数直接乘以矢量的每个分量”.</p>
+<p>这个定义虽然是简化版的，但仍然易于扩充为完整定义，这里不再论述. 现在我们从最简单的双线性结构——并矢开始理解张量. 物理学系第一次接触张量大抵是在电动力学课上，这时还不叫张量，而是叫“并矢”. 并矢这个名字相比张量更能展现张量的“多重线性性”.并矢在教材中被表述为以下形式</p>
+<p><span class="math display">\[\begin{equation}\begin{split}
+    T = T^{\mu\nu}e_\mu e_\nu
+\end{split}\end{equation}\]</span></p>
+<p>它有两组基底，所谓双线性指的就是固定前一组基底，T的运算是线性的，固定后一组基底，运算仍然是线性的. 例如，对于并矢<span class="math inline">\(T\)</span>，<span class="math inline">\(W\)</span>有</p>
+<p><span class="math display">\[\begin{equation}\begin{split}
+    (T + W)^\mu &amp;= T^{\mu\nu}e_\nu + W^{\mu\nu}e_\nu\\
+    (aT)^\mu &amp;= aT^{\mu\nu}e_\nu
+\end{split}\end{equation}\]</span></p>
+<p>这两个式子实际上是分量的等式，也就是说张量可以看作一种特殊的矢量，其分量还是矢量. 我们注意到普通线性空间的“数乘”运算是数域<span class="math inline">\(\mathbb{R}\)</span>的元素与线性空间<span class="math inline">\(V\)</span>的元素的乘法，运算后得到一个线性空间<span class="math inline">\(V\)</span>中的元素. 我们扩大这个定义，把数域换成另一个线性空间，这样的代数结构就定义了张量.</p>
 
         </div>
 
@@ -284,7 +307,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://candygroup.site/2020/05/25/Course-of-Theoretical-Physics/">http://candygroup.site/2020/05/25/Course-of-Theoretical-Physics/</a></span>
+                        <span><a href="http://candygroup.site/2021/10/10/2021101001/">http://candygroup.site/2021/10/10/2021101001/</a></span>
                     </p>
                 
                 
@@ -302,11 +325,9 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/%E7%90%86%E8%AE%BA%E7%89%A9%E7%90%86/"># 理论物理</a>
+                        <a href="/tags/%E5%BC%A0%E9%87%8F/"># 张量</a>
                     
-                        <a href="/tags/%E5%BE%AE%E5%88%86%E5%87%A0%E4%BD%95/"># 微分几何</a>
-                    
-                        <a href="/tags/To-be-continue/"># To be continue...</a>
+                        <a href="/tags/%E5%A4%9A%E9%87%8D%E7%BA%BF%E6%80%A7/"># 多重线性</a>
                     
                         
                 </span>
@@ -319,10 +340,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/06/04/My-Life-In-College/">我的大学</a>
             
-            
-            <a class="next" rel="next" href="/2020/05/11/hello-world/">Hello World</a>
+            <a class="next" rel="next" href="/2021/08/28/2021082802/">模板类声明/定义分离产生的"undefined reference to"错误</a>
             
         </section>
         <!--Valine-->
