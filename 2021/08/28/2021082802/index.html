@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Shunz Dai">
+
+
+
+
+
+<title>模板类声明/定义分离产生的&#34;undefined reference to&#34;错误 | Shunz Dai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/js/fancybox/dist/jquery.fancybox.min.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    <script src="/js/fancybox/dist/jquery.fancybox.min.js"></script>
+    
+    <script src="/js/"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Shunz Dai&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/files">Files</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Shunz Dai&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/files">Files</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap" style="width: 100%;height: auto;word-wrap: break-word;word-break: break-all;overflow: hidden;"><!-- style 自动换行 -->
+        <header class="post-header">
+            <h1 class="post-title">模板类声明/定义分离产生的&#34;undefined reference to&#34;错误</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Shunz Dai</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">August 28, 2021&nbsp;&nbsp;13:44:51</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C/">C++</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>最近笔者在Linux环境下学习C++，用g++编译时遇到一个错误。笔者在<code>crc.hpp</code>文件中给出了类的声明，并在<code>crc.cpp</code>文件中给出了类的实现</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* crc.hpp */</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Type&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CRC</span>&#123;</span><br><span class="line">  <span class="keyword">private</span>:</span><br><span class="line">    Type POLY;</span><br><span class="line">    Type INIT;</span><br><span class="line">    Type XOROUT;</span><br><span class="line">    <span class="type">bool</span> REFIN;</span><br><span class="line">    <span class="type">bool</span> REFOUT;</span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> PrivType&gt;</span><br><span class="line">    <span class="function">PrivType <span class="title">Ref</span><span class="params">(PrivType Data)</span></span>;</span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">CRC</span>(Type POLY, Type INIT, Type XOROUT, <span class="type">bool</span> REFIN, <span class="type">bool</span> REFOUT);</span><br><span class="line">    <span class="function">Type <span class="title">Encode</span><span class="params">(<span class="type">const</span> <span class="type">uint8_t</span> *Addr, <span class="type">uint32_t</span> Length)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* crc.cpp */</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Type&gt;</span><br><span class="line">CRC&lt;Type&gt;::<span class="built_in">CRC</span>(Type SetPOLY, Type SetINIT, Type SetXOROUT, <span class="type">bool</span> SetREFIN, <span class="type">bool</span> SetREFOUT)&#123;</span><br><span class="line">  <span class="comment">/* Code */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Type&gt;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> PrivType&gt;</span><br><span class="line">PrivType CRC&lt;Type&gt;::<span class="built_in">Ref</span>(PrivType Data)&#123;</span><br><span class="line">  <span class="comment">/* Code */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Type&gt;</span><br><span class="line">Type CRC&lt;Type&gt;::<span class="built_in">Encode</span>(<span class="type">const</span> <span class="type">uint8_t</span> *Addr, <span class="type">uint32_t</span> Length)&#123;  </span><br><span class="line">  <span class="comment">/* Code */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后笔者在<code>main.hpp</code>中引用<code>crc.hpp</code>，并在<code>main.cpp</code>中实例化了一个对象</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">CRC&lt;<span class="type">uint16_t</span>&gt; <span class="title">CRC16</span><span class="params">(<span class="number">0x8005</span>, <span class="number">0x0000</span>, <span class="number">0x0000</span>, <span class="literal">true</span>, <span class="literal">true</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>测试时用到</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Thread_1000ms</span><span class="params">(<span class="type">void</span>)</span></span>&#123;</span><br><span class="line">  <span class="type">uint16_t</span> crc16;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">  crc16 = CRC16.<span class="built_in">Encode</span>((<span class="type">uint8_t</span>*)<span class="string">&quot;12345&quot;</span>, <span class="number">5</span>);</span><br><span class="line">  cout &lt;&lt; crc16 &lt;&lt; <span class="string">&quot;\n&quot;</span> &lt;&lt; endl;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译上述代码时一直报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ld: /tmp/cc1W785D.o: in function `Thread_1000ms()&#x27;:</span><br><span class="line">main.cpp:(.text+0xb0): undefined reference to `CRC&lt;unsigned short&gt;::Encode(unsigned char const*, unsigned int)&#x27;</span><br><span class="line">collect2: error: ld returned 1 exit status</span><br></pre></td></tr></table></figure>
+
+<p>查找了一下解决方案，都说声明&#x2F;实现无法分离，这种回答令人感到不可思议，怎么可能无法分离？经过数日的查找，终于找到解决方案：模板类声明&#x2F;定义分离时，需要在<code>*.cpp</code>文件中对模板类进行特化处理。具体的说，就是在上述<code>*.cpp</code>文件开头加入一句</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> <span class="keyword">class</span> <span class="title class_">CRC</span>&lt;<span class="type">uint16_t</span>&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>终于编译成功。并且经过测试笔者发现，这样还有一个额外的技术效果：如果在<code>*.cpp</code>文件中对模板类进行特化时只写</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> <span class="keyword">class</span> <span class="title class_">CRC</span>&lt;<span class="type">uint8_t</span>&gt;;</span><br><span class="line"><span class="keyword">template</span> <span class="keyword">class</span> <span class="title class_">CRC</span>&lt;<span class="type">uint16_t</span>&gt;;</span><br><span class="line"><span class="keyword">template</span> <span class="keyword">class</span> <span class="title class_">CRC</span>&lt;<span class="type">uint32_t</span>&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>则在其他地方实例化时只能实例化<code>uint8_t</code>，<code>uint16_t</code>，<code>uint32_t</code>三种类型的对象，如果尝试实例化<code>CRC&lt;double&gt; CRC16(0x8005, 0x0000, 0x0000, true, true);</code>，编译器会报<code>undefined reference to</code>错误，这样便限制了模板类的输入类型。</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p>[1] 小强的机器人工坊. C++模板类的申明和定义分离的实现方法[DB&#x2F;OL]. <a target="_blank" rel="noopener" href="https://blog.csdn.net/l1216766050/article/details/112107682">https://blog.csdn.net/l1216766050/article/details/112107682</a>, 2021-01-02&#x2F;2021-08-28</p>
+<p>[2] huanghxyz. C++泛型模板函数编程中“undefined reference to”错误[DB&#x2F;OL]. <a target="_blank" rel="noopener" href="https://blog.csdn.net/huanghxyz/article/details/85280144">https://blog.csdn.net/huanghxyz/article/details/85280144</a>,  2018-12-27&#x2F;2021-08-28</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Shunz Dai</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://shunzdai.github.io/2021/08/28/2021082802/">https://shunzdai.github.io/2021/08/28/2021082802/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/C/"># C++</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/10/10/2021101001/">张量浅说</a>
+            
+            
+            <a class="next" rel="next" href="/2021/08/28/2021082801/">SSH设置免密登录</a>
+            
+        </section>
+        <section class="valine">
+            
+                <br>  <!--换行符-->
+                <br>  <!--换行符-->
+                <div class="vcomment"></div>
+                <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+                <script>
+                    var path = window.location.pathname.replace('index.html','');
+                    var isEN = path.indexOf('en') > -1;
+                    path = isEN ? path.replace('en/','') : path;
+                    new Valine({
+                        el: '.vcomment',
+                        appId: 'H6QHaKWdX4FTCn7D4f2ccS3S-gzGzoHsz',
+                        appKey: 'LesYxmAk7rHet0e9aziIjOWi',
+                        placeholder: '闷声大发财。',
+                        avatar: 'mp',
+                        path: path,
+                        recordIP: true,
+                        lang: isEN ? 'en' : 'zh-cn',
+                        visitor: true,
+                        enableQQ: true,
+                    })
+                </script>
+            
+        </section>
+    </article>
+</div>
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>Copyright © 2020-2023 by Shunz Dai. All Rights Reserved.</span>
+    </div>
+</footer>
+
+    </div>
+    
+</body>
+
+</html>

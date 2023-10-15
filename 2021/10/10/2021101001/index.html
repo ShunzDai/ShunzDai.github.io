@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Shunz Dai">
+
+
+
+
+
+<title>张量浅说 | Shunz Dai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/js/fancybox/dist/jquery.fancybox.min.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    <script src="/js/fancybox/dist/jquery.fancybox.min.js"></script>
+    
+    <script src="/js/"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="/js/mathjax2.7.5.js?config=TeX-MML-AM_CHTML">
+</script>
+
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Shunz Dai&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/files">Files</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Shunz Dai&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/files">Files</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap" style="width: 100%;height: auto;word-wrap: break-word;word-break: break-all;overflow: hidden;"><!-- style 自动换行 -->
+        <header class="post-header">
+            <h1 class="post-title">张量浅说</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Shunz Dai</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 10, 2021&nbsp;&nbsp;20:54:14</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Mathematics/">Mathematics</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>“张量是什么？”想必这是一个令许多科学工作者头疼的问题. 笔者初学张量时也曾看过很多相关的教材. 绿皮书《代数学引论》中，张量被描述为一种“多重线性映射”. 先别被这个专业的术语吓跑，相信读者坚持读完本文将会有所收获. 笔者最开始也不理解什么叫“多重线性映射”，一度达到抄书的地步，把《代数学引论》里描写张量的章节抄了数遍，最终都能背下张量的定义了，还是不能理解什么是张量. 后来算得多了，逐渐就悟到了张量的含义，但回过头来再想想《代数学引论》等教材中关于“多重线性映射”的描述，还是觉得这种表述是最好的. 笔者将尝试把张量这个概念讲清楚，先讲一些鬼话，再讲一些人话. 虽然是鬼话，但还是希望诸位能认真推一推鬼话里给出的公式，然后再去看人话. 废话少说，现在便进入正题.</p>
+<h2 id="鬼话"><a href="#鬼话" class="headerlink" title="鬼话"></a>鬼话</h2><p>域$P$上的线性空间$V$是所有线性映射$V^*\rightarrow P$构成的集合. 当$P$是实数域$\mathbb{R}$时，这个线性空间的元素就是实值矢量$X&#x3D;X^\mu e_\mu$，其中$X^\mu\in \mathbb{R}$. $X$可以看成一个映射，输入一个对偶矢量$\omega&#x3D;\omega_\mu e^\mu$，输出一个实数：</p>
+<p>$$\begin{equation}\begin{split}<br>    X(\omega)&#x3D;X^\mu \omega_\nu e_\mu(e^\nu)&#x3D;X^\mu \omega_\nu{\delta_\mu}^\nu&#x3D;X^\mu \omega_\mu\in\mathbb{R}<br>\end{split}\end{equation}$$</p>
+<p>如果推广上述定义在域上的线性空间，可以得到一种定义在线性空间上的线性空间.</p>
+<p>线性空间$W$上的线性空间$V$是所有线性映射$V^*\rightarrow W$构成的集合. 当$W\equiv V$时，这个线性空间的元素就是矢量值矢量$T &#x3D; T^\mu e_\mu$，其中$T^\mu \in V$，$T^\mu &#x3D; T^{\mu\nu}e_\nu$. $T$可以看成一个映射，输入一个对偶矢量$\omega&#x3D;\omega_\mu e^\mu$，输出一个矢量：</p>
+<p>$$\begin{equation}\begin{split}<br>    T(\omega)&#x3D;T^\mu  e_\mu(\omega_\nu e^\nu)&#x3D;T^\mu  \omega_\nu e_\mu( e^\nu)&#x3D;T^\mu \omega_\nu{\delta_\mu}^\nu&#x3D;T^\mu \omega_\mu\in V ,其中 T^\mu \in V ， \omega_\mu\in V^*<br>\end{split}\end{equation}$$</p>
+<p>于是$T(\omega)$仍然是一个映射，可以继续作用在任意对偶矢量上：</p>
+<p>$$\begin{equation}\begin{split}<br>    <a href="%5Ceta">T(\omega)</a>&#x3D;[T^{\mu\nu}\omega_\mu e_\nu](\eta_\rho e^\rho)&#x3D;T^{\mu\nu}\omega_\mu\eta_\rho e_\nu(e^\rho)&#x3D;T^{\mu\nu}\omega_\mu\eta_\rho{\delta_\nu}^\rho&#x3D;T^{\mu\nu}\omega_\mu\eta_\nu\in\mathbb{R}<br>\end{split}\end{equation}$$</p>
+<p>于是$T$可以直接看成映射$V\times V\rightarrow \mathbb{R}$，展现了二重线性性. 同理可以构造$W\equiv V^*$的矢量值线性空间，其元素是所有线性映射$V^<em>\rightarrow V^</em>$构成的集合，输入对偶矢量，得到对偶矢量，于是得到的对偶矢量仍然是一个映射，可以继续作用在任意矢量上，这样就得到了$V\times V^*\rightarrow \mathbb{R}$.<br>继续推广，就得到了任意$(p,q)$型张量（张量空间也是线性空间）.一个$(p,q)$型张量可以看成实值线性映射，即输入$p$个矢量和$q$个对偶矢量，得到一个实数. 还能看成一个$(p-m,q-n)$型矢量值线性映射，其中$m,n\in\mathbb{Z}^+$.这表示如果只输入$p-m$个矢量和$q-n$个对偶矢量到$(p,q)$型张量里，就得到了一个$(m,n)$型张量.当$m&#x3D;n&#x3D;0$时就退化成通常的实值线性映射. 这就是多重线性性.</p>
+<h2 id="人话"><a href="#人话" class="headerlink" title="人话"></a>人话</h2><p>我们回顾线性空间的定义. 集合$V$是一个实线性空间，这表示$V$中的元素(称为矢量)附带有“加法”和“数乘”两种运算. 标准的定义中，这两种运算满足8条性质，分别是加法交换律、加法结合律、加法零元的存在与唯一性、加法逆元的存在与唯一性；数乘单位元的存在与唯一性、数乘结合律、数域加法在数乘运算中满足的分配律以及矢量加法在数乘运算中满足的分配律. 这里我们用一个简化版本的定义，来自几何大师陈省身的教材.在简化版的定义中，线性空间满足两条性质：对于任意$\alpha, \beta \in V, a \in \mathbb{R}$有</p>
+<p>$$\begin{equation}\begin{split}<br>    (\alpha + \beta)^\mu &amp;&#x3D; \alpha^\mu + \beta^\mu\<br>    (a\alpha)^\mu &amp;&#x3D; a\alpha^\mu<br>\end{split}\end{equation}$$</p>
+<p>其中第一个式子意味着“矢量的和的分量”等于“矢量的分量的和”，第二个式子意味着“数乘以矢量的结果的分量”等于“数直接乘以矢量的每个分量”.</p>
+<p>这个定义虽然是简化版的，但仍然易于扩充为完整定义，这里不再论述. 现在我们从最简单的双线性结构——并矢开始理解张量. 物理学系第一次接触张量大抵是在电动力学课上，这时还不叫张量，而是叫“并矢”. 并矢这个名字相比张量更能展现张量的“多重线性性”.并矢在教材中被表述为以下形式</p>
+<p>$$\begin{equation}\begin{split}<br>    T &#x3D; T^{\mu\nu}e_\mu e_\nu<br>\end{split}\end{equation}$$</p>
+<p>它有两组基底，所谓双线性指的就是固定前一组基底，T的运算是线性的，固定后一组基底，运算仍然是线性的. 例如，对于并矢$T$，$W$有</p>
+<p>$$\begin{equation}\begin{split}<br>    (T + W)^\mu &amp;&#x3D; T^{\mu\nu}e_\nu + W^{\mu\nu}e_\nu\<br>    (aT)^\mu &amp;&#x3D; aT^{\mu\nu}e_\nu<br>\end{split}\end{equation}$$</p>
+<p>这两个式子实际上是分量的等式，也就是说张量可以看作一种特殊的矢量，其分量还是矢量. 我们注意到普通线性空间的“数乘”运算是数域$\mathbb{R}$的元素与线性空间$V$的元素的乘法，运算后得到一个线性空间$V$中的元素. 我们扩大这个定义，把数域换成另一个线性空间，这样的代数结构就定义了张量. </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Shunz Dai</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://shunzdai.github.io/2021/10/10/2021101001/">https://shunzdai.github.io/2021/10/10/2021101001/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%BC%A0%E9%87%8F/"># 张量</a>
+                    
+                        <a href="/tags/%E5%A4%9A%E9%87%8D%E7%BA%BF%E6%80%A7/"># 多重线性</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/07/01/2022070101/">CRTP与虚函数的运行期速度对比</a>
+            
+            
+            <a class="next" rel="next" href="/2021/08/28/2021082802/">模板类声明/定义分离产生的"undefined reference to"错误</a>
+            
+        </section>
+        <section class="valine">
+            
+                <br>  <!--换行符-->
+                <br>  <!--换行符-->
+                <div class="vcomment"></div>
+                <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+                <script>
+                    var path = window.location.pathname.replace('index.html','');
+                    var isEN = path.indexOf('en') > -1;
+                    path = isEN ? path.replace('en/','') : path;
+                    new Valine({
+                        el: '.vcomment',
+                        appId: 'H6QHaKWdX4FTCn7D4f2ccS3S-gzGzoHsz',
+                        appKey: 'LesYxmAk7rHet0e9aziIjOWi',
+                        placeholder: '闷声大发财。',
+                        avatar: 'mp',
+                        path: path,
+                        recordIP: true,
+                        lang: isEN ? 'en' : 'zh-cn',
+                        visitor: true,
+                        enableQQ: true,
+                    })
+                </script>
+            
+        </section>
+    </article>
+</div>
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>Copyright © 2020-2023 by Shunz Dai. All Rights Reserved.</span>
+    </div>
+</footer>
+
+    </div>
+    
+</body>
+
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Shunz Dai">
+
+
+
+
+
+<title>编译期进行的序列化与反序列化 | Shunz Dai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/js/fancybox/dist/jquery.fancybox.min.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    <script src="/js/fancybox/dist/jquery.fancybox.min.js"></script>
+    
+    <script src="/js/"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Shunz Dai&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/files">Files</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Shunz Dai&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/files">Files</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap" style="width: 100%;height: auto;word-wrap: break-word;word-break: break-all;overflow: hidden;"><!-- style 自动换行 -->
+        <header class="post-header">
+            <h1 class="post-title">编译期进行的序列化与反序列化</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Shunz Dai</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 4, 2023&nbsp;&nbsp;20:39:31</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C/">C++</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>好久没有写过博客了, 趁假期有空, 讲一讲今年上半年做的一个工作吧, 仓库地址是<a target="_blank" rel="noopener" href="https://github.com/ShunzDai/serial_cpp">https://github.com/ShunzDai/serial_cpp</a>. 这个项目的功能就是把一堆数据打包成堆上的字节流, 或是从字节流中解包出原始数据.</p>
+<p>主体是一个类, public 成员是两个对外的接口, 都是静态成员函数, 其中<code>serial::pack</code>用于序列化, <code>serial::unpack</code> 用于反序列化; private 成员有几个工具模板和几个私有成员函数. 所有函数都用 constexpr 修饰, 这意味着在所有入参都在编译期确定的情况下，序列化、反序列化的结果也在编译期确定. </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">serial</span> &#123;</span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">  <span class="keyword">using</span> <span class="type">ibuf_t</span> = std::basic_string_view&lt;<span class="type">uint8_t</span>&gt;;</span><br><span class="line">  <span class="keyword">using</span> <span class="type">obuf_t</span> = std::basic_string&lt;<span class="type">uint8_t</span>&gt;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ... <span class="type">arg_t</span>&gt;</span><br><span class="line">  <span class="function"><span class="keyword">constexpr</span> <span class="type">static</span> <span class="type">obuf_t</span> <span class="title">pack</span><span class="params">(<span class="type">const</span> <span class="type">arg_t</span> &amp; ... args)</span></span>;</span><br><span class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ... <span class="type">arg_t</span>&gt;</span><br><span class="line">  <span class="function"><span class="keyword">constexpr</span> <span class="type">static</span> std::tuple&lt;<span class="type">arg_t</span> ...&gt; <span class="title">unpack</span><span class="params">(<span class="type">ibuf_t</span> &amp;&amp;ibuf)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span>:</span><br><span class="line">  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> <span class="type">first_t</span>, <span class="keyword">typename</span> ... <span class="type">rest_t</span>&gt;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">is_tuple</span> &#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> <span class="type">bool</span> value =</span><br><span class="line">    std::is_same&lt;<span class="type">first_t</span>, std::tuple&lt;&gt;&gt;::value;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> <span class="type">first_t</span>, <span class="keyword">typename</span> ... <span class="type">rest_t</span>&gt;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">is_tuple</span>&lt;std::tuple&lt;<span class="type">first_t</span>, <span class="type">rest_t</span> ...&gt;&gt; &#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> <span class="type">bool</span> value = <span class="literal">true</span>;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> <span class="type">first_t</span>, <span class="keyword">typename</span> ... <span class="type">rest_t</span>&gt;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">is_pair</span> &#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> <span class="type">bool</span> value = <span class="literal">false</span>;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> <span class="type">first_t</span>, <span class="keyword">typename</span> ... <span class="type">rest_t</span>&gt;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">is_pair</span>&lt;std::pair&lt;<span class="type">first_t</span>, <span class="type">rest_t</span> ...&gt;&gt; &#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> <span class="type">bool</span> value = <span class="literal">true</span>;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> <span class="type">first_t</span>, <span class="keyword">typename</span> ... <span class="type">rest_t</span>&gt;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">is_array</span> &#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> <span class="type">bool</span> value = <span class="literal">false</span>;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> <span class="type">first_t</span>, <span class="type">size_t</span> size&gt;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">is_array</span>&lt;std::array&lt;<span class="type">first_t</span>, size&gt;&gt; &#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> <span class="type">bool</span> value = <span class="literal">true</span>;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> <span class="type">arg_t</span>&gt;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">is_base</span> &#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> <span class="type">bool</span> value =</span><br><span class="line">    std::is_integral&lt;<span class="type">arg_t</span>&gt;::value ||</span><br><span class="line">    std::is_floating_point&lt;<span class="type">arg_t</span>&gt;::value;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> <span class="type">arg_t</span>&gt;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">is_string</span> &#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> <span class="type">bool</span> value =</span><br><span class="line">    std::is_same&lt;<span class="type">arg_t</span>,      std::string&gt;::value ||</span><br><span class="line">    std::is_same&lt;<span class="type">arg_t</span>, std::string_view&gt;::value;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> <span class="type">arg_t</span>&gt;</span><br><span class="line">  <span class="function"><span class="type">static</span> <span class="keyword">constexpr</span> <span class="type">obuf_t</span> <span class="title">pack_one</span><span class="params">(<span class="type">const</span> <span class="type">arg_t</span> &amp;arg)</span></span>;</span><br><span class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ... <span class="type">arg_t</span>, <span class="type">size_t</span> ... seq&gt;</span><br><span class="line">  <span class="function"><span class="type">static</span> <span class="keyword">constexpr</span> <span class="type">obuf_t</span> <span class="title">pack_tuple</span><span class="params">(<span class="type">const</span> std::tuple&lt;<span class="type">arg_t</span> ...&gt; &amp;arg, std::index_sequence&lt;seq ...&gt;)</span></span>;</span><br><span class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> <span class="type">arg_t</span>&gt;</span><br><span class="line">  <span class="function"><span class="type">static</span> <span class="keyword">constexpr</span> <span class="type">arg_t</span> <span class="title">unpack_one</span><span class="params">(<span class="type">ibuf_t</span> &amp;ibuf)</span></span>;</span><br><span class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> <span class="type">arg_t</span>, <span class="type">size_t</span> ... seq&gt;</span><br><span class="line">  <span class="function"><span class="type">static</span> <span class="keyword">constexpr</span> <span class="type">arg_t</span> <span class="title">unpack_tuple</span><span class="params">(<span class="type">ibuf_t</span> &amp;ibuf, std::index_sequence&lt;seq ...&gt;)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>从序列化讲起. <code>serial::pack</code>的实现如下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ... <span class="type">arg_t</span>&gt;</span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> serial::<span class="type">obuf_t</span> <span class="title">serial::pack</span><span class="params">(<span class="type">const</span> <span class="type">arg_t</span> &amp; ... args)</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">if</span> <span class="title">constexpr</span> <span class="params">(<span class="keyword">sizeof</span>...(<span class="type">arg_t</span>) == <span class="number">0</span>)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">return</span> </span>&#123;&#125;;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="built_in">return</span> (<span class="built_in">pack_one</span>(args) + ...);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是一个可变参数模板, 入参是一组将要打包的变量, 取常引用减少拷贝次数; 然后是一个静态条件分支, 如果识别到入参个数为0, 则返回空的序列化结果; 否则执行一个常量折叠表达式, 其中调用了<code>serial::pack_one</code>方法, 它返回的是<code>std::basic_string&lt;&gt;</code>类型, 因此折叠表达式中出现的加法运算符是<code>std::basic_string&lt;&gt;</code>重载的字串拼接方法. 综上所述, <code>serial::pack</code>其实就相当于将每个入参都转换为同一类型的字节流块, 然后再把这些块拼接到一起返回. </p>
+<p><code>serial::pack_one</code>的实现如下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> <span class="type">arg_t</span>&gt;</span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> serial::<span class="type">obuf_t</span> <span class="title">serial::pack_one</span><span class="params">(<span class="type">const</span> <span class="type">arg_t</span> &amp;arg)</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">if</span> <span class="title">constexpr</span> <span class="params">(std::is_same&lt;<span class="type">arg_t</span>, <span class="type">const</span> <span class="type">char</span> *&gt;::value)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">obuf_t</span>((<span class="type">const</span> <span class="type">uint8_t</span> *)arg, <span class="built_in">strlen</span>(arg) + <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> <span class="built_in">constexpr</span> (is_string&lt;<span class="type">arg_t</span>&gt;::value) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">obuf_t</span>((<span class="type">const</span> <span class="type">uint8_t</span> *)arg.<span class="built_in">data</span>(), arg.<span class="built_in">size</span>()) + <span class="built_in">obuf_t</span>((<span class="type">const</span> <span class="type">uint8_t</span> *)<span class="string">&quot;\0&quot;</span>, <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> <span class="built_in">constexpr</span> (is_tuple&lt;<span class="type">arg_t</span>&gt;::value) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">pack_tuple</span>(arg, std::make_index_sequence&lt;std::tuple_size&lt;<span class="type">arg_t</span>&gt;::value&gt; &#123;&#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> <span class="built_in">constexpr</span> (is_pair&lt;<span class="type">arg_t</span>&gt;::value) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">pack_one</span>(arg.first) + <span class="built_in">pack_one</span>(arg.second);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> <span class="built_in">constexpr</span> (is_array&lt;<span class="type">arg_t</span>&gt;::value) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">obuf_t</span>((<span class="type">uint8_t</span> *)arg.<span class="built_in">data</span>(), arg.<span class="built_in">size</span>() * <span class="built_in">sizeof</span>(<span class="keyword">typename</span> <span class="type">arg_t</span>::value_type));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> <span class="built_in">constexpr</span> (is_base&lt;<span class="type">arg_t</span>&gt;::value) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">obuf_t</span>((<span class="type">const</span> <span class="type">uint8_t</span> *)&amp;arg, <span class="built_in">sizeof</span>(<span class="type">arg_t</span>));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">static_assert</span>(!std::is_same&lt;<span class="type">arg_t</span>, <span class="type">arg_t</span>&gt;::value, <span class="string">&quot;unknown arg type&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可见这个接口针对不同的数据类型采取了不同的序列化方式, 其中使用了一些工具模板, 实现方式大同小异. 举例来说, 对于<code>std::array&lt;&gt;</code>类型的识别使用了工具模板<code>is_array&lt;&gt;</code>, 定义如下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> <span class="type">first_t</span>, <span class="keyword">typename</span> ... <span class="type">rest_t</span>&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">is_array</span> &#123;</span><br><span class="line">  <span class="type">static</span> <span class="type">const</span> <span class="type">bool</span> value = <span class="literal">false</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> <span class="type">first_t</span>, <span class="type">size_t</span> size&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">is_array</span>&lt;std::array&lt;<span class="type">first_t</span>, size&gt;&gt; &#123;</span><br><span class="line">  <span class="type">static</span> <span class="type">const</span> <span class="type">bool</span> value = <span class="literal">true</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>serial::pack_one</code>接收的参数类型如果是<code>std::array&lt;&gt;</code>类型就会在编译期的类型识别中自动匹配到特化模板, 使得获取到的<code>value</code>为真, 否则为假. </p>
+<p>此外<code>serial::pack_one</code>还用到了<code>serial::pack_tuple</code>, 它可将 tuple 类型的参数解包, 递归传递给<code>serial::pack_one</code>. tuple 解包时使用了<code>std::index_sequence&lt;&gt;</code>这个技术方案, 使用方法读者可以自行搜索, 也有其他技术方案可以达成同样的技术效果. </p>
+<p>再来看反序列化. <code>serial::unpack</code>的实现如下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ... <span class="type">arg_t</span>&gt;</span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> std::tuple&lt;<span class="type">arg_t</span> ...&gt; <span class="title">serial::unpack</span><span class="params">(<span class="type">ibuf_t</span> &amp;&amp;ibuf)</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">if</span> <span class="title">constexpr</span> <span class="params">(<span class="keyword">sizeof</span>...(<span class="type">arg_t</span>))</span></span></span><br><span class="line"><span class="function">    <span class="keyword">return</span> </span>&#123;<span class="built_in">unpack_one</span>&lt;<span class="type">arg_t</span>&gt;(ibuf) ...&#125;;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可见这基本与序列化的机制对称, 因此不再赘述. 如有疑问可以留言.</p>
+<p>这个项目没有复杂的编码逻辑, 没有数据类型的传递, 可以快速部署各种生产消费场景中. 但这也是它的缺点, 如果在迭代中产生未查明的参数变更, 可能产生内存越界访问等异常, 因此这种过于简陋的机制可能存在潜在的风险. 事实上这个项目目前就只用在我们部门内部负责的事件通知模型上, 嵌入到原生环境中非常简单</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;loop loop_id, evid event_id&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">event</span> &#123;</span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ... <span class="type">arg_t</span>&gt;</span><br><span class="line">  <span class="built_in">event</span>(<span class="built_in">void</span>(*cb)(<span class="type">arg_t</span> ...));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ... <span class="type">arg_t</span>&gt;</span><br><span class="line">  <span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">notify</span><span class="params">(<span class="type">const</span> <span class="type">arg_t</span> &amp; ... arg)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span>:</span><br><span class="line">  std::function&lt;<span class="type">void</span>(serial::<span class="type">ibuf_t</span>)&gt; _cb;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;loop loop_id, evid event_id&gt;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ... <span class="type">arg_t</span>&gt;</span><br><span class="line">event&lt;loop_id, event_id&gt;::<span class="built_in">event</span>(<span class="built_in">void</span>(*cb)(<span class="type">arg_t</span> ...))</span><br><span class="line"> : _cb([cb](serial::<span class="type">ibuf_t</span> ibuf) &#123; std::<span class="built_in">apply</span>(cb, serial::<span class="built_in">unpack</span>&lt;<span class="type">arg_t</span> ...&gt;(std::<span class="built_in">move</span>(ibuf))); &#125;) &#123;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">regist_impl</span><span class="params">(loop, <span class="type">int32_t</span>, <span class="type">const</span> std::function&lt;<span class="type">void</span>(serial::<span class="type">ibuf_t</span>)&gt; &amp;)</span></span>;</span><br><span class="line">  <span class="built_in">regist_impl</span>(loop_id, (<span class="type">int</span>)event_id, _cb);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;loop loop_id, evid event_id&gt;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ... <span class="type">arg_t</span>&gt;</span><br><span class="line"><span class="type">void</span> event&lt;loop_id, event_id&gt;::<span class="built_in">notify</span>(<span class="type">const</span> <span class="type">arg_t</span> &amp; ... arg) &#123;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">notify_impl</span><span class="params">(loop, <span class="type">int32_t</span>, <span class="type">const</span> serial::<span class="type">obuf_t</span> &amp;)</span></span>;</span><br><span class="line">  <span class="built_in">notify_impl</span>(loop_id, (<span class="type">int</span>)event_id, serial::<span class="built_in">pack</span>(arg ...));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的原生环境是c语言的, 注册器将回调函数注册到不同的事件循环线程中, 不同的线程通过loop id区分, 不同的回调函数通过event id区分, 静态成员函数notify可以通过指定loop id和event id向不同的回调函数发送事件通知. 这里也可以看到版本迭代可能会带给项目的不可控因素, 通过一些技术方案也可以弥补serial类的缺陷, 这就交给读者去思考了. </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Shunz Dai</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://shunzdai.github.io/2023/10/04/2023100401/">https://shunzdai.github.io/2023/10/04/2023100401/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/C/"># C++</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2023/10/13/2023101301/">编译期进行的序列化与反序列化(二)</a>
+            
+            
+            <a class="next" rel="next" href="/2022/07/01/2022070101/">CRTP与虚函数的运行期速度对比</a>
+            
+        </section>
+        <section class="valine">
+            
+                <br>  <!--换行符-->
+                <br>  <!--换行符-->
+                <div class="vcomment"></div>
+                <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+                <script>
+                    var path = window.location.pathname.replace('index.html','');
+                    var isEN = path.indexOf('en') > -1;
+                    path = isEN ? path.replace('en/','') : path;
+                    new Valine({
+                        el: '.vcomment',
+                        appId: 'H6QHaKWdX4FTCn7D4f2ccS3S-gzGzoHsz',
+                        appKey: 'LesYxmAk7rHet0e9aziIjOWi',
+                        placeholder: '闷声大发财。',
+                        avatar: 'mp',
+                        path: path,
+                        recordIP: true,
+                        lang: isEN ? 'en' : 'zh-cn',
+                        visitor: true,
+                        enableQQ: true,
+                    })
+                </script>
+            
+        </section>
+    </article>
+</div>
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>Copyright © 2020-2023 by Shunz Dai. All Rights Reserved.</span>
+    </div>
+</footer>
+
+    </div>
+    
+</body>
+
+</html>

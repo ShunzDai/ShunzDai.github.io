@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Shunz Dai">
+
+
+
+
+
+<title>空间旋转的数学原理 | Shunz Dai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/js/fancybox/dist/jquery.fancybox.min.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    <script src="/js/fancybox/dist/jquery.fancybox.min.js"></script>
+    
+    <script src="/js/"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="/js/mathjax2.7.5.js?config=TeX-MML-AM_CHTML">
+</script>
+
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Shunz Dai&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/files">Files</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Shunz Dai&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/files">Files</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap" style="width: 100%;height: auto;word-wrap: break-word;word-break: break-all;overflow: hidden;"><!-- style 自动换行 -->
+        <header class="post-header">
+            <h1 class="post-title">空间旋转的数学原理</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Shunz Dai</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">March 16, 2021&nbsp;&nbsp;22:27:56</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Mathematics/">Mathematics</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>笔者这些日子一直在学四元数Kalman滤波，看的文献有工程师写的，也有数学、物理工作者写的.读书的时候笔者就曾听说过四元数，在现代物理里，四元数似乎并没有起到很大的作用，物理工作者更多谈及的是$SU(2)$的Lie代数$\mathfrak{su}(2)$.但笔者发现，若将$\mathfrak{su}(2)$表述为四元数的形式，似乎可以得到一些有意思的结论.这里笔者就讲一讲读文献的时候想到的、文献里大抵没有的东西.</p>
+<h2 id="约定"><a href="#约定" class="headerlink" title="约定"></a>约定</h2><p>首先约定一些符号表征方法.笔者使用西文字母$a,b,c,\cdots$作为取值为$1,2,3$的抽象指标，使用希腊字母$\mu,\nu,\rho,\cdots$作为取值为$0,1,2,3$的抽象指标，抽象指标之间使用Einstein求和约定，即相同指标表示求和.严格的讲，使用Einstein求和约定时必须是一对上下指标表示求和.但本文将放宽这一约定，所有指标均使用下标，不再考虑上下指标的差异.在不加声明的情况下读者应能自行分辨求和对象和求和范围，笔者不再额外声明.</p>
+<p>然后是一些常用记号.</p>
+<ul>
+<li><p>$I$：单位矩阵.在不加声明的情况下读者应能自行分辨其维数，笔者不再额外声明.</p>
+</li>
+<li><p>$\delta_{\mu\nu}$：Kronecker符号，其定义如下：<br>$$\begin{equation}\begin{split}<br>  \delta_{\mu\nu} &#x3D;<br>  \begin{cases}<br>  1 &amp; When\  \mu &#x3D; \nu;\<br>  0 &amp; When\  \mu \neq \nu.<br>  \end{cases}<br>\end{split}\end{equation}$$</p>
+</li>
+<li><p>$\varepsilon_{abc}$：Levi-Civita符号，其定义如下：<br>$$\begin{equation}\begin{split}<br>  \varepsilon_{abc} &#x3D;<br>  \begin{cases}<br> -1 &amp; When\ \mu\nu\rho\sigma\ are\ odd\ permutation;\<br>  0 &amp; When\ \mu\nu\rho\sigma\ are\ not\ a\ permutation;\<br>  1 &amp; When\ \mu\nu\rho\sigma\ are\ even\ permutation.<br>  \end{cases}<br>\end{split}\end{equation}$$<br>$\varepsilon_{\mu\nu\rho\sigma}$的定义与之相同.</p>
+</li>
+<li><p>$\sigma_a$：Pauli矩阵，其定义如下：<br>$$\begin{equation}<br>\sigma_1 &#x3D;<br>\left(\begin{array}{cccc}<br>  0&amp;1\<br>  1&amp;0<br>\end{array}\right);<br>\sigma_2 &#x3D;<br>\left(\begin{array}{cccc}<br>  0&amp;-i\<br>  i&amp;0<br>\end{array}\right);<br>\sigma_3 &#x3D;<br>\left(\begin{array}{cccc}<br>  1&amp;0\<br>  0&amp;-1<br>\end{array}\right).<br>\end{equation}$$<br>容易证明Pauli矩阵具有如下对易关系(<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/340171183">多层内积空间与泡利矩阵(Pauli matrices)的运算性质</a>)：<br>$$\begin{equation}\begin{split}<br>  \left[\sigma_a,\sigma_b\right] &#x3D; \sigma_a\sigma_b - \sigma_b\sigma_a &#x3D; 2i\varepsilon_{abc}\sigma_c;<br>\end{split}\end{equation}$$<br>$$\begin{equation}\begin{split}<br>  \left{\sigma_a,\sigma_b\right} &#x3D; \sigma_a\sigma_b + \sigma_b\sigma_a &#x3D; 2\delta_{ab}I.<br>\end{split}\end{equation}$$<br>从以上两则关系可以推出<br>$$\begin{equation}\begin{split}<br>  \sigma_a\sigma_a &#x3D; I;<br>\end{split}\end{equation}$$<br>$$\begin{equation}\begin{split}<br>  \sigma_a\sigma_b &#x3D; \delta_{ab}I + i\varepsilon_{abc}\sigma_c.<br>\end{split}\end{equation}$$</p>
+</li>
+</ul>
+<h2 id="SO-3-群"><a href="#SO-3-群" class="headerlink" title="$SO(3)$群"></a>$SO(3)$群</h2><h3 id="SO-3-群的定义"><a href="#SO-3-群的定义" class="headerlink" title="$SO(3)$群的定义"></a>$SO(3)$群的定义</h3><p>$SO(3)$群是一般线性群$GL(3,\mathbb{R})$的一个子群（这意味着$SO(3)$的元素是可逆的），它描述了3维空间的转动，其定义如下：<br>$$\begin{equation}\begin{split}<br>    SO(3) &#x3D; \left{ R\in GL(3,\mathbb{R}): R^T &#x3D; R^{-1},det(R) &#x3D; 1\right},<br>\end{split}\end{equation}$$<br>其中$R^T &#x3D; R^{-1}$将$GL(3,\mathbb{R})$的群元限制在正交子群$O(3)$内，使矩阵只产生旋转，不会对空间进行拉伸或者压缩，而$det(R) &#x3D; 1$使得矩阵保定向，不会将右手系变成左手系.对于任意的$R\in SO(3)$，虽然其拥有9个矩阵元，但上述定义给出了正交性要求$R^T &#x3D; R^{-1}$，对任意$R\in SO(3)$，正交性使得9个矩阵元满足9个方程$R_{\mu\nu} R_{\rho\nu} &#x3D; \delta_{\mu\rho}$，由于Kronecker符号的对称性，这9个方程中相互独立的方程只有3(3-1)&#x2F;2&#x3D;6个，9个矩阵元要满足6个约束条件，因此独立矩阵元的数目实际只有3个.这三个矩阵元分别对应了绕三个正交坐标轴的旋转变换，我们用Euler角描述这一性质.</p>
+<h3 id="Euler角"><a href="#Euler角" class="headerlink" title="Euler角"></a>Euler角</h3><p>规定3个Euler角分别是横滚角(Roll)，俯仰角(Pitch)，航向角(Yaw)，它们分别对应绕$X,Y,Z$轴的旋转.</p>
+<blockquote>
+<p>这样规定是因为在工程项目中，载具通常使用前左上(FLU)坐标系，即载具机头朝前时，载具前、左、上三个方向分别为$X,Y,Z$轴正方向.在这种坐标系中，横滚角描述了载具立轴与铅垂线的夹角，这是一个绕$X$轴的转动；俯仰角描述了载具纵轴与水平面的夹角，这是一个绕$Y$轴的转动；航向角描述了载具纵轴与子午面的夹角，这是一个绕$Z$轴的转动.</p>
+</blockquote>
+<p>规定绕$X,Y,Z$轴逆时针旋转基底（坐标系）的变换矩阵分别为$R_X(r),R_Y(p),R_Z(y)$，顺时针旋转基底（坐标系）的变换矩阵为前3个矩阵的逆变换（这些矩阵需要从左向右作用在基底列上）.通过简单的计算可以得到：<br>$$\begin{equation}\begin{split}<br>    R_X(r)&amp;&#x3D;<br>        \left(\begin{array}{ccc}<br>            1       &amp;0          &amp;0      \<br>            0       &amp;\cos r     &amp;\sin r \<br>            0       &amp;-\sin r    &amp;\cos r<br>        \end{array}\right),<br>    R_X^{-1}(r)&#x3D;R_X^{T}(r)&#x3D;<br>        \left(\begin{array}{ccc}<br>            1       &amp;0         &amp;0      \<br>            0       &amp;\cos r     &amp;-\sin r\<br>            0       &amp;\sin r     &amp;\cos r<br>        \end{array}\right);\<br>    R_Y(p)&amp;&#x3D;<br>        \left(\begin{array}{ccc}<br>            \cos p  &amp;0          &amp;-\sin p \<br>            0       &amp;1          &amp;0       \<br>            \sin p  &amp;0          &amp;\cos p<br>        \end{array}\right),<br>    R_Y^{-1}(p)&#x3D;R_Y^{T}(p)&#x3D;<br>        \left(\begin{array}{ccc}<br>            \cos p  &amp;0          &amp;\sin p \<br>            0       &amp;1          &amp;0 \<br>            -\sin p &amp;0          &amp;\cos p<br>        \end{array}\right);\<br>    R_Z(y)&amp;&#x3D;<br>        \left(\begin{array}{ccc}<br>            \cos y &amp;\sin y      &amp;0 \<br>            -\sin y &amp;\cos y     &amp;0 \<br>            0       &amp;0          &amp;1<br>        \end{array}\right),<br>    R_Z^{-1}(y)&#x3D;R_Z^{T}(y)&#x3D;<br>        \left(\begin{array}{ccc}<br>            \cos y  &amp;-\sin y    &amp;0 \<br>            \sin y  &amp;\cos y     &amp;0 \<br>            0       &amp;0          &amp;1<br>        \end{array}\right).<br>\end{split}\end{equation}$$<br>通过上述3个基础旋转可以组合得到3维空间中的任意旋转，要注意的是旋转顺序不可交换，有效的旋转顺序一共有12种，本文采用$ZYX$旋转顺序.$ZYX$顺序的旋转矩阵是上述3个逆时针旋转$R_X$，$R_Y$，$R_Z$的复合，它们按从左到右的顺序依次作用到坐标系的基底列上<br>$$\begin{equation}\begin{split}<br>    R(r,p,y):&amp;&#x3D;R_XR_YR_Z&#x3D;<br>    \left(\begin{array}{ccc}<br>        \cos p\cos y                    &amp;\cos p\sin y                       &amp;-\sin p     \<br>        \sin r\sin p\cos y-\cos r\sin y &amp;\sin r\sin p\sin y+\cos r\cos y    &amp;\sin r\cos p\<br>        \cos r\sin p\cos y+\sin r\sin y &amp;\cos r\sin p\sin y-\sin r\cos y    &amp;\cos r\cos p<br>    \end{array}\right).<br>\end{split}\end{equation}$$<br>当旋转对象是参考向量的坐标时，则对于同样的旋转矩阵，坐标的旋转方向刚好与基底的旋转方向相反.</p>
+<h3 id="生成元"><a href="#生成元" class="headerlink" title="生成元"></a>生成元</h3><p>生成元的定义是Lie群在单位元处的切空间.根据单位元的定义，容易判断$SO(3)$的单位元是单位阵$I$，此时Euler角参数均为0.对$R(r,p,y)$求偏导数就得到了生成元：<br>$$\begin{equation}\begin{split}<br>    \varepsilon_1 &amp;&#x3D; \frac{\partial R(r,p,y)}{\partial r}\Bigg|<em>{(0,0,0)}<br>     &#x3D;<br>    \left(\begin{array}{ccc}<br>        0               &amp;0             &amp;0 \<br>        0               &amp;0             &amp;1 \<br>        0               &amp;-1            &amp;0<br>    \end{array}\right);\<br>    \varepsilon_2 &amp;&#x3D; \frac{\partial R(r,p,y)}{\partial p}\Bigg|</em>{(0,0,0)}<br>     &#x3D;<br>    \left(\begin{array}{ccc}<br>        0              &amp;0             &amp;-1\<br>        0              &amp;0             &amp;0 \<br>        1              &amp;0             &amp;0<br>    \end{array}\right);\<br>    \varepsilon_3 &amp;&#x3D; \frac{\partial R(r,p,y)}{\partial y}\Bigg|<em>{(0,0,0)}<br>     &#x3D;<br>    \left(\begin{array}{ccc}<br>        0              &amp;1             &amp;0 \<br>        -1             &amp;0             &amp;0 \<br>        0              &amp;0             &amp;0<br>    \end{array}\right).<br>\end{split}\end{equation}$$<br>用上述3个生成元可以张成一个线性空间$\mathfrak{so}(3)$，它是Lie群$SO(3)$的Lie代数的一个表示，称为<strong>基本表示</strong>.容易证明$\varepsilon</em>{a}$满足结构方程<br>$$\begin{equation}\begin{split}<br>    \left[\varepsilon_a,\varepsilon_b\right] &#x3D; \varepsilon_{abc}\varepsilon_c,<br>\end{split}\end{equation}$$<br>其中$\varepsilon_{abc}$是$SO(3)$的结构常数.通过伴随作用$ad:\mathfrak{so}(3)\rightarrow End(\mathfrak{so}(3))$可以得到<strong>伴随表示</strong><br>$$\begin{equation}\begin{split}<br>    ad_{\varepsilon_a}\varepsilon_b &#x3D; \varepsilon_{abc}\varepsilon_c \Rightarrow ad_{\varepsilon_a} &#x3D; \varepsilon_{abc} &#x3D; \varepsilon_a\in End(\mathfrak{so}(3)),<br>\end{split}\end{equation}$$<br>这表示$\mathfrak{so}(3)$的基本表示与伴随表示等同.</p>
+<h2 id="四元数乘法群"><a href="#四元数乘法群" class="headerlink" title="四元数乘法群"></a>四元数乘法群</h2><h3 id="四元数的定义"><a href="#四元数的定义" class="headerlink" title="四元数的定义"></a>四元数的定义</h3><p>记$g_0 &#x3D;I,g_a &#x3D;-i\sigma_a$表示四元数的基底（这里只是借用线性代数的名词，虽然以$g_\mu$为基底确实构成了一个线性空间，但我们并不会使用这一性质），记$\mathbb{H}&#x3D;{A&#x3D;A_\mu g_\mu:A_\mu\in\mathbb{R},\mu&#x3D;0,1,2,3}$表示全体四元数构成的集合.</p>
+<h3 id="mathbb-H-上的群结构"><a href="#mathbb-H-上的群结构" class="headerlink" title="$\mathbb{H}$上的群结构"></a>$\mathbb{H}$上的群结构</h3><p>$\mathbb{H}$上具有一种乘法，具备以下特性：</p>
+<ol>
+<li><p>封闭性，根据Pauli矩阵的对易关系<br> $$\sigma_a\sigma_b&#x3D;i\varepsilon_{abc}\sigma_c+\delta_{ab}I$$<br>可以得到<br> $$g_a g_b&#x3D;\varepsilon_{abc}g_c-\delta_{ab}g_0,$$<br>于是对于任意$A,B\in \mathbb{H}$都有<br> $$\begin{equation}\begin{split}<br> AB&amp;&#x3D;(A_0 g_0 + A_a g_a)(B_0 g_0 + B_b g_b)\<br> &amp;&#x3D;A_0 B_0 g_0 g_0 + A_a B_0 g_a g_0 + A_0 B_a g_0 g_a + A_a B_b g_a g_b\<br> &amp;&#x3D;(A_0 B_0 - A_aB_a)g_0 + (A_0 B_c + A_c B_0 + A_a B_b \varepsilon_{abc})g_c,<br> \end{split}\end{equation}$$<br>若记$C_0&#x3D;A_0 B_0 - A_aB_a$，$C_c&#x3D; A_0 B_c + A_c B_0 + A_a B_b \varepsilon_{abc}$，则上式可写成$AB&#x3D;C$，其中$C&#x3D;C_\mu g_\mu$显然也是$\mathbb{H}$的元素，这就证明了封闭性.</p>
+</li>
+<li><p>定义$\mathbb{H}$上的共轭映射<br>$$\begin{equation}<br><em>:\mathbb{H}\rightarrow \mathbb{H};A&#x3D;A_\mu g_\mu\mapsto A^</em>&#x3D;A_0g_0-A_ag_a,<br>\end{equation}$$<br>则$<em>$诱导了$\mathbb{H}$上的$L_2$范数<br>$$\begin{equation}<br>(\cdot,\cdot):\mathbb{H}\rightarrow \mathbb{R};(A,A)&#x3D;||AA^</em>||^\frac{1}{2}.<br>\end{equation}$$<br>用$(14)$中的运算可以验证$(\cdot,\cdot)$确实是范数：<br>$$\begin{equation}\begin{split}<br> AA^*&amp;&#x3D;(A_0 A_0 + A_aA_a)g_0 + (-A_0 A_c + A_c A_0 + A_a A_b \varepsilon_{abc})g_c\<br> &amp;&#x3D;A_\mu A_\mu g_0,<br>\end{split}\end{equation}$$<br>于是$||AA^*||^\frac{1}{2}&#x3D;(A_\mu A_\mu)^\frac{1}{2}$，这显然满足范数的非负性、齐次性和三角不等式.</p>
+</li>
+<li><p>结合律，$A(BC) &#x3D; (AB)C;$</p>
+</li>
+<li><p>单位元，即$A&#x3D;g_0$；</p>
+</li>
+<li><p>逆元，由范数诱导$A^{-1}&#x3D;\frac{A^*}{||AA^*||}$.</p>
+</li>
+</ol>
+<p>现在再将注意力放到$(14)$上，我们引入一个$4\times 4$的反对称矩阵$F(A)$，其第$\mu$行第$\nu$列的元素为$F_{\mu\nu}(A)$.命：<br>$$\begin{equation}\begin{split}<br>F_{a0}(A) &#x3D; -F_{0a}(A) &#x3D; A_a;F_{ab}(A) &#x3D; \varepsilon_{abc}A_c;{}^<em>F_{\mu\nu}(A)&#x3D;\frac{1}{2}\varepsilon_{\mu\nu\rho\sigma}F_{\rho\sigma}(A).<br>\end{split}\end{equation}$$<br>使用这套记号，$(xx)$可以改写为：<br>$$\begin{equation}\begin{split}<br>AB&amp;&#x3D;(A_0 B_0 - A_aB_a)g_0 + (A_0 B_c + A_c B_0 + A_a B_b \varepsilon_{abc})g_c\<br>&amp;&#x3D;(A_0 B_0 g_0 + A_0 B_c g_c) + (- A_a B_a g_0) + (A_c B_0 g_c) + (A_a B_b \varepsilon_{abc} g_c)\<br>&amp;&#x3D;A_0 B + F_{0a}(A) B_a g_0 + F_{a0}(A) B_0 g_a + F_{ab}(A) B_{b} g_a\<br>&amp;&#x3D;A_0 B + F_{0a}(A) B_a g_0 + F_{a\nu}(A) B_\nu g_a\<br>&amp;&#x3D;A_0 B + F_{\mu\nu}(A) B_\nu g_\mu,<br>\end{split}\end{equation}$$<br>$F_{\mu\nu}$对应了某个主丛的曲率，而${}^</em>F_{\mu\nu}$是$F_{\mu\nu}$的Hodge对偶.</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Shunz Dai</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://shunzdai.github.io/2021/03/16/Mathematical-Principle-of-Rotation/">https://shunzdai.github.io/2021/03/16/Mathematical-Principle-of-Rotation/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/To-be-continue/"># To be continue...</a>
+                    
+                        <a href="/tags/%E5%9B%9B%E5%85%83%E6%95%B0/"># 四元数</a>
+                    
+                        <a href="/tags/Lie%E4%BB%A3%E6%95%B0/"># Lie代数</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/03/29/2021032901/">通过圆上两点及圆半径解算圆心</a>
+            
+            
+            <a class="next" rel="next" href="/2020/06/04/My-Life-In-College/">我的大学</a>
+            
+        </section>
+        <section class="valine">
+            
+                <br>  <!--换行符-->
+                <br>  <!--换行符-->
+                <div class="vcomment"></div>
+                <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+                <script>
+                    var path = window.location.pathname.replace('index.html','');
+                    var isEN = path.indexOf('en') > -1;
+                    path = isEN ? path.replace('en/','') : path;
+                    new Valine({
+                        el: '.vcomment',
+                        appId: 'H6QHaKWdX4FTCn7D4f2ccS3S-gzGzoHsz',
+                        appKey: 'LesYxmAk7rHet0e9aziIjOWi',
+                        placeholder: '闷声大发财。',
+                        avatar: 'mp',
+                        path: path,
+                        recordIP: true,
+                        lang: isEN ? 'en' : 'zh-cn',
+                        visitor: true,
+                        enableQQ: true,
+                    })
+                </script>
+            
+        </section>
+    </article>
+</div>
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>Copyright © 2020-2023 by Shunz Dai. All Rights Reserved.</span>
+    </div>
+</footer>
+
+    </div>
+    
+</body>
+
+</html>

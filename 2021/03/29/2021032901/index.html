@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Shunz Dai">
+
+
+
+
+
+<title>通过圆上两点及圆半径解算圆心 | Shunz Dai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/js/fancybox/dist/jquery.fancybox.min.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    <script src="/js/fancybox/dist/jquery.fancybox.min.js"></script>
+    
+    <script src="/js/"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="/js/mathjax2.7.5.js?config=TeX-MML-AM_CHTML">
+</script>
+
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Shunz Dai&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/files">Files</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Shunz Dai&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/files">Files</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap" style="width: 100%;height: auto;word-wrap: break-word;word-break: break-all;overflow: hidden;"><!-- style 自动换行 -->
+        <header class="post-header">
+            <h1 class="post-title">通过圆上两点及圆半径解算圆心</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Shunz Dai</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">March 29, 2021&nbsp;&nbsp;20:54:10</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Algorithm/">Algorithm</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>今天分配的一项任务挺有意思的，在这里做个记录.需求很简单，已知条件是平面上两个点$A$、$B$的坐标，它们是曲率圆上的任意两点；一个实数$R$，它的大小表示圆的半径，它和半径的差别在于它区分正负；一个点$C$的坐标，表示车辆前轴中心点.现在过$A$，$B$作一个半径为$|R|$的圆，然后求车辆$C$到这个圆的最小距离，圆的方位通过$R$的正负号判定，正号为满足右手定则的行驶方向，右手从$A$旋向$B$，圆心在握拳的一侧，负号则为另一侧.</p>
+<p>这个问题看上去很简单，但笔者先用Matlab和Mathematica计算了一下圆心坐标，才发现表达式非常冗杂.</p>
+<figure>
+    <a data-fancybox="images" href="20210329211653.png" data-width="1920">
+        <img src="20210329211653.png" width="60%"/>
+    </a>
+</figure>
+<center>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;display: inline-block;color: #999;padding: 2px;">Mathematica计算结果</div>
+</center>
+
+<p>这个结果不光冗杂，而且不敢用.于是笔者在网上找了一下别人的解法，原来Mathematica的这个结果可以通过约定几个参数进行化简.在前人的基础上，笔者设计了这样一个Matlab脚本，贴在下方</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">clear;close all;</span><br><span class="line">A = [<span class="number">1</span>, <span class="number">3</span>];<span class="comment">% t时刻解算的圆上A点</span></span><br><span class="line">B = [<span class="number">-1</span>, <span class="number">2</span>];<span class="comment">% t+1时刻解算的圆上B点</span></span><br><span class="line">C = [<span class="number">0</span>, <span class="number">3</span>];<span class="comment">% 圆外点</span></span><br><span class="line">R = <span class="number">-2</span><span class="comment">% 半径</span></span><br><span class="line"><span class="comment">% 判断AB点的距离是否比半径大，确认确实可以作圆</span></span><br><span class="line"><span class="keyword">if</span> (A(<span class="number">1</span>) - B(<span class="number">1</span>))*(A(<span class="number">1</span>) - B(<span class="number">1</span>)) + (A(<span class="number">2</span>) - B(<span class="number">2</span>))*(A(<span class="number">2</span>) - B(<span class="number">2</span>)) &gt; <span class="number">4</span>*R*R</span><br><span class="line">    Res = <span class="string">&#x27;Error&#x27;</span></span><br><span class="line"><span class="comment">% 如果AB点的纵坐标相同，则else的参数N会发散，需作为特殊情况计算圆心，1E-15是计算精度</span></span><br><span class="line"><span class="keyword">elseif</span> <span class="built_in">abs</span>(A(<span class="number">1</span>) - B(<span class="number">1</span>)) &lt;= <span class="number">1E-15</span></span><br><span class="line">    <span class="comment">%K1,K2,K3是一元二次方程K1*X^2 + K2*X + K3 = 0的三个参数，其中X表示圆心横坐标</span></span><br><span class="line">    K1 = <span class="number">1</span>;</span><br><span class="line">    K2 = <span class="number">2</span>*A(<span class="number">1</span>);</span><br><span class="line">    K3 = A(<span class="number">1</span>)*A(<span class="number">1</span>) + (A(<span class="number">2</span>)*A(<span class="number">2</span>) + B(<span class="number">2</span>)*B(<span class="number">2</span>) - <span class="number">2</span>*A(<span class="number">2</span>)*B(<span class="number">2</span>))/<span class="number">4</span> - R*R;</span><br><span class="line">    <span class="comment">%一元二次方程有两个实根O1、02，对比 AB与AO的叉乘 和 R的符号 是否相反来判断根的选取</span></span><br><span class="line">    O(<span class="number">1</span>) = (-K2 - <span class="built_in">sqrt</span>(K2*K2 - <span class="number">4</span>*K1*K3))/(<span class="number">2</span>*K1);</span><br><span class="line">    AB = B - A;</span><br><span class="line">    AO = O - A;</span><br><span class="line">    wedge = AB(<span class="number">1</span>)*AO(<span class="number">2</span>) - AO(<span class="number">1</span>)*AB(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">sign</span>(wedge) ~= <span class="built_in">sign</span>(R)</span><br><span class="line">        O(<span class="number">1</span>) = (-K2 + <span class="built_in">sqrt</span>(K2*K2 - <span class="number">4</span>*K1*K3))/(<span class="number">2</span>*K1);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    O(<span class="number">2</span>) = (A(<span class="number">2</span>) + B(<span class="number">2</span>))/<span class="number">2</span>;  </span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    M = (B(<span class="number">1</span>)*B(<span class="number">1</span>) - A(<span class="number">1</span>)*A(<span class="number">1</span>) + B(<span class="number">2</span>)*B(<span class="number">2</span>) - A(<span class="number">2</span>)*A(<span class="number">2</span>))/(<span class="number">2</span>*B(<span class="number">1</span>)<span class="number">-2</span>*A(<span class="number">1</span>));</span><br><span class="line">    N = (B(<span class="number">2</span>) - A(<span class="number">2</span>))/(B(<span class="number">1</span>) - A(<span class="number">1</span>));</span><br><span class="line">    <span class="comment">%K1,K2,K3是一元二次方程K1*X^2 + K2*X + K3 = 0的三个参数，其中X表示圆心横坐标</span></span><br><span class="line">    K1 = <span class="number">1</span> + N*N;</span><br><span class="line">    K2 = <span class="number">2</span>*(A(<span class="number">1</span>) - M)*N - <span class="number">2</span>*A(<span class="number">2</span>);</span><br><span class="line">    K3 = (A(<span class="number">1</span>) - M)*(A(<span class="number">1</span>) - M) + A(<span class="number">2</span>)*A(<span class="number">2</span>) - R*R;</span><br><span class="line">    <span class="comment">%一元二次方程有两个实根O1、02，对比 AB与AO的叉乘 和 R的符号 是否相反来判断根的选取</span></span><br><span class="line">    O(<span class="number">2</span>) = (-K2 - <span class="built_in">sqrt</span>(K2*K2 - <span class="number">4</span>*K1*K3))/(<span class="number">2</span>*K1);</span><br><span class="line">    AB = B - A;</span><br><span class="line">    AO = O - A;</span><br><span class="line">    wedge = AB(<span class="number">1</span>)*AO(<span class="number">2</span>) - AO(<span class="number">1</span>)*AB(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">sign</span>(wedge) ~= <span class="built_in">sign</span>(R)</span><br><span class="line">        O(<span class="number">2</span>) = (-K2 + <span class="built_in">sqrt</span>(K2*K2 - <span class="number">4</span>*K1*K3))/(<span class="number">2</span>*K1);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    O(<span class="number">1</span>) = M - N*O(<span class="number">2</span>);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">% 计算点C到圆心的距离d = ||OC||，判定C在圆内还是圆外</span></span><br><span class="line">d = <span class="built_in">sqrt</span>((C(<span class="number">1</span>)-O(<span class="number">1</span>))*(C(<span class="number">1</span>)-O(<span class="number">1</span>)) + (C(<span class="number">2</span>)-O(<span class="number">2</span>))*(C(<span class="number">2</span>)-O(<span class="number">2</span>)));</span><br><span class="line"><span class="keyword">if</span> d &gt; <span class="built_in">abs</span>(R)</span><br><span class="line">    d = d - <span class="built_in">abs</span>(R)</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    d = <span class="built_in">abs</span>(R) - d</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">% 画图</span></span><br><span class="line">t = <span class="number">0</span>:<span class="number">0.01</span>:<span class="number">2</span>*<span class="built_in">pi</span>;</span><br><span class="line">t = t&#x27;;</span><br><span class="line">X(:,<span class="number">1</span>) = <span class="built_in">abs</span>(R)*<span class="built_in">cos</span>(t) + O(<span class="number">1</span>);</span><br><span class="line">X(:,<span class="number">2</span>) = <span class="built_in">abs</span>(R)*<span class="built_in">sin</span>(t) + O(<span class="number">2</span>);</span><br><span class="line"><span class="built_in">figure</span>(<span class="number">1</span>);</span><br><span class="line"><span class="built_in">hold</span> on;</span><br><span class="line"><span class="built_in">plot</span>(A(<span class="number">1</span>),A(<span class="number">2</span>),<span class="string">&#x27;*r&#x27;</span>);</span><br><span class="line">text(A(<span class="number">1</span>),A(<span class="number">2</span>),<span class="string">&#x27; A&#x27;</span>);</span><br><span class="line"><span class="built_in">plot</span>(B(<span class="number">1</span>),B(<span class="number">2</span>),<span class="string">&#x27;*r&#x27;</span>);</span><br><span class="line">text(B(<span class="number">1</span>),B(<span class="number">2</span>),<span class="string">&#x27; B&#x27;</span>);</span><br><span class="line"><span class="built_in">plot</span>(C(<span class="number">1</span>),C(<span class="number">2</span>),<span class="string">&#x27;*k&#x27;</span>);</span><br><span class="line">text(C(<span class="number">1</span>),C(<span class="number">2</span>),<span class="string">&#x27; C&#x27;</span>);</span><br><span class="line"><span class="built_in">plot</span>(O(<span class="number">1</span>),O(<span class="number">2</span>),<span class="string">&#x27;*b&#x27;</span>);</span><br><span class="line">text(O(<span class="number">1</span>),O(<span class="number">2</span>),<span class="string">&#x27; O&#x27;</span>);</span><br><span class="line"><span class="built_in">plot</span>(X(:,<span class="number">1</span>),X(:,<span class="number">2</span>),<span class="string">&#x27;:m&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>笔者带入了一些例子测试，绘图结果如下.</p>
+<figure>
+    <a data-fancybox="images" href="20210329213532.png" data-width="1920">
+        <img src="20210329213532.png" width="60%"/>
+    </a>
+</figure>
+<center>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;display: inline-block;color: #999;padding: 2px;">Matlab计算结果1</div>
+</center>
+<figure>
+    <a data-fancybox="images" href="20210329214323.png" data-width="1920">
+        <img src="20210329214323.png" width="60%"/>
+    </a>
+</figure>
+<center>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;display: inline-block;color: #999;padding: 2px;">Matlab计算结果3</div>
+</center>
+<figure>
+    <a data-fancybox="images" href="20210329213847.png" data-width="1920">
+        <img src="20210329213847.png" width="60%"/>
+    </a>
+</figure>
+<center>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;display: inline-block;color: #999;padding: 2px;">Matlab计算结果3</div>
+</center>
+<figure>
+    <a data-fancybox="images" href="20210329213946.png" data-width="1920">
+        <img src="20210329213946.png" width="60%"/>
+    </a>
+</figure>
+<center>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;display: inline-block;color: #999;padding: 2px;">Matlab计算结果4</div>
+</center>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Shunz Dai</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://shunzdai.github.io/2021/03/29/2021032901/">https://shunzdai.github.io/2021/03/29/2021032901/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Algorithm/"># Algorithm</a>
+                    
+                        <a href="/tags/Matlab/"># Matlab</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/06/19/n-Jacobian-Problem/">导数与倒数</a>
+            
+            
+            <a class="next" rel="next" href="/2021/03/16/Mathematical-Principle-of-Rotation/">空间旋转的数学原理</a>
+            
+        </section>
+        <section class="valine">
+            
+                <br>  <!--换行符-->
+                <br>  <!--换行符-->
+                <div class="vcomment"></div>
+                <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+                <script>
+                    var path = window.location.pathname.replace('index.html','');
+                    var isEN = path.indexOf('en') > -1;
+                    path = isEN ? path.replace('en/','') : path;
+                    new Valine({
+                        el: '.vcomment',
+                        appId: 'H6QHaKWdX4FTCn7D4f2ccS3S-gzGzoHsz',
+                        appKey: 'LesYxmAk7rHet0e9aziIjOWi',
+                        placeholder: '闷声大发财。',
+                        avatar: 'mp',
+                        path: path,
+                        recordIP: true,
+                        lang: isEN ? 'en' : 'zh-cn',
+                        visitor: true,
+                        enableQQ: true,
+                    })
+                </script>
+            
+        </section>
+    </article>
+</div>
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>Copyright © 2020-2023 by Shunz Dai. All Rights Reserved.</span>
+    </div>
+</footer>
+
+    </div>
+    
+</body>
+
+</html>
