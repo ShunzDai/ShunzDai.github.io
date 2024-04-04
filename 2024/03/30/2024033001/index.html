@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Shunz Dai">
+
+
+
+
+
+<title>candy lexer 设计细节 | Shunz Dai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/js/fancybox/dist/jquery.fancybox.min.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    <script src="/js/fancybox/dist/jquery.fancybox.min.js"></script>
+    
+    <script src="/js/"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="/js/mathjax2.7.5.js?config=TeX-MML-AM_CHTML">
+</script>
+
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Shunz Dai&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/files">Files</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Shunz Dai&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/files">Files</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap" style="width: 100%;height: auto;word-wrap: break-word;word-break: break-all;overflow: hidden;"><!-- style 自动换行 -->
+        <header class="post-header">
+            <h1 class="post-title">candy lexer 设计细节</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Shunz Dai</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">March 30, 2024&nbsp;&nbsp;22:43:14</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/candy/">candy</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="输入流缓冲区"><a href="#输入流缓冲区" class="headerlink" title="输入流缓冲区"></a>输入流缓冲区</h1><p>candy 为了节省内存, 对脚本语言输入流的控制进行了长期的迭代. 所有设计思路的核心是, 对输入流的读取操作会产生空闲内存, 这些空闲内存可以用于写入临时数据. 这个思路可以看成是一种环形缓冲区的变体, 读写操作共用同一段内存区域, 此消彼长.</p>
+<p>最开始的设计期望对字符串输入和文件输入这两种输入形式作抽象, 笔者参考 lua 设计了<code>candy_reader_t</code>函数指针对输入流进行控制, 这样做的好处是词法分析器不用关注输入流的具体形式. 这个策略沿用至今.</p>
+<p>首次引入<code>candy_reader_t</code>在<a target="_blank" rel="noopener" href="https://github.com/ShunzDai/candy/commit/2897ff377b51d630468c461ec7347677138cbe46">这个提交中</a>, 当时将对输入流缓冲区的读写操作做了封装, 这个模块叫做<code>candy_io_t</code>. </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> <span class="title function_">candy_io_view</span><span class="params">(<span class="type">candy_io_t</span> *self, <span class="type">int</span> idx)</span> &#123;</span><br><span class="line">  assert(idx &lt; CANDY_IO_LOOKAHEAD_SIZE);</span><br><span class="line">  <span class="keyword">return</span> self-&gt;buffer[self-&gt;r + idx];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">char</span> <span class="title function_">candy_io_read</span><span class="params">(<span class="type">candy_io_t</span> *self)</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (self-&gt;r + CANDY_IO_LOOKAHEAD_SIZE == self-&gt;size) &#123;</span><br><span class="line">    <span class="type">char</span> ahead[CANDY_IO_LOOKAHEAD_SIZE];</span><br><span class="line">    <span class="built_in">memcpy</span>(ahead, self-&gt;buffer + self-&gt;r, CANDY_IO_LOOKAHEAD_SIZE);</span><br><span class="line">    self-&gt;reader(self-&gt;buffer + self-&gt;w + CANDY_IO_LOOKAHEAD_SIZE, self-&gt;size - self-&gt;w - CANDY_IO_LOOKAHEAD_SIZE, self-&gt;ud);</span><br><span class="line">    <span class="built_in">memcpy</span>(self-&gt;buffer + self-&gt;w, ahead, CANDY_IO_LOOKAHEAD_SIZE);</span><br><span class="line">    self-&gt;r = self-&gt;w;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> self-&gt;buffer[self-&gt;r++];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">candy_io_write</span><span class="params">(<span class="type">candy_io_t</span> *self, <span class="type">char</span> ch)</span> &#123;</span><br><span class="line">  self-&gt;buffer[self-&gt;w++] = ch;</span><br><span class="line">  <span class="keyword">if</span> (self-&gt;size - self-&gt;w &lt; self-&gt;size / <span class="number">2</span>) &#123;</span><br><span class="line">    <span class="type">int</span> size = self-&gt;size * <span class="number">2</span>;</span><br><span class="line">    <span class="type">char</span> *buffer = (<span class="type">char</span> *)<span class="built_in">calloc</span>(size, <span class="keyword">sizeof</span>(<span class="type">char</span>));</span><br><span class="line">    <span class="built_in">memcpy</span>(buffer, self-&gt;buffer, self-&gt;size);</span><br><span class="line">    self-&gt;reader(buffer + self-&gt;size, self-&gt;size, self-&gt;ud);</span><br><span class="line">    <span class="built_in">free</span>(self-&gt;buffer);</span><br><span class="line">    self-&gt;buffer = buffer;</span><br><span class="line">    self-&gt;size = size;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里有三个业务功能, 一个是观察者<code>view</code>, 它的作用是向前看, 但不会改变缓冲区的读指针; 一个是读取器<code>read</code>, 它的作用是从缓冲区向外读1字节数据, 并移动读指针; 一个是写入器<code>write</code>, 它的作用是向缓冲区写入1字节数据, 并移动写指针. 写入器还负责了另一个功能叫做扩张, 它的功能是在可写入区域不够时扩大缓冲区.</p>
+<p>一开始的设计只有一个参数<code>CANDY_IO_LOOKAHEAD_SIZE</code>, 用来描述词法分析器最多可以向前看多少字节. 随后<a target="_blank" rel="noopener" href="https://github.com/ShunzDai/candy/commit/5854cee8563b694b6a827d73d617d6b22102f35b">增加了参数</a><code>CANDY_IO_DEFAULT_BUFFER_SIZE</code>用来控制扩张缓冲区时的增长率.</p>
+<p>但不久后发现<a target="_blank" rel="noopener" href="https://github.com/ShunzDai/candy/commit/a0e29f58b0b7900c5dcbd0d12e133a68a4518dca">设计有缺陷</a>, 这个提交修复了一个额外写入数据造成”追尾”的问题, 产生这个问题的原因是向写入区域写入了并非来自读取区域的数据(在具体业务逻辑中, 这个额外写入的数据是终止符’\0’, 用来截断字符串), 这造成了额外的写入操作导致尚未读取的数据丢失的问题. 这个问题修复又引入了一个新的参数<code>CANDY_IO_EXTRA_SIZE</code>, 用以描述用户可额外写入的字节数. 至此, 这个算法已经有3个参数了, 但这样做解决了一些问题, 因此这个状况维持了很长时间. 笔者在这个阶段做了一个时序逻辑图描述整个过程的内存布局.</p>
+<a data-fancybox="images" href="io_memory_model.drawio.png" data-width="1920" data-caption="输入输出流的内存布局">
+    <img src="io_memory_model.drawio.png" width="60%"/>
+</a>
+
+<p>之后发生了一些架构上的调整. 分词器作为脚本语言整个逻辑链条的”前锋”肩负重任, 它需要与用户输入交锋. 此时要把用户当作猴子, 处理一切可能的输入, 用户可能输入的都不是代码, 而是整部哈姆雷特. 这必然要引入错误处理逻辑, 这个功能如同一部时间机器, 如果发生异常, 它能将异常信息存储到指定的内存区域, 然后将现场回滚到意外发生之前, 刚开始执行分词的地方. 最终笔者使用<code>jmpbuf</code>实现了这个功能, 而这就是另一个故事了. 回到分词器上, 当时的设计认为分词器发生异常后, 读写缓冲区的数据就没有用了, 因此可以将所述异常信息放到读写缓冲区里. 这样做之后, 原先的<code>candy_io_t</code>模块就演变成了错误处理模块, 那些输出输出的操作函数则被移到了分词器中. 这个设计看上去没有问题, 但随后的研究发现, 词法分析阶段的错误处理模块只有一个, 但可能会同时存在多个词法分析模块分别执行不同脚本文件的词法分析, 这就需要给每个词法分析器各分配一个独立的缓冲区, 而不是共用错误处理模块的缓冲区. 事实上这样做确实更加合理, 在项目引入垃圾回收器后, 原本错误处理模块的错误数据缓冲区也取消常驻了, 演变成了在发生错误后才会创建. </p>
+<p>前文讲到, 在整个分词器迭代的历程中, 逐渐引入了总共3个参数, 除此之外还有几个问题, 例如, 如果输入流不能一次性填满剩余缓冲区, 此时逻辑会异常; <code>reader</code>函数指针在多处调用, 无法统一控制数据流. 为了解决这些问题, 笔者又进行了数次改动.</p>
+<p>首先是消除可额外写入的字节数, 解决方法只有一个, 就是不写入额外的字节了, 要求写入缓冲区的数据一定得是从缓冲区读出来的数据. 于是对原先向缓冲区写入终止符的位置作了一些改动, 原本比对写缓冲区的数据是否是保留词的位置用了<code>strcmp</code>之类的方法, 迭代后成了使用 hash 匹配的方式做 token 匹配, 这种设计借鉴了 C++ 的静态表达式能在编译期求值的特性, 在 candy 中增减保留词时用 python 算出所有保留词的 hash 值, 这样运行期就不用比对字串了</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifdef</span> CANDY_KW_MATCH</span></span><br><span class="line"><span class="meta">#<span class="keyword">undef</span> CANDY_KW_MATCH</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CANDY_KW(_keyword, _hash) case _hash: return TK_##_keyword;</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* CANDY_KW_MATCH */</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span> (djb_hash(_buff(self), self-&gt;buff.w)) &#123;</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> CANDY_KW</span></span><br><span class="line">CANDY_KW(    <span class="literal">true</span>, <span class="number">0x7C9E9FE5</span>U)</span><br><span class="line">CANDY_KW(   <span class="literal">false</span>, <span class="number">0x0F6BCEF0</span>U)</span><br><span class="line">CANDY_KW(    none, <span class="number">0x7C9B47F5</span>U)</span><br><span class="line">CANDY_KW(     def, <span class="number">0x0B8869B4</span>U)</span><br><span class="line">CANDY_KW(  <span class="keyword">return</span>, <span class="number">0x19306425</span>U)</span><br><span class="line">CANDY_KW(     end, <span class="number">0x0B886F1C</span>U)</span><br><span class="line">CANDY_KW(  import, <span class="number">0x04C06F80</span>U)</span><br><span class="line">CANDY_KW(      <span class="keyword">if</span>, <span class="number">0x00597834</span>U)</span><br><span class="line">CANDY_KW(    elif, <span class="number">0x7C964B25</span>U)</span><br><span class="line">CANDY_KW(    <span class="keyword">else</span>, <span class="number">0x7C964C6E</span>U)</span><br><span class="line">CANDY_KW(   <span class="keyword">while</span>, <span class="number">0x10A3387E</span>U)</span><br><span class="line">CANDY_KW(     <span class="keyword">for</span>, <span class="number">0x0B88738C</span>U)</span><br><span class="line">CANDY_KW(   <span class="keyword">break</span>, <span class="number">0x0F2C9F4A</span>U)</span><br><span class="line">CANDY_KW(<span class="keyword">continue</span>, <span class="number">0x42AEFB8A</span>U)</span><br><span class="line">CANDY_KW(     var, <span class="number">0x0B88B5CE</span>U)</span><br><span class="line"><span class="keyword">default</span>: <span class="keyword">return</span> TK_IDENT;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* CANDY_KW */</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>再是移除向前看的字节数. 这个的实现方法就是不论向前看多少字节, 都自动向缓冲区填值, 保证向前看的位置一定有值就好了. 为此抽象出了<code>fill</code>逻辑, 每次在向前看或读出数据时向缓冲区塞数据就完事了. 这个修改同时也确保了全局只在<code>fill</code>业务中会调用<code>reader</code>读取数据, 保证了输入流的唯一性. </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">int</span> _fill(<span class="type">candy_lexer_t</span> *self, <span class="type">size_t</span> ahead) &#123;</span><br><span class="line">  <span class="type">size_t</span> size = _size(self);</span><br><span class="line">  <span class="keyword">if</span> (self-&gt;buff.r + ahead &lt; size)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="comment">/* calculate the start position of the read buffer */</span></span><br><span class="line">  <span class="type">size_t</span> offset = self-&gt;buff.w + ahead;</span><br><span class="line">  <span class="comment">/** if the number of bytes that can be filled is less than</span></span><br><span class="line"><span class="comment">      @ref CANDY_LEXER_EXPAND_SIZE bytes, the buffer will be enlarged */</span></span><br><span class="line">  <span class="keyword">if</span> (size &lt; CANDY_LEXER_EXPAND_SIZE + offset) &#123;</span><br><span class="line">    candy_vector_append(&amp;self-&gt;buff.vec, self-&gt;gc, <span class="literal">NULL</span>, CANDY_LEXER_EXPAND_SIZE);</span><br><span class="line">    offset = size;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">/* otherwise buffer will be filled directly */</span></span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">/* restore the unread remain bytes to the buffer */</span></span><br><span class="line">    memmove(_buff(self) + self-&gt;buff.w, _buff(self) + self-&gt;buff.r, ahead);</span><br><span class="line">    self-&gt;buff.r = self-&gt;buff.w;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">/* fill buffer */</span></span><br><span class="line">  <span class="type">int</span> res = self-&gt;buff.reader(_buff(self) + offset, _size(self) - offset, self-&gt;buff.arg);</span><br><span class="line">  lex_assert(res &gt; <span class="number">0</span>, <span class="string">&quot;stream error&quot;</span>);</span><br><span class="line">  candy_vector_resize(&amp;self-&gt;buff.vec, self-&gt;gc, offset + res);</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">char</span> _view(<span class="type">candy_lexer_t</span> *self, <span class="type">int</span> idx) &#123;</span><br><span class="line">  <span class="keyword">while</span> (_fill(self, idx));</span><br><span class="line">  <span class="keyword">return</span> _buff(self)[self-&gt;buff.r + idx];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">char</span> _read(<span class="type">candy_lexer_t</span> *self) &#123;</span><br><span class="line">  <span class="keyword">while</span> (_fill(self, <span class="number">0</span>));</span><br><span class="line">  ++self-&gt;dbg.column;</span><br><span class="line">  <span class="keyword">return</span> _buff(self)[self-&gt;buff.r++];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> _save_char(<span class="type">candy_lexer_t</span> *self, <span class="type">char</span> ch) &#123;</span><br><span class="line">  assert(self-&gt;buff.r &gt; self-&gt;buff.w);</span><br><span class="line">  _buff(self)[self-&gt;buff.w++] = ch;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Shunz Dai</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://shunzdai.github.io/2024/03/30/2024033001/">https://shunzdai.github.io/2024/03/30/2024033001/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/lexer/"># lexer</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/02/15/2024021501/">宋继禄生平</a>
+            
+        </section>
+        <section class="valine">
+            
+                <br>  <!--换行符-->
+                <br>  <!--换行符-->
+                <div class="vcomment"></div>
+                <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+                <script>
+                    var path = window.location.pathname.replace('index.html','');
+                    var isEN = path.indexOf('en') > -1;
+                    path = isEN ? path.replace('en/','') : path;
+                    new Valine({
+                        el: '.vcomment',
+                        appId: 'H6QHaKWdX4FTCn7D4f2ccS3S-gzGzoHsz',
+                        appKey: 'LesYxmAk7rHet0e9aziIjOWi',
+                        placeholder: '闷声大发财。',
+                        avatar: 'mp',
+                        path: path,
+                        recordIP: true,
+                        lang: isEN ? 'en' : 'zh-cn',
+                        visitor: true,
+                        enableQQ: true,
+                    })
+                </script>
+            
+        </section>
+    </article>
+</div>
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>Copyright © 2020-2024 by Shunz Dai. All Rights Reserved.</span>
+    </div>
+</footer>
+
+    </div>
+    
+</body>
+
+</html>
