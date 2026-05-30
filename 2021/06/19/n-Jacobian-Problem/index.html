@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
 <meta name="viewport"
@@ -25,6 +26,8 @@
     
     <link rel="stylesheet" href="/css/style.css">
     
+    <link rel="stylesheet" href="/js/fancybox/dist/jquery.fancybox.min.css">
+    
 
 
 
@@ -34,69 +37,83 @@
     
     <script src="/js/tocbot.min.js"></script>
     
+    <script src="/js/jquery.min.js"></script>
+    
+    <script src="/js/fancybox/dist/jquery.fancybox.min.js"></script>
+    
+    <script src="/js/"></script>
+    
 
 
 
     
     
         
-                <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-        "HTML-CSS": {
-            preferredFont: "TeX",
-            availableFonts: ["STIX","TeX"],
-            linebreaks: { automatic:true },
-            EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-        },
-        tex2jax: {
-            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
-            processEscapes: true,
-            ignoreClass: "tex2jax_ignore|dno",
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        },
-        TeX: {
-            equationNumbers: { autoNumber: "AMS" },
-            noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
-            Macros: { href: "{}" }
-        },
-        messageStyle: "none"
-        });
-    </script>
-    <!-- 给MathJax元素添加has-jax class -->
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Queue(function() {
-            var all = MathJax.Hub.getAllJax(), i;
-            for(i=0; i < all.length; i += 1) {
-                all[i].SourceElement().parentNode.className += ' has-jax';
-            }
-        });
-    </script>
-    <!-- 通过连接CDN加载MathJax的js代码 -->
-    <script type="text/javascript" async
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-    </script>
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="/js/mathjax2.7.5.js?config=TeX-MML-AM_CHTML">
+</script>
+
         
     
 
 
-    <!-- fancyBox -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/lib/fancybox/dist/jquery.fancybox.min.css">
-    <script src="/lib/fancybox/dist/jquery.fancybox.min.js"></script>
-    <!-- fancyBox -->
-    <!-- busuanzi -->
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <!-- busuanzi -->
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
 <body>
-    
-        <div class="wrapper">
-            <header>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
     <nav class="navbar">
         <div class="container">
             <div class="navbar-header header-logo"><a href="/">Shunz Dai&#39;s Blog</a></div>
@@ -104,11 +121,11 @@
                 
                     <a class="menu-item" href="/archives">Posts</a>
                 
-                    <a class="menu-item" href="/category">Category</a>
+                    <a class="menu-item" href="/category">Categories</a>
                 
                     <a class="menu-item" href="/tags">Tags</a>
                 
-                    <a class="menu-item" href="/pdf">PDF</a>
+                    <a class="menu-item" href="/files">Files</a>
                 
                     <a class="menu-item" href="/about">About</a>
                 
@@ -131,11 +148,11 @@
                 
                     <a class="menu-item" href="/archives">Posts</a>
                 
-                    <a class="menu-item" href="/category">Category</a>
+                    <a class="menu-item" href="/category">Categories</a>
                 
                     <a class="menu-item" href="/tags">Tags</a>
                 
-                    <a class="menu-item" href="/pdf">PDF</a>
+                    <a class="menu-item" href="/files">Files</a>
                 
                     <a class="menu-item" href="/about">About</a>
                 
@@ -157,11 +174,8 @@
         }
     }
 </script>
-            <div class="main">
-                <!-- canvas-nest -->
-                <!--<script type="text/javascript" color="63,81,181" opacity="0.5"count="100"src="/js/canvas-nest.js"></script>-->
-                <!-- canvas-nest -->
-                <div class="container">
+        <div class="main">
+            <div class="container">
     
     
         <div class="post-toc">
@@ -175,45 +189,40 @@
 </div>
 
 <script>
-    document.ready(
-        function () {
-            tocbot.init({
-                tocSelector: '.tocbot-list',
-                contentSelector: '.post-content',
-                headingSelector: 'h1, h2, h3, h4, h5',
-                collapseDepth: 1,
-                orderedList: false,
-                scrollSmooth: true,
-            })
-        }
-    )
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
 
-    function expand_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 6,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "collapse_toc()");
-        b.innerHTML = "Collapse all"
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
     }
 
-    function collapse_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 1,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "expand_toc()");
-        b.innerHTML = "Expand all"
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
     }
 
     function go_top() {
@@ -224,6 +233,14 @@
         window.scrollTo(0, document.body.scrollHeight);
     }
 
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
 </script>
     
 
@@ -233,128 +250,64 @@
             <h1 class="post-title">导数与倒数</h1>
             
                 <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Shunz Dai</a>
+                    
 
                     
                         <span class="post-time">
-                        Date: <a href="#">六月 19, 2021&emsp;16:29:09&emsp;</a>
+                        Date: <a href="#">June 19, 2021&nbsp;&nbsp;16:29:09</a>
                         </span>
                     
-
-                    
-                        Author: <a itemprop="author" rel="author" href="/">Shunz Dai&emsp;</a>
-                    
-
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/Mathematics/">Mathematics</a>&emsp;
+                                <a href="/categories/Mathematics/">Mathematics</a>
                             
                         </span>
                     
-                    本文阅读量:<span id="busuanzi_value_page_pv"></span>次
                 </div>
-            
             
         </header>
 
         <div class="post-content">
-            <h2 id="引言">引言</h2>
-<p>先来看两个例子.</p>
-<p>设函数<span class="math inline">\(y = f(x) = \exp(x)\)</span>，其逆变换为<span class="math inline">\(x = f^{-1}(y) = \log(y)\)</span>，正逆变换的导函数为</p>
-<p><span class="math display">\[\begin{equation}\begin{split}
-    \frac{dy}{dx} &amp;= \exp(x)\\
-    \frac{dx}{dy} &amp;= \frac{1}{y},
-\end{split}\end{equation}\]</span></p>
+            <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>先来看两个例子.</p>
+<p>设函数$y &#x3D; f(x) &#x3D; \exp(x)$，其逆变换为$x &#x3D; f^{-1}(y) &#x3D; \log(y)$，正逆变换的导函数为</p>
+<p>$$\begin{equation}\begin{split}<br>    \frac{dy}{dx} &amp;&#x3D; \exp(x)\<br>    \frac{dx}{dy} &amp;&#x3D; \frac{1}{y},<br>\end{split}\end{equation}$$</p>
 <p>容易发现它们满足如下关系</p>
-<p><span class="math display">\[\begin{equation}\begin{split}
-    \frac{dy}{dx} &amp;= \frac{1}{\left(\frac{dx}{dy}\right)}.
-\end{split}\end{equation}\]</span></p>
+<p>$$\begin{equation}\begin{split}<br>    \frac{dy}{dx} &amp;&#x3D; \frac{1}{\left(\frac{dx}{dy}\right)}.<br>\end{split}\end{equation}$$</p>
 <p>而对于极坐标变换</p>
-<p><span class="math display">\[\begin{equation}\begin{split}
-    x &amp;= r\cos\theta\\
-    y &amp;= r\sin\theta,
-\end{split}\end{equation}\]</span></p>
+<p>$$\begin{equation}\begin{split}<br>    x &amp;&#x3D; r\cos\theta\<br>    y &amp;&#x3D; r\sin\theta,<br>\end{split}\end{equation}$$</p>
 <p>其逆变换为</p>
-<p><span class="math display">\[\begin{equation}\begin{split}
-    r &amp;= \left(x^2 + y^2\right)^{\frac{1}{2}}\\
-    \theta &amp;= \arctan\frac{y}{x},
-\end{split}\end{equation}\]</span></p>
+<p>$$\begin{equation}\begin{split}<br>    r &amp;&#x3D; \left(x^2 + y^2\right)^{\frac{1}{2}}\<br>    \theta &amp;&#x3D; \arctan\frac{y}{x},<br>\end{split}\end{equation}$$</p>
 <p>正逆变换的导函数为</p>
-<p><span class="math display">\[\begin{equation}\begin{split}
-    &amp;\frac{\partial x}{\partial r} = \cos\theta,\ &amp;\frac{\partial x}{\partial \theta} = -r\sin\theta;\\
-    &amp;\frac{\partial y}{\partial r} = \sin\theta,\ &amp;\frac{\partial y}{\partial \theta} = r\cos\theta;\\
-    &amp;\frac{\partial r}{\partial x} = \cos\theta,\ &amp;\frac{\partial r}{\partial y} = \sin\theta;\\
-    &amp;\frac{\partial \theta}{\partial x} = -\frac{1}{r}\sin\theta,\ &amp;\frac{\partial \theta}{\partial y} = \frac{1}{r}\cos\theta,
-\end{split}\end{equation}\]</span></p>
+<p>$$\begin{equation}\begin{split}<br>    &amp;\frac{\partial x}{\partial r} &#x3D; \cos\theta,\ &amp;\frac{\partial x}{\partial \theta} &#x3D; -r\sin\theta;\<br>    &amp;\frac{\partial y}{\partial r} &#x3D; \sin\theta,\ &amp;\frac{\partial y}{\partial \theta} &#x3D; r\cos\theta;\<br>    &amp;\frac{\partial r}{\partial x} &#x3D; \cos\theta,\ &amp;\frac{\partial r}{\partial y} &#x3D; \sin\theta;\<br>    &amp;\frac{\partial \theta}{\partial x} &#x3D; -\frac{1}{r}\sin\theta,\ &amp;\frac{\partial \theta}{\partial y} &#x3D; \frac{1}{r}\cos\theta,<br>\end{split}\end{equation}$$</p>
 <p>容易发现它们<strong>并不满足</strong>如下关系</p>
-<p><span class="math display">\[\begin{equation}\begin{split}
-    &amp;\frac{\partial x}{\partial r} = \frac{1}{\left(\frac{dr}{dx}\right)};\\
-    &amp;\frac{\partial x}{\partial \theta} = \frac{1}{\left(\frac{d\theta}{dx}\right)};\\
-    &amp;\frac{\partial y}{\partial r} = \frac{1}{\left(\frac{dr}{dy}\right)};\\
-    &amp;\frac{\partial y}{\partial \theta} = \frac{1}{\left(\frac{d\theta}{dy}\right)}.
-\end{split}\end{equation}\]</span></p>
+<p>$$\begin{equation}\begin{split}<br>    &amp;\frac{\partial x}{\partial r} &#x3D; \frac{1}{\left(\frac{dr}{dx}\right)};\<br>    &amp;\frac{\partial x}{\partial \theta} &#x3D; \frac{1}{\left(\frac{d\theta}{dx}\right)};\<br>    &amp;\frac{\partial y}{\partial r} &#x3D; \frac{1}{\left(\frac{dr}{dy}\right)};\<br>    &amp;\frac{\partial y}{\partial \theta} &#x3D; \frac{1}{\left(\frac{d\theta}{dy}\right)}.<br>\end{split}\end{equation}$$</p>
 <p>为什么一维的情况满足倒数关系，而二维以上的情况就不满足了？如果诸位学过微分几何，其原因将不言自明.而对于高等数学的初学者，可能会疑惑很久.为此笔者将用初等的语言详细讲述其原因.在此之前，笔者将上述二例整理为如下问题.</p>
-<h2 id="问题">问题</h2>
-<p>为什么一维坐标变换</p>
-<p><span class="math display">\[\begin{equation}\begin{split}
-    f:&amp;\mathbb{R}\rightarrow \mathbb{R},x\mapsto y = f(x)\\
-    f^{-1}:&amp;\mathbb{R}\rightarrow \mathbb{R},y\mapsto x = f^{-1}(y)
-\end{split}\end{equation}\]</span></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>为什么一维坐标变换</p>
+<p>$$\begin{equation}\begin{split}<br>    f:&amp;\mathbb{R}\rightarrow \mathbb{R},x\mapsto y &#x3D; f(x)\<br>    f^{-1}:&amp;\mathbb{R}\rightarrow \mathbb{R},y\mapsto x &#x3D; f^{-1}(y)<br>\end{split}\end{equation}$$</p>
 <p>具有关系</p>
-<p><span class="math display">\[\begin{equation}\begin{split}
-    \frac{dy}{dx} = \frac{1}{\left(\frac{dx}{dy}\right)},
-\end{split}\end{equation}\]</span></p>
-<p>而<span class="math inline">\(n(n\in \mathbb{Z},n&gt;1)\)</span>维的坐标变换</p>
-<p><span class="math display">\[\begin{equation}\begin{split}
-    f:&amp;\mathbb{R}^n\rightarrow \mathbb{R}^n,x\mapsto y = f(x)\\
-    f^{-1}:&amp;\mathbb{R}^n\rightarrow \mathbb{R}^n,y\mapsto x = f^{-1}(y)
-\end{split}\end{equation}\]</span></p>
+<p>$$\begin{equation}\begin{split}<br>    \frac{dy}{dx} &#x3D; \frac{1}{\left(\frac{dx}{dy}\right)},<br>\end{split}\end{equation}$$</p>
+<p>而$n(n\in \mathbb{Z},n&gt;1)$维的坐标变换</p>
+<p>$$\begin{equation}\begin{split}<br>    f:&amp;\mathbb{R}^n\rightarrow \mathbb{R}^n,x\mapsto y &#x3D; f(x)\<br>    f^{-1}:&amp;\mathbb{R}^n\rightarrow \mathbb{R}^n,y\mapsto x &#x3D; f^{-1}(y)<br>\end{split}\end{equation}$$</p>
 <p>一般不具有关系</p>
-<p><span class="math display">\[\begin{equation}\begin{split}
-    \frac{\partial y^\mu}{dx^\nu} = \frac{1}{\left(\frac{\partial x^\nu}{\partial y^\mu}\right)}?
-\end{split}\end{equation}\]</span></p>
-<h2 id="回答">回答</h2>
-<p><span class="math inline">\(n\)</span>维的坐标变换是由<span class="math inline">\(n\)</span>个<span class="math inline">\(n\)</span>元函数构成函数组，形如</p>
-<p><span class="math display">\[\begin{equation}\begin{split}
-    y^1 &amp;= y^1(x^1,\cdots,x^n)\\
-    &amp;\cdots\\
-    y^n &amp;= y^n(x^1,\cdots,x^n).
-\end{split}\end{equation}\]</span></p>
+<p>$$\begin{equation}\begin{split}<br>    \frac{\partial y^\mu}{dx^\nu} &#x3D; \frac{1}{\left(\frac{\partial x^\nu}{\partial y^\mu}\right)}?<br>\end{split}\end{equation}$$</p>
+<h2 id="回答"><a href="#回答" class="headerlink" title="回答"></a>回答</h2><p>$n$维的坐标变换是由$n$个$n$元函数构成函数组，形如</p>
+<p>$$\begin{equation}\begin{split}<br>    y^1 &amp;&#x3D; y^1(x^1,\cdots,x^n)\<br>    &amp;\cdots\<br>    y^n &amp;&#x3D; y^n(x^1,\cdots,x^n).<br>\end{split}\end{equation}$$</p>
 <p>与函数组的导数相关的数学结构是Jacobi矩阵，上面这个函数组的Jacobi矩阵是：</p>
-<p><span class="math display">\[\begin{equation}\begin{split}
-J = \frac{\partial (y^1,\cdots,y^n)}{\partial (x^1,\cdots,x^n)} = 
-\left(\begin{array}{cccc}
-    \frac{\partial y^1}{\partial x^1}&amp;\cdots&amp;\frac{\partial y^1}{\partial x^n}\\
-    \vdots&amp;\ddots&amp;\vdots\\
-    \frac{\partial y^n}{\partial x^1}&amp;\cdots&amp;\frac{\partial y^n}{\partial x^n}\\
-\end{array}\right),
-\end{split}\end{equation}\]</span></p>
-<p><span class="math inline">\(J\)</span>的元素就是我们要研究的目标等式的左侧.为了得到目标等式的右侧，我们需要通过函数组反解出逆变换</p>
-<p><span class="math display">\[\begin{equation}\begin{split}
-    x^1 &amp;= x^1(y^1,\cdots,y^n)\\
-    &amp;\cdots\\
-    x^n &amp;= x^n(y^1,\cdots,y^n),
-\end{split}\end{equation}\]</span></p>
+<p>$$\begin{equation}\begin{split}<br>J &#x3D; \frac{\partial (y^1,\cdots,y^n)}{\partial (x^1,\cdots,x^n)} &#x3D;<br>\left(\begin{array}{cccc}<br>    \frac{\partial y^1}{\partial x^1}&amp;\cdots&amp;\frac{\partial y^1}{\partial x^n}\<br>    \vdots&amp;\ddots&amp;\vdots\<br>    \frac{\partial y^n}{\partial x^1}&amp;\cdots&amp;\frac{\partial y^n}{\partial x^n}\<br>\end{array}\right),<br>\end{split}\end{equation}$$</p>
+<p>$J$的元素就是我们要研究的目标等式的左侧.为了得到目标等式的右侧，我们需要通过函数组反解出逆变换</p>
+<p>$$\begin{equation}\begin{split}<br>    x^1 &amp;&#x3D; x^1(y^1,\cdots,y^n)\<br>    &amp;\cdots\<br>    x^n &amp;&#x3D; x^n(y^1,\cdots,y^n),<br>\end{split}\end{equation}$$</p>
 <p>逆变换也对应了一个Jacobi矩阵，且逆变换的Jacobi恰好就是正变化的逆矩阵：</p>
-<p><span class="math display">\[\begin{equation}\begin{split}
-J^{-1} = \frac{\partial (x^1,\cdots,x^n)}{\partial (y^1,\cdots,y^n)} = 
-\left(\begin{array}{cccc}
-    \frac{\partial x^1}{\partial y^1}&amp;\cdots&amp;\frac{\partial x^1}{\partial y^n}\\
-    \vdots&amp;\ddots&amp;\vdots\\
-    \frac{\partial x^n}{\partial y^1}&amp;\cdots&amp;\frac{\partial x^n}{\partial y^n}\\
-\end{array}\right),
-\end{split}\end{equation}\]</span></p>
-<p>现在我们就构造出了目标等式右侧的元素.至此，我们便已经能解释第一个问题了,一维的特例之所以成立，是因为一维的矩阵乘法与实数的乘法同构，使得<span class="math inline">\(J\cdot J^{-1} = 1\)</span>可以推出<span class="math inline">\((2)\)</span>；而二维及二维以上的矩阵乘法与实数的乘法不同构，互逆矩阵i行j列的元素没有倒数关系.</p>
-<p>我们对<span class="math inline">\((12)\)</span>式求逆得到：</p>
-<p><span class="math display">\[\begin{equation}\begin{split}
-J^{-1} =  \frac{1}{det(J)}A^*,
-\end{split}\end{equation}\]</span></p>
-<p>其中<span class="math inline">\(A^*\)</span>是<span class="math inline">\(J\)</span>的代数余子式.结合<span class="math inline">\((14)\)</span>与<span class="math inline">\((15)\)</span>可以得到</p>
-<p><span class="math display">\[\begin{equation}\begin{split}
-    \frac{\partial x^i}{\partial y^j} = \frac{1}{det(J)}{(A^*)^i}_j.
-\end{split}\end{equation}\]</span></p>
-<p>由于其中含有行列式和余子式，所以一项<span class="math inline">\(\frac{\partial x^i}{\partial y^j}\)</span>通常会与多项<span class="math inline">\(\frac{\partial y^i}{\partial x^j}\)</span>耦合在一起.一维时，行列式与矩阵相等，且余子式退化为1，同样可以得到前面的结论.</p>
+<p>$$\begin{equation}\begin{split}<br>J^{-1} &#x3D; \frac{\partial (x^1,\cdots,x^n)}{\partial (y^1,\cdots,y^n)} &#x3D;<br>\left(\begin{array}{cccc}<br>    \frac{\partial x^1}{\partial y^1}&amp;\cdots&amp;\frac{\partial x^1}{\partial y^n}\<br>    \vdots&amp;\ddots&amp;\vdots\<br>    \frac{\partial x^n}{\partial y^1}&amp;\cdots&amp;\frac{\partial x^n}{\partial y^n}\<br>\end{array}\right),<br>\end{split}\end{equation}$$</p>
+<p>现在我们就构造出了目标等式右侧的元素.至此，我们便已经能解释第一个问题了,一维的特例之所以成立，是因为一维的矩阵乘法与实数的乘法同构，使得$J\cdot J^{-1} &#x3D; 1$可以推出$(2)$；而二维及二维以上的矩阵乘法与实数的乘法不同构，互逆矩阵i行j列的元素没有倒数关系.</p>
+<p>我们对$(12)$式求逆得到：</p>
+<p>$$\begin{equation}\begin{split}<br>J^{-1} &#x3D;  \frac{1}{det(J)}A^*,<br>\end{split}\end{equation}$$</p>
+<p>其中$A^*$是$J$的代数余子式.结合$(14)$与$(15)$可以得到</p>
+<p>$$\begin{equation}\begin{split}<br>    \frac{\partial x^i}{\partial y^j} &#x3D; \frac{1}{det(J)}{(A^*)^i}_j.<br>\end{split}\end{equation}$$</p>
+<p>由于其中含有行列式和余子式，所以一项$\frac{\partial x^i}{\partial y^j}$通常会与多项$\frac{\partial y^i}{\partial x^j}$耦合在一起.一维时，行列式与矩阵相等，且余子式退化为1，同样可以得到前面的结论.</p>
 
         </div>
 
@@ -369,7 +322,7 @@ J^{-1} =  \frac{1}{det(J)}A^*,
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://candygroup.site/2021/06/19/n-Jacobian-Problem/">http://candygroup.site/2021/06/19/n-Jacobian-Problem/</a></span>
+                        <span><a href="https://shunzdai.github.io/2021/06/19/n-Jacobian-Problem/">https://shunzdai.github.io/2021/06/19/n-Jacobian-Problem/</a></span>
                     </p>
                 
                 
@@ -379,6 +332,7 @@ J^{-1} =  \frac{1}{det(J)}A^*,
                     </p>
                 
                 
+
             </section>
         
         <section class="post-tags">
@@ -406,7 +360,6 @@ J^{-1} =  \frac{1}{det(J)}A^*,
             <a class="next" rel="next" href="/2021/03/29/2021032901/">通过圆上两点及圆半径解算圆心</a>
             
         </section>
-        <!--Valine-->
         <section class="valine">
             
                 <br>  <!--换行符-->
@@ -422,30 +375,29 @@ J^{-1} =  \frac{1}{det(J)}A^*,
                         appId: 'H6QHaKWdX4FTCn7D4f2ccS3S-gzGzoHsz',
                         appKey: 'LesYxmAk7rHet0e9aziIjOWi',
                         placeholder: '闷声大发财。',
-                        avatar:'mp',
-                        path:path,
-                        recordIP:true,
+                        avatar: 'mp',
+                        path: path,
+                        recordIP: true,
                         lang: isEN ? 'en' : 'zh-cn',
                         visitor: true,
-                        enableQQ: true, 
+                        enableQQ: true,
                     })
                 </script>
             
         </section>
-        <!--Valine-->
     </article>
 </div>
 
 
-            </div>
-            <footer id="footer" class="footer">
-    
+        </div>
+        <footer id="footer" class="footer">
     <div class="copyright">
-        <span>Copyright © 2020 by Shunz Dai. All Rights Reserved.</span>
-        <!--<span>© Shunz Dai | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>-->
+        <span>Copyright © 2020-2023 by Shunz Dai. All Rights Reserved.</span>
     </div>
 </footer>
-        </div>
+
+    </div>
     
 </body>
+
 </html>

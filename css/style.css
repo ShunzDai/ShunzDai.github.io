@@ -168,6 +168,7 @@ body {
   font-size: 12pt;
   font-weight: normal;
   line-height: 2em;
+  overflow: overlay;
   background-color: #fff;
   color: #161209;
   transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, opacity 0.2s ease;
@@ -225,6 +226,8 @@ a:hover {
   width: auto;
   max-width: 1200px;
   text-align: center;
+  padding-left: 1em;
+  padding-right: 1em;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -233,10 +236,16 @@ a:hover {
   flex-grow: 1;
   flex-shrink: 0;
   flex-basis: auto;
+  display: flex;
+  flex-direction: column;
 }
-.container {
+.main .container {
   padding-left: 1em;
   padding-right: 1em;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 .footer {
   height: 3rem /*原始4rem*/;
@@ -560,8 +569,11 @@ header label {
 .pagination .page-number.current:after {
   width: 60%;
 }
+.profile-container {
+  justify-content: center;
+  align-items: center;
+}
 .intro {
-  transform: translateY(20vh);
   text-align: center;
 }
 .intro .avatar {

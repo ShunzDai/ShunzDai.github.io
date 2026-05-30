@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Shunz Dai">
+
+
+
+
+
+<title>编译期进行的序列化与反序列化(二) | Shunz Dai&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/js/fancybox/dist/jquery.fancybox.min.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    <script src="/js/fancybox/dist/jquery.fancybox.min.js"></script>
+    
+    <script src="/js/"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Shunz Dai&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/files">Files</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Shunz Dai&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/files">Files</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap" style="width: 100%;height: auto;word-wrap: break-word;word-break: break-all;overflow: hidden;"><!-- style 自动换行 -->
+        <header class="post-header">
+            <h1 class="post-title">编译期进行的序列化与反序列化(二)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Shunz Dai</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 13, 2023&nbsp;&nbsp;23:07:07</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C/">C++</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>十一过后, 公司的项目迎来了一轮大规模的重构. 过去事件模组作为较为核心的功能, 大量使用了范型来增强通用性, 试图将劳动力从无休止的重复劳动中解放出来. 但事件模块也有一些不够好的地方, 例如在发布事件时经常需要将枚举类型强制类型转换为带有各种修饰符的整形数据, 并需要在回调函数中以整形的形式接收再转换为枚举类型. </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum class</span> <span class="title class_">Type</span> : <span class="type">uint8_t</span> &#123;</span><br><span class="line">  CASE1,</span><br><span class="line">  CASE2,</span><br><span class="line">  CASE3,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function">event::Regist&lt;TASK1&gt; <span class="title">cb</span><span class="params">(event::ID, +[](<span class="type">const</span> <span class="type">uint8_t</span> type) &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">  <span class="keyword">switch</span> ((Type)type) &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">case</span> Type::CASE1:</span></span></span><br><span class="line"><span class="params"><span class="function">      <span class="comment">/* ...do something... */</span></span></span></span><br><span class="line"><span class="params"><span class="function">      <span class="keyword">break</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">case</span> Type::CASE2:</span></span></span><br><span class="line"><span class="params"><span class="function">      <span class="comment">/* ...do something... */</span></span></span></span><br><span class="line"><span class="params"><span class="function">      <span class="keyword">break</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">case</span> Type::CASE3:</span></span></span><br><span class="line"><span class="params"><span class="function">      <span class="comment">/* ...do something... */</span></span></span></span><br><span class="line"><span class="params"><span class="function">      <span class="keyword">break</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">default</span>:</span></span></span><br><span class="line"><span class="params"><span class="function">      <span class="keyword">break</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  &#125;</span></span></span><br><span class="line"><span class="params"><span class="function">&#125;)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* ...do something... */</span></span><br><span class="line"></span><br><span class="line">  event::<span class="built_in">notify</span>&lt;TASK1&gt;(event::ID::EVT1, (<span class="type">uint8_t</span>)Type::CASE1);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* ...do something... */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这种冗余操作的本质是因为事件模块调用的序列化模块不支持传递枚举等各种POD(Plain Old Data)类型. 为了优化开发者的使用体验以及优化事件模块的其他特性, 笔者花了一天的工时对事件模块与序列化模块进行了重构以适应新的需求. 这里讲的内容是对序列化模块的优化思路. </p>
+<h1 id="编译期对范型容器类型的识别"><a href="#编译期对范型容器类型的识别" class="headerlink" title="编译期对范型容器类型的识别"></a>编译期对范型容器类型的识别</h1><p>在<a href="/2023/10/04/2023100401">上一期</a>的序列化逻辑用了几十行代码实现了不同范型容器的识别, 例如<code>serial::is_tuple</code>, <code>serial::is_pair</code>等, 并且这些范型工具结构基本一致, 重复度很高. 在新版本中, 笔者新增了一种范型工具</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ... <span class="type">arg_t</span>&gt; <span class="keyword">typename</span> <span class="type">container_t</span>, <span class="keyword">typename</span> <span class="type">first_t</span>, <span class="keyword">typename</span> ... <span class="type">rest_t</span>&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">is_container</span> &#123;</span><br><span class="line">  <span class="type">static</span> <span class="type">const</span> <span class="type">bool</span> value = <span class="literal">false</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ... <span class="type">arg_t</span>&gt; <span class="keyword">typename</span> <span class="type">container_t</span>, <span class="keyword">typename</span> <span class="type">first_t</span>, <span class="keyword">typename</span> ... <span class="type">rest_t</span>&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">is_container</span>&lt;<span class="type">container_t</span>, <span class="type">container_t</span>&lt;<span class="type">first_t</span>, <span class="type">rest_t</span> ...&gt;&gt; &#123;</span><br><span class="line">  <span class="type">static</span> <span class="type">const</span> <span class="type">bool</span> value = <span class="literal">true</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>它的作用是传入一个数据类型, 通过特化来判别其是否是容器. 例如</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> <span class="type">first_t</span>, <span class="keyword">typename</span> ... <span class="type">rest_t</span>&gt;</span><br><span class="line"><span class="keyword">using</span> is_vector = is_container&lt;std::vector, <span class="type">first_t</span>, <span class="type">rest_t</span> ...&gt;;</span><br><span class="line"><span class="comment">/* assert failed */</span></span><br><span class="line"><span class="built_in">static_assert</span>(is_vector&lt;<span class="type">int</span>&gt;::value);</span><br><span class="line"><span class="comment">/* assert success */</span></span><br><span class="line"><span class="built_in">static_assert</span>(is_vector&lt;std::vector&lt;<span class="type">int</span>&gt;&gt;::value);</span><br></pre></td></tr></table></figure>
+
+<p>它还可以判别tuple</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> <span class="type">first_t</span>, <span class="keyword">typename</span> ... <span class="type">rest_t</span>&gt;</span><br><span class="line"><span class="keyword">using</span> is_tuple = is_container&lt;std::tuple, <span class="type">first_t</span>, <span class="type">rest_t</span> ...&gt;;</span><br><span class="line"><span class="comment">/* assert success */</span></span><br><span class="line"><span class="built_in">static_assert</span>(serial::is_tuple&lt;&gt;::value);</span><br><span class="line"><span class="comment">/* assert success */</span></span><br><span class="line"><span class="built_in">static_assert</span>(serial::is_tuple&lt;<span class="type">int</span>&gt;::value);</span><br></pre></td></tr></table></figure>
+
+<h1 id="移除类型的常引用修饰符"><a href="#移除类型的常引用修饰符" class="headerlink" title="移除类型的常引用修饰符"></a>移除类型的常引用修饰符</h1><p>有时候参数传递不只是某种类型<code>arg_t</code>, 还可能是 <code>const arg_t</code>, <code>const arg_t &amp;</code>, <code>const arg_t &amp;&amp;</code>等. 旧的序列化模块对此处理得不是很好, 重构后新增了一个工具范型</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> <span class="type">arg_t</span>&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">remove_operator</span> &#123;</span><br><span class="line">  <span class="keyword">using</span> type = <span class="keyword">typename</span> std::remove_const&lt;<span class="keyword">typename</span> std::remove_reference&lt;<span class="type">arg_t</span>&gt;::type&gt;::type;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>搭配<code>is_container</code>可以实现下面的效果</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> <span class="type">first_t</span>, <span class="keyword">typename</span> ... <span class="type">rest_t</span>&gt;</span><br><span class="line"><span class="keyword">using</span> is_vector = serial::is_container&lt;std::vector, <span class="keyword">typename</span> serial::remove_operator&lt;<span class="type">first_t</span>&gt;::type, <span class="type">rest_t</span> ...&gt;;</span><br><span class="line"><span class="comment">/* assert success */</span></span><br><span class="line"><span class="built_in">static_assert</span>(is_vector&lt;std::vector&lt;<span class="type">int</span>&gt;&gt;::value);</span><br><span class="line"><span class="comment">/* assert success */</span></span><br><span class="line"><span class="built_in">static_assert</span>(is_vector&lt;<span class="type">const</span> std::vector&lt;<span class="type">int</span>&gt;&gt;::value);</span><br><span class="line"><span class="comment">/* assert success */</span></span><br><span class="line"><span class="built_in">static_assert</span>(is_vector&lt;<span class="type">const</span> std::vector&lt;<span class="type">int</span>&gt; &amp;&gt;::value);</span><br><span class="line"><span class="comment">/* assert success */</span></span><br><span class="line"><span class="built_in">static_assert</span>(is_vector&lt;std::vector&lt;<span class="type">int</span>&gt; &amp;&amp;&gt;::value);</span><br></pre></td></tr></table></figure>
+
+<p>这样就大大减少了序列化模块的代码量.</p>
+<h1 id="POD类型检查"><a href="#POD类型检查" class="headerlink" title="POD类型检查"></a>POD类型检查</h1><p>标准库有个接口<code>std::is_pod&lt;&gt;</code>可以作POD类型检查的工作, 在它的加持下serial就支持各种POD类型的参数传递了. </p>
+<h1 id="另外…"><a href="#另外…" class="headerlink" title="另外…"></a>另外…</h1><p>现在可以通过<code>unpack</code>反序列化字串, 作为<code>std::string_view</code>类型传递</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* ok */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(serial::ibuf data)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">auto</span> str = serial::<span class="built_in">unpack</span>&lt;std::string_view&gt;(std::<span class="built_in">move</span>(data));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* ok */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(serial::ibuf data)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">auto</span> str = serial::<span class="built_in">unpack</span>&lt;<span class="type">const</span> std::string_view&gt;(std::<span class="built_in">move</span>(data));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* assert failed */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(serial::ibuf data)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">auto</span> str = serial::<span class="built_in">unpack</span>&lt;<span class="type">const</span> std::string_view &amp;&gt;(std::<span class="built_in">move</span>(data));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意解包时不可将非 POD 类型的数据按常引用解包, 这是因为常引用的非 POD 对象创建在局部作用域中, <code>unpack</code>返回时无法控制局部非 POD 对象的生命周期. 但所有pod类型的变量都可以解包成常引用, 因为引用的是<code>unpack</code>入参的地址, 入参是<code>serial</code>模块外部的对象, 生命周期可控. 于是对于较大的 POD 数据, 例如<code>std::array&lt;char, 20&gt;</code>, 可以按如下方式解包</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(serial::ibuf data)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">auto</span> a = serial::unpack&lt;<span class="type">const</span> std::array&lt;<span class="type">char</span>, <span class="number">20</span>&gt; &amp;&gt;(std::<span class="built_in">move</span>(data));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样的好处是可以减少拷贝传参的性能损耗. </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Shunz Dai</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://shunzdai.github.io/2023/10/13/2023101301/">https://shunzdai.github.io/2023/10/13/2023101301/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/C/"># C++</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2023/10/04/2023100401/">编译期进行的序列化与反序列化</a>
+            
+        </section>
+        <section class="valine">
+            
+                <br>  <!--换行符-->
+                <br>  <!--换行符-->
+                <div class="vcomment"></div>
+                <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+                <script>
+                    var path = window.location.pathname.replace('index.html','');
+                    var isEN = path.indexOf('en') > -1;
+                    path = isEN ? path.replace('en/','') : path;
+                    new Valine({
+                        el: '.vcomment',
+                        appId: 'H6QHaKWdX4FTCn7D4f2ccS3S-gzGzoHsz',
+                        appKey: 'LesYxmAk7rHet0e9aziIjOWi',
+                        placeholder: '闷声大发财。',
+                        avatar: 'mp',
+                        path: path,
+                        recordIP: true,
+                        lang: isEN ? 'en' : 'zh-cn',
+                        visitor: true,
+                        enableQQ: true,
+                    })
+                </script>
+            
+        </section>
+    </article>
+</div>
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>Copyright © 2020-2023 by Shunz Dai. All Rights Reserved.</span>
+    </div>
+</footer>
+
+    </div>
+    
+</body>
+
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
 <meta name="viewport"
@@ -25,6 +26,8 @@
     
     <link rel="stylesheet" href="/css/style.css">
     
+    <link rel="stylesheet" href="/js/fancybox/dist/jquery.fancybox.min.css">
+    
 
 
 
@@ -34,69 +37,83 @@
     
     <script src="/js/tocbot.min.js"></script>
     
+    <script src="/js/jquery.min.js"></script>
+    
+    <script src="/js/fancybox/dist/jquery.fancybox.min.js"></script>
+    
+    <script src="/js/"></script>
+    
 
 
 
     
     
         
-                <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-        "HTML-CSS": {
-            preferredFont: "TeX",
-            availableFonts: ["STIX","TeX"],
-            linebreaks: { automatic:true },
-            EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-        },
-        tex2jax: {
-            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
-            processEscapes: true,
-            ignoreClass: "tex2jax_ignore|dno",
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        },
-        TeX: {
-            equationNumbers: { autoNumber: "AMS" },
-            noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
-            Macros: { href: "{}" }
-        },
-        messageStyle: "none"
-        });
-    </script>
-    <!-- 给MathJax元素添加has-jax class -->
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Queue(function() {
-            var all = MathJax.Hub.getAllJax(), i;
-            for(i=0; i < all.length; i += 1) {
-                all[i].SourceElement().parentNode.className += ' has-jax';
-            }
-        });
-    </script>
-    <!-- 通过连接CDN加载MathJax的js代码 -->
-    <script type="text/javascript" async
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-    </script>
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="/js/mathjax2.7.5.js?config=TeX-MML-AM_CHTML">
+</script>
+
         
     
 
 
-    <!-- fancyBox -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/lib/fancybox/dist/jquery.fancybox.min.css">
-    <script src="/lib/fancybox/dist/jquery.fancybox.min.js"></script>
-    <!-- fancyBox -->
-    <!-- busuanzi -->
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <!-- busuanzi -->
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
 <body>
-    
-        <div class="wrapper">
-            <header>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
     <nav class="navbar">
         <div class="container">
             <div class="navbar-header header-logo"><a href="/">Shunz Dai&#39;s Blog</a></div>
@@ -104,11 +121,11 @@
                 
                     <a class="menu-item" href="/archives">Posts</a>
                 
-                    <a class="menu-item" href="/category">Category</a>
+                    <a class="menu-item" href="/category">Categories</a>
                 
                     <a class="menu-item" href="/tags">Tags</a>
                 
-                    <a class="menu-item" href="/pdf">PDF</a>
+                    <a class="menu-item" href="/files">Files</a>
                 
                     <a class="menu-item" href="/about">About</a>
                 
@@ -131,11 +148,11 @@
                 
                     <a class="menu-item" href="/archives">Posts</a>
                 
-                    <a class="menu-item" href="/category">Category</a>
+                    <a class="menu-item" href="/category">Categories</a>
                 
                     <a class="menu-item" href="/tags">Tags</a>
                 
-                    <a class="menu-item" href="/pdf">PDF</a>
+                    <a class="menu-item" href="/files">Files</a>
                 
                     <a class="menu-item" href="/about">About</a>
                 
@@ -157,11 +174,8 @@
         }
     }
 </script>
-            <div class="main">
-                <!-- canvas-nest -->
-                <!--<script type="text/javascript" color="63,81,181" opacity="0.5"count="100"src="/js/canvas-nest.js"></script>-->
-                <!-- canvas-nest -->
-                <div class="container">
+        <div class="main">
+            <div class="container">
     
     
         <div class="post-toc">
@@ -175,45 +189,40 @@
 </div>
 
 <script>
-    document.ready(
-        function () {
-            tocbot.init({
-                tocSelector: '.tocbot-list',
-                contentSelector: '.post-content',
-                headingSelector: 'h1, h2, h3, h4, h5',
-                collapseDepth: 1,
-                orderedList: false,
-                scrollSmooth: true,
-            })
-        }
-    )
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
 
-    function expand_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 6,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "collapse_toc()");
-        b.innerHTML = "Collapse all"
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
     }
 
-    function collapse_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 1,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "expand_toc()");
-        b.innerHTML = "Expand all"
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
     }
 
     function go_top() {
@@ -224,6 +233,14 @@
         window.scrollTo(0, document.body.scrollHeight);
     }
 
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
 </script>
     
 
@@ -233,39 +250,33 @@
             <h1 class="post-title">家用理论物理教程</h1>
             
                 <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Shunz Dai</a>
+                    
 
                     
                         <span class="post-time">
-                        Date: <a href="#">五月 25, 2020&emsp;11:45:31&emsp;</a>
+                        Date: <a href="#">May 25, 2020&nbsp;&nbsp;11:45:31</a>
                         </span>
                     
-
-                    
-                        Author: <a itemprop="author" rel="author" href="/">Shunz Dai&emsp;</a>
-                    
-
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/To-be-continue/">To be continue...</a>&emsp;
+                                <a href="/categories/To-be-continue/">To be continue...</a>
                             
                         </span>
                     
-                    本文阅读量:<span id="busuanzi_value_page_pv"></span>次
                 </div>
-            
             
         </header>
 
         <div class="post-content">
-            <h2 id="引言">引言</h2>
-<p>这篇博文的内容是我大学以来学习的物理知识。其实我并不喜欢做笔记，我若是认认真真做了笔记，那一定是写给别人看的。而将这份笔记取名为《家用理论物理教程》也是一时兴起，我模仿了侯伯元、侯伯宇兄弟所著《物理学家用微分几何》这一书名。但我希望这份笔记最终能真正成为一份适于“家用”教程。</p>
-<h2 id="家用理论物理教程">家用理论物理教程</h2>
-
+            <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>这篇博文的内容是我大学以来学习的物理知识。其实我并不喜欢做笔记，我若是认认真真做了笔记，那一定是写给别人看的。而将这份笔记取名为《家用理论物理教程》也是一时兴起，我模仿了侯伯元、侯伯宇兄弟所著《物理学家用微分几何》这一书名。但我希望这份笔记最终能真正成为一份适于“家用”教程。</p>
+<h2 id="家用理论物理教程"><a href="#家用理论物理教程" class="headerlink" title="家用理论物理教程"></a>家用理论物理教程</h2>
 
 	<div class="row">
-    <embed src="https://ctp.vercel.app/CTP.pdf" width="100%" height="550" type="application/pdf">
+    <embed src="https://github.com/ShunzDai/phytex/blob/master/main.pdf" width="100%" height="550" type="application/pdf">
 	</div>
 
 
@@ -284,7 +295,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://candygroup.site/2020/05/25/Course-of-Theoretical-Physics/">http://candygroup.site/2020/05/25/Course-of-Theoretical-Physics/</a></span>
+                        <span><a href="https://shunzdai.github.io/2020/05/25/Course-of-Theoretical-Physics/">https://shunzdai.github.io/2020/05/25/Course-of-Theoretical-Physics/</a></span>
                     </p>
                 
                 
@@ -294,6 +305,7 @@
                     </p>
                 
                 
+
             </section>
         
         <section class="post-tags">
@@ -322,10 +334,7 @@
                 <a class="prev" rel="prev" href="/2020/06/04/My-Life-In-College/">我的大学</a>
             
             
-            <a class="next" rel="next" href="/2020/05/11/hello-world/">Hello World</a>
-            
         </section>
-        <!--Valine-->
         <section class="valine">
             
                 <br>  <!--换行符-->
@@ -341,30 +350,29 @@
                         appId: 'H6QHaKWdX4FTCn7D4f2ccS3S-gzGzoHsz',
                         appKey: 'LesYxmAk7rHet0e9aziIjOWi',
                         placeholder: '闷声大发财。',
-                        avatar:'mp',
-                        path:path,
-                        recordIP:true,
+                        avatar: 'mp',
+                        path: path,
+                        recordIP: true,
                         lang: isEN ? 'en' : 'zh-cn',
                         visitor: true,
-                        enableQQ: true, 
+                        enableQQ: true,
                     })
                 </script>
             
         </section>
-        <!--Valine-->
     </article>
 </div>
 
 
-            </div>
-            <footer id="footer" class="footer">
-    
+        </div>
+        <footer id="footer" class="footer">
     <div class="copyright">
-        <span>Copyright © 2020 by Shunz Dai. All Rights Reserved.</span>
-        <!--<span>© Shunz Dai | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>-->
+        <span>Copyright © 2020-2023 by Shunz Dai. All Rights Reserved.</span>
     </div>
 </footer>
-        </div>
+
+    </div>
     
 </body>
+
 </html>

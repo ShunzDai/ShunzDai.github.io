@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
 <meta name="viewport"
@@ -25,6 +26,8 @@
     
     <link rel="stylesheet" href="/css/style.css">
     
+    <link rel="stylesheet" href="/js/fancybox/dist/jquery.fancybox.min.css">
+    
 
 
 
@@ -34,69 +37,83 @@
     
     <script src="/js/tocbot.min.js"></script>
     
+    <script src="/js/jquery.min.js"></script>
+    
+    <script src="/js/fancybox/dist/jquery.fancybox.min.js"></script>
+    
+    <script src="/js/"></script>
+    
 
 
 
     
     
         
-                <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-        "HTML-CSS": {
-            preferredFont: "TeX",
-            availableFonts: ["STIX","TeX"],
-            linebreaks: { automatic:true },
-            EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-        },
-        tex2jax: {
-            inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
-            processEscapes: true,
-            ignoreClass: "tex2jax_ignore|dno",
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        },
-        TeX: {
-            equationNumbers: { autoNumber: "AMS" },
-            noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
-            Macros: { href: "{}" }
-        },
-        messageStyle: "none"
-        });
-    </script>
-    <!-- 给MathJax元素添加has-jax class -->
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Queue(function() {
-            var all = MathJax.Hub.getAllJax(), i;
-            for(i=0; i < all.length; i += 1) {
-                all[i].SourceElement().parentNode.className += ' has-jax';
-            }
-        });
-    </script>
-    <!-- 通过连接CDN加载MathJax的js代码 -->
-    <script type="text/javascript" async
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-    </script>
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="/js/mathjax2.7.5.js?config=TeX-MML-AM_CHTML">
+</script>
+
         
     
 
 
-    <!-- fancyBox -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/lib/fancybox/dist/jquery.fancybox.min.css">
-    <script src="/lib/fancybox/dist/jquery.fancybox.min.js"></script>
-    <!-- fancyBox -->
-    <!-- busuanzi -->
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <!-- busuanzi -->
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<meta name="generator" content="Hexo 6.3.0"></head>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
 <body>
-    
-        <div class="wrapper">
-            <header>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
     <nav class="navbar">
         <div class="container">
             <div class="navbar-header header-logo"><a href="/">Shunz Dai&#39;s Blog</a></div>
@@ -104,11 +121,11 @@
                 
                     <a class="menu-item" href="/archives">Posts</a>
                 
-                    <a class="menu-item" href="/category">Category</a>
+                    <a class="menu-item" href="/category">Categories</a>
                 
                     <a class="menu-item" href="/tags">Tags</a>
                 
-                    <a class="menu-item" href="/pdf">PDF</a>
+                    <a class="menu-item" href="/files">Files</a>
                 
                     <a class="menu-item" href="/about">About</a>
                 
@@ -131,11 +148,11 @@
                 
                     <a class="menu-item" href="/archives">Posts</a>
                 
-                    <a class="menu-item" href="/category">Category</a>
+                    <a class="menu-item" href="/category">Categories</a>
                 
                     <a class="menu-item" href="/tags">Tags</a>
                 
-                    <a class="menu-item" href="/pdf">PDF</a>
+                    <a class="menu-item" href="/files">Files</a>
                 
                     <a class="menu-item" href="/about">About</a>
                 
@@ -157,11 +174,8 @@
         }
     }
 </script>
-            <div class="main">
-                <!-- canvas-nest -->
-                <!--<script type="text/javascript" color="63,81,181" opacity="0.5"count="100"src="/js/canvas-nest.js"></script>-->
-                <!-- canvas-nest -->
-                <div class="container">
+        <div class="main">
+            <div class="container">
     
     
 
@@ -171,28 +185,24 @@
             <h1 class="post-title">毕业一年</h1>
             
                 <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Shunz Dai</a>
+                    
 
                     
                         <span class="post-time">
-                        Date: <a href="#">八月 1, 2021&emsp;12:10:44&emsp;</a>
+                        Date: <a href="#">August 1, 2021&nbsp;&nbsp;12:10:44</a>
                         </span>
                     
-
-                    
-                        Author: <a itemprop="author" rel="author" href="/">Shunz Dai&emsp;</a>
-                    
-
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>&emsp;
+                                <a href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>
                             
                         </span>
                     
-                    本文阅读量:<span id="busuanzi_value_page_pv"></span>次
                 </div>
-            
             
         </header>
 
@@ -212,7 +222,7 @@
 <p>那段时间我都在做Kalman滤波，用Matlab和Python写，似懂非懂。那会领导也没给我分配什么任务，我就一直在自学，Matlab和Python的水平都有了很大的提升。21年3月份的时候，我开始接触轨迹跟踪与生成，在Matlab上写了纯跟踪算法和线性二次型调节器LQR。纯跟踪算法比较简单，它有一个预锚点，让车辆跟着前方的一个点走。如果路径曲率较小，则预锚点较远，这时是前瞻性的跟踪；而当路径曲率较大，则预锚点较近，这是是着重与眼前的跟踪。但这个预锚距离似乎并没有最优化的计算方法，一般设置成与速度成正比。LQR则令我眼前一亮，第一次看到这玩意儿的时候，我心想：这不就是最小作用量原理吗？不久后我根据西华大学一个前辈的Simulink程序改写出一份Matlab Function版本的代码，但由于我不擅长调参，所以最终的跟踪效果不如纯跟踪算法。做完这两个路径跟踪算法后，我开始写一个路径规划算法，这个是我转行后做得比较好的一件事。这个算法需要自动生成农田的作业线，需要考虑很多情况。比如，农机走到田坎要自动掉头，驶入下条作业线要考虑到农机的最小转向半径，拖拉机的最小转向半径在5米左右，而插秧机几乎可以原地转向，如果最小转向半径比作业线的间距还要大，则农机无法驶入临近的作业线，于是要驶入的新作业线的序号与作业线间距、最小转向半径之间有一个不等式关系，需要通过这个不等式算出一条最佳路径，使得农机行驶的总里程最小。我用旅行商算法在Matlab上实现了这个作业线的生成。为了减小作业线数据点的体积，我还设计了一种方法，让车走到哪就在车辆附近生成作业线，这就像魔兽争霸里的战争迷雾，车辆只需在意自己附近的局部路径点进行跟踪就好了，并不需要在意全局的所有路径点。然后我写了底稿，申请了专利，现在初步审查也通过了，尚未公开。</p>
 <p>这个路径生成的工作做完之后，我便开始学STM32了。进展非常迅速，从5月初到7月底，我陆续写了按键状态机、串口通信、CAN通信、2.4G的SPI通信等模块，我比较喜欢写通信协议的编码、解码这一块。我写了一份CRC校验库，可以设置初始值、输出异或值、输入反转、输出反转以及CRC多项式，设置一个参数结构体，所有相关工程编码CRC校验码都用同样的参数结构体就好了。在做2.4G通信时，我把正点原子的工程改成了非常好用的基于HAL库的SPI句柄样式，于是可以方便的切换2.4G模块的发送、接收状态，并且使得同一MCU上使用多个2.4G模块成为可能。</p>
 <p>7月之后我加入了公司的插秧机改装项目。我们之前做的那些产品的思路是销售“配件”，就是说我们之前卖的产品是独立于农机的。而插秧机的改装思路完全不同，我们开始用“造车”的思路改装农机。整个插秧机的所有ECU都采用CAN总线通信，并使用SAE J1939协议，用Vector CANdb++整理数据帧的发送节点、接收节点，编写不同的参数群编号。我之前学接触了一点python现在也派上用场了，我们弄了一套python的代码生成脚本，通过dbc数据库生成数据帧的发送、接收代码。我们还用Simulink写各种电机的PID串口联调工程，写好之后用Simulink Code Generation生成代码，用State Flow写VCU的状态机。等等。</p>
-<p>这些没有弄虚造假的东西让我感到很有底气。办公室的氛围也是我喜欢的，让我感到这一群人在为了共同的目标做事。虽然同事跟我一样都是二本学生，但和西华师范大学物理系的同学相比，这些人大抵完全不同——他们举手投足之间都告诉我，他们是热爱创造、热爱工作的。回想起我的大学同学以及我大学的历程，我感到非常无语。我觉得，现在终于算是转行成功了吧。</p>
+<p>这些没有弄虚造假的东西让我感到很有底气。办公室的氛围也是我喜欢的，让我感到这一群人在为了共同的目标做事。我觉得，现在终于算是转行成功了吧。</p>
 
         </div>
 
@@ -227,7 +237,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://candygroup.site/2021/08/01/2021080101/">http://candygroup.site/2021/08/01/2021080101/</a></span>
+                        <span><a href="https://shunzdai.github.io/2021/08/01/2021080101/">https://shunzdai.github.io/2021/08/01/2021080101/</a></span>
                     </p>
                 
                 
@@ -237,6 +247,7 @@
                     </p>
                 
                 
+
             </section>
         
         <section class="post-tags">
@@ -264,7 +275,6 @@
             <a class="next" rel="next" href="/2021/06/19/n-Jacobian-Problem/">导数与倒数</a>
             
         </section>
-        <!--Valine-->
         <section class="valine">
             
                 <br>  <!--换行符-->
@@ -280,30 +290,29 @@
                         appId: 'H6QHaKWdX4FTCn7D4f2ccS3S-gzGzoHsz',
                         appKey: 'LesYxmAk7rHet0e9aziIjOWi',
                         placeholder: '闷声大发财。',
-                        avatar:'mp',
-                        path:path,
-                        recordIP:true,
+                        avatar: 'mp',
+                        path: path,
+                        recordIP: true,
                         lang: isEN ? 'en' : 'zh-cn',
                         visitor: true,
-                        enableQQ: true, 
+                        enableQQ: true,
                     })
                 </script>
             
         </section>
-        <!--Valine-->
     </article>
 </div>
 
 
-            </div>
-            <footer id="footer" class="footer">
-    
+        </div>
+        <footer id="footer" class="footer">
     <div class="copyright">
-        <span>Copyright © 2020 by Shunz Dai. All Rights Reserved.</span>
-        <!--<span>© Shunz Dai | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>-->
+        <span>Copyright © 2020-2023 by Shunz Dai. All Rights Reserved.</span>
     </div>
 </footer>
-        </div>
+
+    </div>
     
 </body>
+
 </html>
