@@ -82,7 +82,7 @@
 </script>
 <!-- 通过连接CDN加载MathJax的js代码 -->
 <script type="text/javascript" async
-        src="/js/mathjax2.7.5.js?config=TeX-MML-AM_CHTML">
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 
         
@@ -207,18 +207,21 @@ mjx-container[display="true"] + br {
     <script>
         // this function is used to check current theme before page loaded.
         (() => {
-            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
-            const isDark = currentTheme === 'dark';
             const pagebody = document.getElementsByTagName('body')[0]
-            if (isDark) {
-                pagebody.classList.add('dark-theme');
-                // mobile
-                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
-            } else {
-                pagebody.classList.remove('dark-theme');
-                // mobile
-                document.getElementById("mobile-toggle-theme").innerText = "· Light"
-            }
+
+            function setTheme(status) {
+
+                if (status === 'dark') {
+                    window.sessionStorage.theme = 'dark'
+                    pagebody.classList.add('dark-theme');
+
+                } else if (status === 'light') {
+                    window.sessionStorage.theme = 'light'
+                    pagebody.classList.remove('dark-theme');
+                }
+            };
+
+            setTheme(window.sessionStorage.theme)
         })();
     </script>
 
@@ -229,15 +232,16 @@ mjx-container[display="true"] + br {
             <div class="navbar-header header-logo"><a href="/">Shunz Dai&#39;s Blog</a></div>
             <div class="menu navbar-right">
                 
-                    <a class="menu-item" href="/archives">Posts</a>
+                <a class="menu-item" href="/archives">Posts</a>
                 
-                    <a class="menu-item" href="/category">Categories</a>
+                <a class="menu-item" href="/category">Categories</a>
                 
-                    <a class="menu-item" href="/tags">Tags</a>
+                <a class="menu-item" href="/tags">Tags</a>
                 
-                    <a class="menu-item" href="/files">Files</a>
+                <a class="menu-item" href="/files">Files</a>
                 
-                    <a class="menu-item" href="/about">About</a>
+                <a class="menu-item" href="/about">About</a>
+                
                 
                 <input id="switch_default" type="checkbox" class="switch_default">
                 <label for="switch_default" class="toggleBtn"></label>
@@ -252,19 +256,22 @@ mjx-container[display="true"] + br {
                 <div>
                     <a href="/">Shunz Dai&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+                <div class="menu-toggle" onclick="mobileBtn()">
+                    <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M4.5 17.27q-.213 0-.356-.145T4 16.768t.144-.356t.356-.143h15q.213 0 .356.144q.144.144.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.144T4 11.999t.144-.356t.356-.143h15q.213 0 .356.144t.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.143Q4 7.443 4 7.23t.144-.356t.356-.143h15q.213 0 .356.144T20 7.23t-.144.356t-.356.144z"/></svg>
+                    <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Material Symbols Light by Google - https://github.com/google/material-design-icons/blob/master/LICENSE --><path fill="currentColor" d="m12 12.708l-5.246 5.246q-.14.14-.344.15t-.364-.15t-.16-.354t.16-.354L11.292 12L6.046 6.754q-.14-.14-.15-.344t.15-.364t.354-.16t.354.16L12 11.292l5.246-5.246q.14-.14.345-.15q.203-.01.363.15t.16.354t-.16.354L12.708 12l5.246 5.246q.14.14.15.345q.01.203-.15.363t-.354.16t-.354-.16z"/></svg>
+                </div>
             </div>
             <div class="menu" id="mobile-menu">
                 
-                    <a class="menu-item" href="/archives">Posts</a>
+                <a class="menu-item" href="/archives">Posts</a>
                 
-                    <a class="menu-item" href="/category">Categories</a>
+                <a class="menu-item" href="/category">Categories</a>
                 
-                    <a class="menu-item" href="/tags">Tags</a>
+                <a class="menu-item" href="/tags">Tags</a>
                 
-                    <a class="menu-item" href="/files">Files</a>
+                <a class="menu-item" href="/files">Files</a>
                 
-                    <a class="menu-item" href="/about">About</a>
+                <a class="menu-item" href="/about">About</a>
                 
             </div>
         </div>
@@ -275,10 +282,10 @@ mjx-container[display="true"] + br {
     var mobileBtn = function f() {
         var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
         var mobileMenu = document.getElementById("mobile-menu");
-        if(toggleMenu.classList.contains("active")){
-           toggleMenu.classList.remove("active")
+        if (toggleMenu.classList.contains("active")) {
+            toggleMenu.classList.remove("active")
             mobileMenu.classList.remove("active")
-        }else{
+        } else {
             toggleMenu.classList.add("active")
             mobileMenu.classList.add("active")
         }
@@ -296,15 +303,16 @@ mjx-container[display="true"] + br {
 <li>典型理想主义者，非典型民间学物理家。</li>
 <li>制造业程序员, 擅长C/C++, 理想是用C实现一个紧凑且优雅的嵌入式脚本语言。</li>
 <li>我对普通的人类没有兴趣，你们当中要是有外星人、未来人、异世界人以及超能力者的话，就尽管来找我吧。</li>
+<li>μ’sic forever.</li>
 </ul>
 <h2 id="关于-Blog"><a href="#关于-Blog" class="headerlink" title="关于 Blog"></a>关于 Blog</h2><ul>
 <li>这个 blog 记录了一些科学, 哲学, 以及一个小人物经历的历史。</li>
 </ul>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><ul>
-<li>Email: <a href="mailto:196883@outlook.com">196883@outlook.com</a></li>
+<li>Email: <a href="mailto:shunzdai@outlook.com">shunzdai@outlook.com</a></li>
 <li>Github: <a target="_blank" rel="noopener" href="https://github.com/ShunzDai">https://github.com/ShunzDai</a></li>
 </ul>
-<h2 id="网络乞丐"><a href="#网络乞丐" class="headerlink" title="网络乞丐"></a>网络乞丐</h2><ul>
+<h2 id="赛博乞丐"><a href="#赛博乞丐" class="headerlink" title="赛博乞丐"></a>赛博乞丐</h2><ul>
 <li>要恰饭的嘛。</li>
 </ul>
 <a data-fancybox="images" href="/about/Alipay.png" data-width="650" style="width:50%;float:left;" data-caption="Alipay">
@@ -321,7 +329,7 @@ mjx-container[display="true"] + br {
         </div>
         <footer id="footer" class="footer">
     <div class="copyright">
-        <span>Copyright © 2020-2024 by Shunz Dai. All Rights Reserved.</span>
+        <span>Copyright © 2020-2025 by Shunz Dai. All Rights Reserved.</span>
     </div>
 </footer>
 
